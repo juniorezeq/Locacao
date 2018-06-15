@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:body>
+	<ui:composition>
+		<h:form>
+			<p:menu>
+				<p:submenu label="Equipamento">
+					<p:menuitem value="Novo" action="#{equipamentoBean.iniciarCadastro()}" icon="fa fa-fw fa-plus" />
+					<p:menuitem value="Listar" action="#{equipamentoBean.listarCadastro()}"
+						icon="fa fa-fw fa-align-justify" />
+				</p:submenu>
+				<p:submenu label="Locacão">
+					<p:menuitem value="Nova" action="#" icon="fa fa-fw fa-calendar" />
+				</p:submenu>
+				<p:submenu label="Usuário">
+					<p:menuitem value="Novo Usuário"
+						action="#{usuarioBean.iniciarCadastro()}"
+						icon="fa fa-fw fa-user-plus" />
+						<p:menuitem value="Editar Usuário"
+						action="#{usuarioBean.alterarCadastro()}"
+						icon="fa fa-fw fa-user" />
+					<p:menuitem value="listar usuários"
+						action="#{usuarioBean.listarCadastro()}"
+						icon="fa fa-fw fa-align-justify" />
+				</p:submenu>
+				<p:submenu label="Principal">
+					<p:menuitem value="Página Inicial" action="#{loginBean.loga()}"
+						icon="fa fa-fw fa-home" />
+					<p:menuitem value="Sair" action="#{loginBean.desloga()}"
+						icon="fa fa-fw fa-times-circle" />
+				</p:submenu>
+			</p:menu>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

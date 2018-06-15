@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:body>
+
+	<ui:composition template="/view/layout/Layout.xhtml">
+
+		<ui:define name="content">
+			<p:fieldset legend="Editar Usuário" toggleable="true"
+				toggleSpeed="500">
+				<h:form id="cadastroAlterar">
+					<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel value="Buscar por nome:" for="buscaNome">
+						</p:outputLabel>
+						<p:inputText id="buscaNome" value="#{usuarioBean.buscar}"
+							size="20">
+							<p:ajax event="change" listener="#{usuarioBean.buscaPorNome()}"
+								update=":cadastroAlterar" />
+						</p:inputText>
+
+						<p:outputLabel value="Nome Usuario:" for="cadastroNome" />
+						<p:inputText id="cadastroNome"
+							value="#{usuarioBean.usuario.login}" size="20" />
+
+						<p:outputLabel value="Senha:" for="cadastroSenha" />
+						<p:inputText id="cadastroSenha"
+							value="#{usuarioBean.usuario.senha}" size="20">
+						</p:inputText>
+						<p:outputLabel value="Tipo Usuário:" for="cadastroTipo" />
+						<p:selectOneMenu id="cadastroTipo"
+							value="#{usuarioBean.usuario.tipoUsuario}" style="width:150px">
+							<f:selectItem itemLabel="Selecione o Tipo" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+							<f:selectItem itemLabel="Colaborador" itemValue="Colaborador" />
+							<f:selectItem itemLabel="Cliente" itemValue="Cliente" />
+						</p:selectOneMenu>
+
+						<p:commandButton value="alterar"
+							action="#{usuarioBean.atualizaUsuario()}" 
+							update="@all" icon="fa fa-fw fa-save" />
+						<p:commandButton value="apagar usuário"
+							action="#{usuarioBean.apagarUsuario()}" process="@all"
+							update="@all" icon="fa fa-fw fa-save">
+						</p:commandButton>
+
+					</h:panelGrid>
+
+					<p:messages id="msg" autoUpdate="true" showDetail="true"
+						closable="true" style="60%">
+						<p:effect type="pulsate" event="load" delay="500" />
+					</p:messages>
+				</h:form>
+
+			</p:fieldset>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
