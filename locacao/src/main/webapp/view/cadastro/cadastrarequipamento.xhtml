@@ -12,62 +12,57 @@
 
 		<ui:define name="content">
 			<p:fieldset legend="Cadastro Equipamento" toggleable="true"
-				toggleSpeed="500">
+				toggleSpeed="500" style="font-size: 12px">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel value="Tag:" for="cadastroTag" />
+						<p:inputText id="cadastroTag"
+							value="#{equipamentoBean.equipamento.tag}" size="20" />
+
+						<p:outputLabel value="Modelo:" for="cadastroModelo" />
+						<p:inputText id="cadastroModelo"
+							value="#{equipamentoBean.equipamento.modelo}" size="20" />
+
 						<p:outputLabel value="Descrição:" for="cadastroDescricao" />
 						<p:inputText id="cadastroDescricao"
 							value="#{equipamentoBean.equipamento.descricao}" size="20" />
 
-						<p:outputLabel value="Modelo:" for="cadastroModelo" />
-						<p:inputText id="cadastroModelo"
-							value="#{equipamentoBean.equipamento.modelo}" size="20">
-						</p:inputText>
-
-						<p:outputLabel value="SWL:" for="cadastroSWL" />
+						<p:outputLabel value="SWL: " for="cadastroSWL" />
 						<p:inputText id="cadastroSWL"
-							value="#{equipamentoBean.equipamento.swl}" size="20">
-						</p:inputText>
+							value="#{equipamentoBean.equipamento.swl}" size="20" />
+							
+						<p:outputLabel value="Elevação Corrente:" for="cadastroElev" />
+						<p:inputText id="cadastroElev"
+							value="#{equipamentoBean.equipamento.elevacao}" size="20" />
 
-						<p:outputLabel value="Tag:" for="cadastroTag" />
-						<p:inputText id="cadastroTag"
-							value="#{equipamentoBean.equipamento.tag}" size="20">
-						</p:inputText>
 
-						<p:outputLabel value="diária Mensal:" for="cadastroDM" />
-						<p:inputMask mask="9999.99" id="cadastroDM"
+						<p:outputLabel value="Diária Mensal:" for="cadastroDM" />
+						<p:inputText id="cadastroDM"
 							value="#{equipamentoBean.equipamento.precoDiariaMensal}"
-							size="20">
-						</p:inputMask>
+							size="20" />
 
-						<p:outputLabel value="diária Quinzenal:" for="cadastroDQ" />
-						<p:inputMask mask="9999.99" id="cadastroDQ"
+						<p:outputLabel value="Diária Quinzenal:" for="cadastroQz" />
+						<p:inputText id="cadastroQz"
 							value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
-							size="20">
-						</p:inputMask>
+							size="20" />
 
-						<p:outputLabel value="Valor na NF:" for="cadastroPreco" />
-						<p:inputMask mask="99999.99" id="cadastroPreco"
-							value="#{equipamentoBean.equipamento.valorNota}" size="20">
-						</p:inputMask>
-
-						<p:outputLabel value="Validade Certificação:" for="cadastroPreco" />
-						<p:inputMask mask="99/99/9999" id="cadastroCertificação"
-							value="#{equipamentoBean.validade}" size="20">
-						</p:inputMask>
-
-						<p:outputLabel value="Status:" for="cadastroStatus" />
+						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
 						<p:selectOneMenu id="cadastroStatus"
 							value="#{equipamentoBean.equipamento.status}" style="width:150px">
-							<f:selectItem itemLabel="Selecione o Tipo" itemValue=""
+							<f:selectItem itemLabel="Status Atual" itemValue=""
 								noSelectionOption="true" />
 							<f:selectItem itemLabel="Operacional" itemValue="Operacional" />
 							<f:selectItem itemLabel="Manutenção" itemValue="Manutenção" />
 							<f:selectItem itemLabel="Locado" itemValue="Locado" />
 							<f:selectItem itemLabel="Obsoleto" itemValue="Obsoleto" />
+							<f:selectItem itemLabel="Locado" itemValue="Locado" />
 							<f:selectItem itemLabel="Equipamento de Terceiros"
 								itemValue="EquipamentoTerceiros" />
 						</p:selectOneMenu>
+
+						<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
+						<p:inputText id="cadastroNF"
+							value="#{equipamentoBean.equipamento.valorNota}" size="20" />
 
 						<p:commandButton value="Incluir"
 							action="#{equipamentoBean.incluir}" process="@form"

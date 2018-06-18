@@ -114,4 +114,10 @@ public class LoginBean implements Serializable {
 		}
 	}
 
+	public static String getUsuarioLogado() {
+		return USUARIO_LOGADO;
+	}
+
+	
+	
 }

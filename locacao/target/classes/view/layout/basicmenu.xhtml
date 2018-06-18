@@ -9,10 +9,10 @@
 <h:body>
 	<ui:composition>
 		<h:form>
-			<p:menu>
+			<p:menu  style="font-size: 12px">
 				<p:submenu label="Equipamento">
 					<p:menuitem value="Novo" action="#{equipamentoBean.iniciarCadastro()}" icon="fa fa-fw fa-plus" />
-					<p:menuitem value="Listar" action="#"
+					<p:menuitem value="Listar" action="#{equipamentoBean.listarCadastro()}"
 						icon="fa fa-fw fa-align-justify" />
 				</p:submenu>
 				<p:submenu label="Locacão">

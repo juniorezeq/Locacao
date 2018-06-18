@@ -12,6 +12,7 @@ import javax.inject.Named;
 import br.com.klund.locacao.modelo.dao.EquipamentoDao;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
 import br.com.klund.locacao.tx.Transacional;
+import br.com.klund.locacao.validador.EquipamentoValidador;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,15 @@ import java.util.List;
 @ViewScoped
 public class EquipamentoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	private EquipamentoDao equipamentoDao = new EquipamentoDao();
 	@Inject
 	private Equipamento equipamento = new Equipamento();
 	private String buscar;
 	private String validade;
+	@Inject
+	private EquipamentoValidador equipamentoValidador;
 
 	public String getValidade() {
 		return validade;
@@ -64,24 +67,20 @@ public class EquipamentoBean implements Serializable {
 	}
 
 	@Transacional
-	public String incluir() {
-		boolean existe = equipamentoDao.existeTag(equipamento.getTag());
-		if (existe == false) {
-			equipamentoDao.adiciona(equipamento);
-			equipamento = new Equipamento();
-			mensagemSucesso("Equipamento Cadastrado com sucesso");
-			equipamento = new Equipamento();
-			buscar = "";
-			return null;
-		}
-		mensagemErro("Não foi possivel realizar");
-		return null;
+	public void incluir() {
+			if (equipamentoValidador.naoPodeIncluir(equipamento)) {
+				mensagemErro(equipamentoValidador.getMensagem());
+				return;
+			} else {
+				equipamentoDao.adiciona(equipamento);
+				equipamento = new Equipamento();
+				mensagemSucesso("cadastrado com sucesso.");
+			}
 	}
 
-	
 	@Transacional
 	public List<Equipamento> equipamentosCadastrados() {
-		List<Equipamento>equipamentos = new ArrayList<Equipamento>();
+		List<Equipamento> equipamentos = new ArrayList<Equipamento>();
 		equipamentos = equipamentoDao.listaTodosPaginada(0, 100);
 		return equipamentos;
 	}
@@ -89,11 +88,11 @@ public class EquipamentoBean implements Serializable {
 	@Transacional
 	public void buscaPorTag() {
 		try {
-			equipamento= new Equipamento();
+			equipamento = new Equipamento();
 			equipamento = equipamentoDao.buscaTag(buscar);
-		if (equipamento.getTag().isEmpty()) {
-			mensagemErro("Este usuário não foi localizado");
-		}
+			if (equipamento.getTag().isEmpty()) {
+				mensagemErro("Este usuário não foi localizado");
+			}
 		} catch (Exception e) {
 			mensagemErro("Erro não foi possível localizar");
 
@@ -108,7 +107,7 @@ public class EquipamentoBean implements Serializable {
 			equipamento = new Equipamento();
 			buscar = "";
 			equipamento = new Equipamento();
-			} catch (Exception e) {
+		} catch (Exception e) {
 			mensagemErro("Erro não foi possivel atualizar");
 		}
 	}
@@ -152,6 +151,5 @@ public class EquipamentoBean implements Serializable {
 	public void setEquipamento(Equipamento equipamento) {
 		this.equipamento = equipamento;
 	}
-
 
 }

@@ -30,15 +30,17 @@ public class Equipamento implements Serializable {
 	@Column(name = "tag", length = 20, nullable = false)
 	private String tag;
 	@Column(name = "valorNota")
-	private double valorNota;
+	private float valorNota;
 	@Column(name = "precoDiariaMensal")
-	private double precoDiariaMensal;
+	private float precoDiariaMensal;
 	@Column(name = "precoDiariaQuinzenal")
-	private double precoDiariaQuinzenal;
+	private float precoDiariaQuinzenal;
 	@Column (name = "status")
 	private StatusEquipamento status;
 	@Column (name = "validadeCertificacao")
 	private LocalDate validadeCertificacao;
+	@Column(name = "elevacao", length = 20)
+	private String elevacao;
 
 	public Long getId() {
 		return id;
@@ -74,6 +76,14 @@ public class Equipamento implements Serializable {
 		return true;
 	}
 
+	public String getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -98,27 +108,27 @@ public class Equipamento implements Serializable {
 		this.tag = tag;
 	}
 
-	public double getValorNota() {
+	public float getValorNota() {
 		return valorNota;
 	}
 
-	public void setValorNota(double valorNota) {
+	public void setValorNota(float valorNota) {
 		this.valorNota = valorNota;
 	}
 
-	public double getPrecoDiariaMensal() {
+	public float getPrecoDiariaMensal() {
 		return precoDiariaMensal;
 	}
 
-	public void setPrecoDiariaMensal(double precoDiariaMensal) {
+	public void setPrecoDiariaMensal(float precoDiariaMensal) {
 		this.precoDiariaMensal = precoDiariaMensal;
 	}
 
-	public double getPrecoDiariaQuinzenal() {
+	public float getPrecoDiariaQuinzenal() {
 		return precoDiariaQuinzenal;
 	}
 
-	public void setPrecoDiariaQuinzenal(double precoDiariaQuinzenal) {
+	public void setPrecoDiariaQuinzenal(float precoDiariaQuinzenal) {
 		this.precoDiariaQuinzenal = precoDiariaQuinzenal;
 	}
 
@@ -138,13 +148,17 @@ public class Equipamento implements Serializable {
 		this.validadeCertificacao = validadeCertificacao;
 	}
 
-	public String getModelo() {
-		return modelo;
+	public String getElevacao() {
+		return elevacao;
 	}
 
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
+	public void setElevacao(String elevacao) {
+		this.elevacao = elevacao;
 	}
+
+
+	
+	
 
 
 

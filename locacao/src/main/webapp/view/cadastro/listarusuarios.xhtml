@@ -12,7 +12,7 @@
 
 		<ui:define name="content">
 			<p:fieldset legend="Lista de Usuarios">
-				<h:panelGrid columns="2" cellpadding="10">
+				<h:panelGrid columns="2" cellpadding="10"  style="font-size: 12px">
 					<h:form>
 						<b:dataTable value="#{loginBean.usuarios()}" var="car">
 							<b:dataTableColumn value="#{car.id}" order="asc" />

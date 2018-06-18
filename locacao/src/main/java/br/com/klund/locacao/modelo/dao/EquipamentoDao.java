@@ -58,7 +58,8 @@ public class EquipamentoDao implements Serializable {
 		return null;
 		}
 	}
-	public boolean existeTag(String tag) {
+	
+	public Boolean existeTag(String tag) {
 		TypedQuery<Equipamento> query = em.createQuery(
 				  " select u from Equipamento u "
 				+ " where u.tag = :pTag", Equipamento.class);
@@ -69,10 +70,10 @@ public class EquipamentoDao implements Serializable {
 			Equipamento resultado = query.getSingleResult();
 			return true;
 		} catch (NoResultException ex) {
-			return false;
+		return false;
 		}
 	}
-
+	
 	public List<Equipamento> listarTodos() {
 		CriteriaQuery<Equipamento> query = em.getCriteriaBuilder().createQuery(Equipamento.class);
 		query.select(query.from(Equipamento.class));

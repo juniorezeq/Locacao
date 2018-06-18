@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	
-	<display-name>Sistema_OS</display-name>
+	<display-name>Locacao system</display-name>
 
 	<!-- Código utilizado pelo Tomcat para utilizar o CDI -->	
 	<resource-env-ref>
@@ -41,6 +41,7 @@
 		<param-value>start</param-value>
 	</context-param> 
 	
+	<!-- yeti -->
 	<!--  Especifica o tema que o BootsFaces -->
 	<context-param>
 		<param-name>BootsFaces_THEME</param-name>
