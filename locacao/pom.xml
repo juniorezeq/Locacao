@@ -12,9 +12,31 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-
+	
 	<!-- Lista de dependências do projeto -->
 	<dependencies>
+	
+	<!-- https://mvnrepository.com/artifact/com.squareup.retrofit/converter-gson -->
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>converter-gson</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.squareup.okio/okio -->
+		<dependency>
+			<groupId>com.squareup.okio</groupId>
+			<artifactId>okio</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+	
+	
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>retrofit</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+	
 
 		<!-- JSF API -->
 		<!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-api/2.2.14 -->

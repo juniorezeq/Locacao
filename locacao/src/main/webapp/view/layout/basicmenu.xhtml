@@ -18,6 +18,12 @@
 				<p:submenu label="Locacão">
 					<p:menuitem value="Nova" action="#" icon="fa fa-fw fa-calendar" />
 				</p:submenu>
+				<p:submenu label="Cliente">
+					<p:menuitem value="Novo Cliente" action="#"
+						icon="fa fa-fw fa-user-plus" />
+					<p:menuitem value="Listar" action="#{loginBean.desloga()}"
+						icon="fa fa-fw fa-align-justify" />
+				</p:submenu>				
 				<p:submenu label="Usuário">
 					<p:menuitem value="Novo Usuário"
 						action="#{usuarioBean.iniciarCadastro()}"
@@ -34,7 +40,7 @@
 						icon="fa fa-fw fa-home" />
 					<p:menuitem value="Sair" action="#{loginBean.desloga()}"
 						icon="fa fa-fw fa-times-circle" />
-				</p:submenu>
+				</p:submenu>				
 			</p:menu>
 		</h:form>
 	</ui:composition>

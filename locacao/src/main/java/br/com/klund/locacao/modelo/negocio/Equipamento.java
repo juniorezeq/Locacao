@@ -108,7 +108,7 @@ public class Equipamento implements Serializable {
 		this.tag = tag;
 	}
 
-	public float getValorNota() {
+	public double getValorNota() {
 		return valorNota;
 	}
 
