@@ -144,6 +144,12 @@ public class UsuarioBean implements Serializable {
 	public void setBuscar(String buscar) {
 		this.buscar = buscar;
 	}
+	
+	 public void destroyWorld() {
+	       System.out.println(usuario.toString());
+	    }
+	     
+	 
 
 
 }

@@ -12,10 +12,10 @@
 
 		<ui:define name="content">
 			<p:fieldset legend="Editar Usuário" toggleable="true"
-				toggleSpeed="500"  style="font-size: 12px">
+				toggleSpeed="500" style="font-size: 12px">
 				<h:form id="cadastroAlterar">
 					<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel value="Buscar por nome:" for="buscaNome">
+						<p:outputLabel value="Buscar por nome:" for="buscaNome">
 						</p:outputLabel>
 						<p:inputText id="buscaNome" value="#{usuarioBean.buscar}"
 							size="20">
@@ -42,12 +42,22 @@
 						</p:selectOneMenu>
 
 						<p:commandButton value="alterar"
-							action="#{usuarioBean.atualizaUsuario()}" 
-							update="@all" icon="fa fa-fw fa-save" />
-						<p:commandButton value="apagar usuário"
-							action="#{usuarioBean.apagarUsuario()}" process="@all"
-							update="@all" icon="fa fa-fw fa-save">
+							action="#{usuarioBean.atualizaUsuario()}" update="@all"
+							icon="fa fa-fw fa-save" />
+
+
+						<p:commandButton value="Apagar Usuario"
+							actionListener="#{usuarioBean.destroyWorld}" update="msg">
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
 						</p:commandButton>
+
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
 
 					</h:panelGrid>
 

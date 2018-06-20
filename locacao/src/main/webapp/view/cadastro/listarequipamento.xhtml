@@ -14,8 +14,8 @@
 			<p:fieldset legend="Lista de Equipamentos" style="font-size: 10px">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form>
-						<b:dataTable value="#{equipamentoBean.listarTodos()}" var="car"  select="true"
-							selectionMode="single"
+						<b:dataTable value="#{equipamentoBean.listarTodos()}" var="car"
+							select="true" selectionMode="single"
 							onselect="ajax:equipamentoBean.onSelect(car);"
 							ondeselect="ajax:equipamentoBean.onDeselect(car);">
 							<b:dataTableColumn value="#{car.tag}" order="asc" label="tag" />
@@ -26,23 +26,17 @@
 								label="Diária/Mês" />
 							<b:dataTableColumn value="#{car.precoDiariaQuinzenal}"
 								label="Diária/Quinzenal" />
-								<b:dataTableColumn label="Validade Certificado" value="#{car.dataFormatada()}"/>
+							<b:dataTableColumn label="Validade Certificado"
+								value="#{car.dataFormatada()}" />
 							<b:dataTableColumn value="#{car.valorNota}" label="Valor NF" />
 							<b:dataTableColumn value="#{car.status}" label="Status" />
+						
 						</b:dataTable>
 						
 					</h:form>
 				</h:panelGrid>
 			</p:fieldset>
-			
-			<p:fieldset legend="Selecionado" style="font-size: 10px">
-				<h:panelGrid columns="2" cellpadding="10">
-				<h:form>
-				<h:outputLabel value="#{equipamentoBean.equipamento.descricao}" />
-				</h:form>
-				</h:panelGrid>
-				</p:fieldset>
-		</ui:define>
+			</ui:define>
 	</ui:composition>
 </h:body>
 
