@@ -11,49 +11,27 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Equipamentos">
+			<p:fieldset legend="Lista de Equipamentos" style="font-size: 10px">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form>
+						<b:dataTable value="#{equipamentoBean.listarTodos()}" var="car"  select="true"
+							selectionMode="single"
+							onselect="ajax:equipamentoBean.onSelect(car);"
+							ondeselect="ajax:equipamentoBean.onDeselect(car);">
+							<b:dataTableColumn value="#{car.tag}" order="asc" label="tag" />
+							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
+							<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
+							<b:dataTableColumn value="#{car.swl}" label="SWL" />
+							<b:dataTableColumn value="#{car.precoDiariaMensal}"
+								label="Diária/Mês" />
+							<b:dataTableColumn value="#{car.precoDiariaQuinzenal}"
+								label="Diária/Quinzenal" />
+								<b:dataTableColumn label="Validade Certificado" value="#{car.dataFormatada()}"/>
+							<b:dataTableColumn value="#{car.valorNota}" label="Valor NF" />
+							<b:dataTableColumn value="#{car.status}" label="Status" />
+						</b:dataTable>
 						
-						<p:dataTable var="equip" value="#{equipamentoBean.listarTodos()}" style="font-size: 12px">
-							<p:column headerText="TAG">
-								<h:outputText value="#{equip.tag}" />
-							</p:column>
-
-							<p:column headerText="Descrição">
-								<h:outputText value="#{equip.descricao}" />
-							</p:column>
-			
-						<p:column headerText="Modelo">
-							<h:outputText value="#{equip.modelo}" />
-						</p:column>
-						
-						<p:column headerText="SWL">
-							<h:outputText value="#{equip.swl}" />
-						</p:column>
-											
-						<p:column headerText="Diária Mensal">
-							<h:outputText value="#{equip.precoDiariaMensal}" />
-						</p:column>
-						
-						<p:column headerText="Diária Quinzenal">
-							<h:outputText value="#{equip.precoDiariaQuinzenal}" />
-						</p:column>
-						
-						<p:column headerText="Validade Certificação">
-							<h:outputText value="#{equip.validadeCertificacao}" />
-						</p:column>
-						
-						<p:column headerText="Valor Nota Fiscal">
-							<h:outputText value="#{equip.valorNota}" />
-						</p:column>
-												
-						<p:column headerText="Status do Equipamento">
-							<h:outputText value="#{equip.status}" />
-						</p:column>
-						
-						</p:dataTable>
-
+						<h:outputLabel value="#{equipamentoBean.equipamento.descricao}" />
 					</h:form>
 				</h:panelGrid>
 			</p:fieldset>

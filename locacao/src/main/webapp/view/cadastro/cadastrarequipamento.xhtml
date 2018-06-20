@@ -12,7 +12,7 @@
 
 		<ui:define name="content">
 			<p:fieldset legend="Cadastro Equipamento" toggleable="true"
-				toggleSpeed="500" style="font-size: 12px">
+				toggleSpeed="500" style="font-size: 12px" >
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
 						<p:outputLabel value="Tag:" for="cadastroTag" />
@@ -30,7 +30,7 @@
 						<p:outputLabel value="SWL: " for="cadastroSWL" />
 						<p:inputText id="cadastroSWL"
 							value="#{equipamentoBean.equipamento.swl}" size="20" />
-							
+
 						<p:outputLabel value="Elevação Corrente:" for="cadastroElev" />
 						<p:inputText id="cadastroElev"
 							value="#{equipamentoBean.equipamento.elevacao}" size="20" />
@@ -45,6 +45,11 @@
 						<p:inputText id="cadastroQz"
 							value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
 							size="20" />
+
+
+						<p:outputLabel value="Validade Cerificação: " for="validade" />
+						<p:calendar id="validade"
+							value="#{equipamentoBean.equipamento.validadeCertificacao}" />
 
 						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
 						<p:selectOneMenu id="cadastroStatus"

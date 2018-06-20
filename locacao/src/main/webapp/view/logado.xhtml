@@ -12,17 +12,42 @@
 
 		<ui:define name="content">
 			<p:fieldset legend="Usuário Logado" toggleable="true"
-				toggleSpeed="500">
+				toggleSpeed="500" style="font-size: 12px">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel value="Usuário: " for ="userName"/>
-					<p:outputLabel value="#{loginBean.usuario.login}" id="userName"/>
-						<p:outputLabel value="Data Acesso: " for ="userdata"/>
-					<p:outputLabel value="#{loginBean.usuario.dataDoUltimoAcesso}" id="userdata"/>
+						<p:outputLabel value="Usuário: " for="userName" />
+						<p:outputLabel value="#{loginBean.usuario.login}" id="userName" />
+						<p:outputLabel value="Data Acesso: " for="userdata" />
+						<p:outputLabel value="#{loginBean.usuario.dataDoUltimoAcesso}"
+							id="userdata" />
 					</h:panelGrid>
 				</h:form>
 			</p:fieldset>
-			
+			<br></br>
+
+			<p:fieldset legend="Equipamentos Disponíveis" toggleable="true"
+				toggleSpeed="500" style="font-size: 12px">
+				<h:form>
+					<h:panelGrid columns="2" cellpadding="5">
+						<b:dataTable value="#{equipamentoBean.listarDisponiveis()}"
+							var="car" style="font-size: 10px" >
+							<b:dataTableColumn value="#{car.tag}" order="asc" label="tag" />
+							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
+							<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
+							<b:dataTableColumn value="#{car.swl}" label="SWL" />
+							<b:dataTableColumn value="#{car.precoDiariaMensal}"
+								label="Diária/Mês" />
+							<b:dataTableColumn value="#{car.precoDiariaQuinzenal}"
+								label="Diária/Quinzenal" />
+							<b:dataTableColumn value="#{car.dataFormatada()}"
+								label="Certificação" />
+							<b:dataTableColumn value="#{car.valorNota}" label="Valor NF" />
+							<b:dataTableColumn value="#{car.status}" label="Status" />
+						</b:dataTable>
+					</h:panelGrid>
+				</h:form>
+			</p:fieldset>
+
 		</ui:define>
 
 	</ui:composition>

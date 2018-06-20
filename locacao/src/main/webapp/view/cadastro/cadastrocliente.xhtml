@@ -11,67 +11,76 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Cadastro Equipamento" toggleable="true"
+			<p:fieldset legend="Cadastro Cliente" toggleable="true"
 				toggleSpeed="500" style="font-size: 12px">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
-						<p:outputLabel value="Tag:" for="cadastroTag" />
-						<p:inputText id="cadastroTag"
-							value="#{equipamentoBean.equipamento.tag}" size="20" />
+					
+					<p:outputLabel value="CNPJ: " for="cadastroCnpj" />
+							<p:inputText id="cadastroCnpj"  title="Digite Somente números do CNPJ"
+								value="#{clienteBean.cliente.cnpj}" size="20" required="true">
+								<p:ajax event="change" listener="#{clienteBean.buscarReceita()}"
+									onstart="PF('statusDialog').show()"
+							onsuccess="PF('statusDialog').hide()" update="msg cadastroNome cadastroCnpj cadastroRua cadastroNumero cadastroBairro cadastroCep cadastroCidade cadastroEstado cadastroSituacao cadastroTelefone" />
+							<p:tooltip id="toolTipFocus" for="cadastroCnpj" showEvent="focus" hideEvent="blur" />
+							</p:inputText>
+							<p:outputLabel value="Nome:" for="cadastroNome" />
+							<p:inputText id="cadastroNome"
+								value="#{clienteBean.cliente.nome}" size="40" required="true" />
+							<p:outputLabel value="Rua:" for="cadastroRua" />
+							<p:inputText id="cadastroRua"
+								value="#{clienteBean.cliente.logradouro}" size="40"
+								required="true" />
+							<p:outputLabel value="Numero:" for="cadastroNumero" />
+							<p:inputText id="cadastroNumero"
+								value="#{clienteBean.cliente.numero}" size="40" required="true" />
 
-						<p:outputLabel value="Modelo:" for="cadastroModelo" />
-						<p:inputText id="cadastroModelo"
-							value="#{equipamentoBean.equipamento.modelo}" size="20" />
+							<p:outputLabel value="Bairro:" for="cadastroBairro" />
+							<p:inputText id="cadastroBairro"
+								value="#{clienteBean.cliente.bairro}" size="40" required="true" />
 
-						<p:outputLabel value="Descrição:" for="cadastroDescricao" />
-						<p:inputText id="cadastroDescricao"
-							value="#{equipamentoBean.equipamento.descricao}" size="20" />
+							<p:outputLabel value="Cep:" for="cadastroCep" />
+							<p:inputText id="cadastroCep" value="#{clienteBean.cliente.cep}"
+								size="40" />
 
-						<p:outputLabel value="SWL: " for="cadastroSWL" />
-						<p:inputText id="cadastroSWL"
-							value="#{equipamentoBean.equipamento.swl}" size="20" />
+							<p:outputLabel value="Cidade:" for="cadastroCidade" />
+							<p:inputText id="cadastroCidade"
+								value="#{clienteBean.cliente.municipio}" size="40"
+								required="true" />
+
+
+							<p:outputLabel value="Estado:" for="cadastroEstado" />
+							<p:inputText id="cadastroEstado"
+								value="#{clienteBean.cliente.uf}" size="2" required="true" />
+
+							<p:outputLabel value="Situação:" for="cadastroSituacao" />
+							<p:inputText id="cadastroSituacao"
+								value="#{clienteBean.cliente.situacao}" size="40"
+								required="true" />
+
+							<p:outputLabel value="telefone:" for="cadastroTelefone" />
+							<p:inputText id="cadastroTelefone"
+								value="#{clienteBean.cliente.telefone}" size="40"
+								required="true" />
+
+							<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+								closable="false" resizable="false" showHeader="false">
+								<p:graphicImage value="/imagens/loading.gif" />
+							</p:dialog>
 							
-						<p:outputLabel value="Elevação Corrente:" for="cadastroElev" />
-						<p:inputText id="cadastroElev"
-							value="#{equipamentoBean.equipamento.elevacao}" size="20" />
+							<br></br>
 
+						<p:commandButton value="Incluir" action="#{clienteBean.incluir()}"
+							icon="fa fa-fw fa-save" process="@all" update="@all" />
+						<p:commandButton value="Limpar" action="#{clienteBean.limpar()}"
+							icon="fa fa-fw fa-save" update="@all" />
 
-						<p:outputLabel value="Diária Mensal:" for="cadastroDM" />
-						<p:inputText id="cadastroDM"
-							value="#{equipamentoBean.equipamento.precoDiariaMensal}"
-							size="20" />
-
-						<p:outputLabel value="Diária Quinzenal:" for="cadastroQz" />
-						<p:inputText id="cadastroQz"
-							value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
-							size="20" />
-
-						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
-						<p:selectOneMenu id="cadastroStatus"
-							value="#{equipamentoBean.equipamento.status}" style="width:150px">
-							<f:selectItem itemLabel="Status Atual" itemValue=""
-								noSelectionOption="true" />
-							<f:selectItem itemLabel="Disponível" itemValue="Disponivel" />
-							<f:selectItem itemLabel="Manutenção" itemValue="Manutenção" />
-							<f:selectItem itemLabel="Locado" itemValue="Locado" />
-							<f:selectItem itemLabel="Obsoleto" itemValue="Obsoleto" />
-							<f:selectItem itemLabel="Equipamento de Terceiros"
-								itemValue="EquipamentoTerceiros" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
-						<p:inputText id="cadastroNF"
-							value="#{equipamentoBean.equipamento.valorNota}" size="20" />
-
-						<p:commandButton value="Incluir"
-							action="#{equipamentoBean.incluir}" process="@form"
-							update="@form" icon="fa fa-fw fa-save" />
+							<p:messages id="msg" autoUpdate="true" showDetail="true"
+							closable="true" style="60%">
+							<p:effect type="pulsate" event="load" delay="500" />
+						</p:messages>
+						
 					</h:panelGrid>
-
-					<p:messages id="msg" autoUpdate="true" showDetail="true"
-						closable="true" style="60%">
-						<p:effect type="pulsate" event="load" delay="500" />
-					</p:messages>
 				</h:form>
 
 			</p:fieldset>

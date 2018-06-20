@@ -44,6 +44,12 @@ public class EquipamentoValidador {
 			return teste;
 		}
 		
+		if (equipamentoDao.existeTag(equipamento)) {
+			mensagem = "Tag já foi cadastrado";
+			teste = true;
+			return teste;
+		}
+		
 		
 		return teste;
 	}

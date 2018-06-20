@@ -1,7 +1,9 @@
 package br.com.klund.locacao.modelo.negocio;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +29,7 @@ public class Equipamento implements Serializable {
 	private String descricao;
 	@Column(name = "swl", length = 20, nullable = false)
 	private String swl;
-	@Column(name = "tag", length = 20, nullable = false)
+	@Column(name = "tag", length = 20, nullable = false, unique= true)
 	private String tag;
 	@Column(name = "valorNota")
 	private float valorNota;
@@ -38,7 +40,7 @@ public class Equipamento implements Serializable {
 	@Column (name = "status")
 	private StatusEquipamento status;
 	@Column (name = "validadeCertificacao")
-	private LocalDate validadeCertificacao;
+	private Date validadeCertificacao;
 	@Column(name = "elevacao", length = 20)
 	private String elevacao;
 
@@ -108,7 +110,8 @@ public class Equipamento implements Serializable {
 		this.tag = tag;
 	}
 
-	public double getValorNota() {
+	
+	public float getValorNota() {
 		return valorNota;
 	}
 
@@ -140,11 +143,11 @@ public class Equipamento implements Serializable {
 		this.status = status;
 	}
 
-	public LocalDate getValidadeCertificacao() {
+	public Date getValidadeCertificacao() {
 		return validadeCertificacao;
 	}
 
-	public void setValidadeCertificacao(LocalDate validadeCertificacao) {
+	public void setValidadeCertificacao(Date validadeCertificacao) {
 		this.validadeCertificacao = validadeCertificacao;
 	}
 
@@ -156,10 +159,11 @@ public class Equipamento implements Serializable {
 		this.elevacao = elevacao;
 	}
 
-
-	
-	
-
+	public String dataFormatada() {
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+	     String dataFormatada = formatador.format(this.getValidadeCertificacao());
+	     return dataFormatada;
+	}
 
 
 }

@@ -4,6 +4,8 @@
 	<persistence-unit name="postgres-local">
 		<class>br.com.klund.locacao.modelo.negocio.Equipamento</class>
 		<class>br.com.klund.locacao.modelo.negocio.Usuario</class>
+		<class>br.com.klund.locacao.modelo.negocio.Locacao</class>
+		<class>br.com.klund.locacao.modelo.negocio.Cliente</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />

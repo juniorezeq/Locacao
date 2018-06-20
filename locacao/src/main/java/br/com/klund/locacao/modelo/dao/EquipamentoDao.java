@@ -59,15 +59,16 @@ public class EquipamentoDao implements Serializable {
 		}
 	}
 	
-	public Boolean existeTag(String tag) {
+	public Boolean existeTag(Equipamento equipamento) {
 		TypedQuery<Equipamento> query = em.createQuery(
 				  " select u from Equipamento u "
 				+ " where u.tag = :pTag", Equipamento.class);
 		
-		query.setParameter("pTag", tag);
+		query.setParameter("pTag", equipamento.getTag());
 		try {
 			@SuppressWarnings("unused")
 			Equipamento resultado = query.getSingleResult();
+			System.out.println("Existe a tag" + resultado.getTag());
 			return true;
 		} catch (NoResultException ex) {
 		return false;
@@ -82,6 +83,19 @@ public class EquipamentoDao implements Serializable {
 
 		return lista;
 	}
+	
+	public List<Equipamento> equipamentosDisponiveis() {
+		TypedQuery<Equipamento> query = em.createQuery(
+				  " select u from Equipamento u" + 
+				  " where u.status = '0'", Equipamento.class);
+			try {
+			List<Equipamento> resultado = query.getResultList();
+			return resultado;
+		} catch (NoResultException ex) {
+		return null;
+		}
+	}
+	
 
 	public void adiciona(Equipamento equipamento) {
 		dao.adiciona(equipamento);

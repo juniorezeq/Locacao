@@ -19,9 +19,9 @@
 					<p:menuitem value="Nova" action="#" icon="fa fa-fw fa-calendar" />
 				</p:submenu>
 				<p:submenu label="Cliente">
-					<p:menuitem value="Novo Cliente" action="#"
+					<p:menuitem value="Novo Cliente" action="#{clienteBean.iniciarCadastro()}"
 						icon="fa fa-fw fa-user-plus" />
-					<p:menuitem value="Listar" action="#{loginBean.desloga()}"
+					<p:menuitem value="Listar" action="#{clienteBean.listaCliente()}"
 						icon="fa fa-fw fa-align-justify" />
 				</p:submenu>				
 				<p:submenu label="Usuário">

@@ -1,6 +1,11 @@
 package br.com.klund.locacao.bean;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
@@ -9,12 +14,15 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.SelectEvent;
+
 import br.com.klund.locacao.modelo.dao.EquipamentoDao;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
 import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.validador.EquipamentoValidador;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Named
@@ -27,17 +35,9 @@ public class EquipamentoBean implements Serializable {
 	@Inject
 	private Equipamento equipamento = new Equipamento();
 	private String buscar;
-	private String validade;
 	@Inject
 	private EquipamentoValidador equipamentoValidador;
 
-	public String getValidade() {
-		return validade;
-	}
-
-	public void setValidade(String validade) {
-		this.validade = validade;
-	}
 
 	@PostConstruct
 	public void init() {
@@ -66,16 +66,24 @@ public class EquipamentoBean implements Serializable {
 		return lista;
 	}
 
+	
 	@Transacional
-	public void incluir() {
-			if (equipamentoValidador.naoPodeIncluir(equipamento)) {
+	public List<Equipamento> listarDisponiveis() {
+		List<Equipamento> lista = new ArrayList<Equipamento>();
+		lista = equipamentoDao.equipamentosDisponiveis();
+		return lista;
+	}
+
+	@Transacional
+	public void incluir() {	
+				if (equipamentoValidador.naoPodeIncluir(equipamento)) {
 				mensagemErro(equipamentoValidador.getMensagem());
 				return;
 			} else {
 				equipamentoDao.adiciona(equipamento);
 				equipamento = new Equipamento();
 				mensagemSucesso("cadastrado com sucesso.");
-			}
+			}			
 	}
 
 	@Transacional
@@ -151,5 +159,17 @@ public class EquipamentoBean implements Serializable {
 	public void setEquipamento(Equipamento equipamento) {
 		this.equipamento = equipamento;
 	}
+	
 
+	public void onSelect(Equipamento car) {
+	equipamento = car;
+	System.out.println(car.getTag());
+	}
+	 
+	  public void onDeselect(Equipamento car) {
+	    equipamento = new Equipamento();
+	  }
+	
+	
+	
 }
