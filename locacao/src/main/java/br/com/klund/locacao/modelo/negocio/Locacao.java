@@ -35,6 +35,7 @@ public class Locacao implements Serializable {
 	private Cliente cliente;
 	@Column (name = "tipoLocacao")
 	private TipoLocacao tipoLocacao;
+	private StatusLocacao statusLocacao;
 	
 	
 	public TipoLocacao getTipoLocacao() {
@@ -110,5 +111,15 @@ public class Locacao implements Serializable {
 	     String dataFormatada = formatador.format(this.getDataFim());
 	     return dataFormatada;
 	}
+
+	public StatusLocacao getStatusLocacao() {
+		return statusLocacao;
+	}
+
+	public void setStatusLocacao(StatusLocacao statusLocacao) {
+		this.statusLocacao = statusLocacao;
+	}
+	
+	
 
 	}
