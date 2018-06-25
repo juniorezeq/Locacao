@@ -33,8 +33,7 @@ public class UsuarioDao implements Serializable {
 	private EntityManager em;
 	
 	public boolean existe(Usuario usuario) {
-		
-		TypedQuery<Usuario> query = em.createQuery(
+				TypedQuery<Usuario> query = em.createQuery(
 				  " select u from Usuario u "
 				+ " where u.login = :pLogin and u.senha = :pSenha", Usuario.class);
 		

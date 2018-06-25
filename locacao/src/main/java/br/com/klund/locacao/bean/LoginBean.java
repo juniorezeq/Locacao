@@ -25,6 +25,8 @@ import br.com.klund.locacao.modelo.negocio.Usuario;
 public class LoginBean implements Serializable {
 
 	private static final String USUARIO_LOGADO = "usuarioLogado";
+	private static Usuario logado;
+
 
 	private static final long serialVersionUID = 1L;
 	@Inject
@@ -59,6 +61,7 @@ public class LoginBean implements Serializable {
 			usuarioDao.atualiza(usuarioAutenticado);
 			session.setAttribute(USUARIO_LOGADO, usuarioAutenticado);
 			usuario = usuarioAutenticado;
+			logado = usuario;
 			return "/view/logado.xhtml?faces-redirect=true";
 		}
 		String mensagem = "Usuário ou senha inválido!";
@@ -116,6 +119,14 @@ public class LoginBean implements Serializable {
 
 	public static String getUsuarioLogado() {
 		return USUARIO_LOGADO;
+	}
+
+	public static Usuario getLogado() {
+		return logado;
+	}
+
+	public static void setLogado(Usuario logado) {
+		LoginBean.logado = logado;
 	}
 
 	

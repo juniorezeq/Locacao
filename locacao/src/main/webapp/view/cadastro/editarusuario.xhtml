@@ -47,12 +47,12 @@
 
 
 						<p:commandButton value="Apagar Usuario"
-							actionListener="#{usuarioBean.destroyWorld}" update="msg">
+							action="#{usuarioBean.destroyWorld}" update="msg">
 							<p:confirm header="Confirmation" message="Are you sure?"
 								icon="ui-icon-alert" />
 						</p:commandButton>
 
-						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="font-size: 12px">
 							<p:commandButton value="Yes" type="button"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 							<p:commandButton value="No" type="button"
@@ -62,7 +62,7 @@
 					</h:panelGrid>
 
 					<p:messages id="msg" autoUpdate="true" showDetail="true"
-						closable="true" style="60%">
+						closable="true" style="40%">
 						<p:effect type="pulsate" event="load" delay="500" />
 					</p:messages>
 				</h:form>

@@ -11,27 +11,28 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Equipamentos" style="font-size: 10px">
+			<p:fieldset legend="Lista de Equipamentos" style="font-size: 10px"
+				toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form>
-						<b:dataTable value="#{equipamentoBean.listarTodos()}" var="car"  select="true"
-							selectionMode="single"
+						<b:dataTable value="#{equipamentoBean.listarTodos()}" var="car"
+							select="true" selectionMode="single"
 							onselect="ajax:equipamentoBean.onSelect(car);"
 							ondeselect="ajax:equipamentoBean.onDeselect(car);">
-							<b:dataTableColumn value="#{car.tag}" order="asc" label="tag" />
+							<b:dataTableColumn value="#{car.tag}" label="tag" />
 							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
 							<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
-							<b:dataTableColumn value="#{car.swl}" label="SWL" />
+							<b:dataTableColumn value="#{car.swl}" label="SWL" order="asc"/>
 							<b:dataTableColumn value="#{car.precoDiariaMensal}"
 								label="Diária/Mês" />
 							<b:dataTableColumn value="#{car.precoDiariaQuinzenal}"
 								label="Diária/Quinzenal" />
-								<b:dataTableColumn label="Validade Certificado" value="#{car.dataFormatada()}"/>
+							<b:dataTableColumn label="Validade Certificado"
+								value="#{car.dataFormatada()}" />
 							<b:dataTableColumn value="#{car.valorNota}" label="Valor NF" />
 							<b:dataTableColumn value="#{car.status}" label="Status" />
 						</b:dataTable>
-						
-						<h:outputLabel value="#{equipamentoBean.equipamento.descricao}" />
+					
 					</h:form>
 				</h:panelGrid>
 			</p:fieldset>

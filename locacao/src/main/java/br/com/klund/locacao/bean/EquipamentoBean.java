@@ -1,11 +1,6 @@
 package br.com.klund.locacao.bean;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
@@ -14,7 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 import br.com.klund.locacao.modelo.dao.EquipamentoDao;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
@@ -22,7 +17,6 @@ import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.validador.EquipamentoValidador;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Named
@@ -34,9 +28,13 @@ public class EquipamentoBean implements Serializable {
 	private EquipamentoDao equipamentoDao = new EquipamentoDao();
 	@Inject
 	private Equipamento equipamento = new Equipamento();
+	@Inject
+	private Equipamento selecionado = new Equipamento();
 	private String buscar;
 	@Inject
 	private EquipamentoValidador equipamentoValidador;
+	private UploadedFile file;
+	private List<UploadedFile> arquivos = new ArrayList<UploadedFile>();
 
 
 	@PostConstruct
@@ -103,7 +101,6 @@ public class EquipamentoBean implements Serializable {
 			}
 		} catch (Exception e) {
 			mensagemErro("Erro não foi possível localizar");
-
 		}
 	}
 
@@ -160,16 +157,47 @@ public class EquipamentoBean implements Serializable {
 		this.equipamento = equipamento;
 	}
 	
+	
 
-	public void onSelect(Equipamento car) {
-	equipamento = car;
-	System.out.println(car.getTag());
+	public Equipamento getSelecionado() {
+		return selecionado;
+	}
+
+	public void setSelecionado(Equipamento selecionado) {
+		this.selecionado = selecionado;
+	}
+
+	public void onSelect(Equipamento equipamento) {
+		selecionado = new Equipamento();
+		selecionado = equipamento;
+	System.out.println(selecionado.getTag());
 	}
 	 
-	  public void onDeselect(Equipamento car) {
+	  public void onDeselect(Equipamento equipamento) {
 	    equipamento = new Equipamento();
 	  }
-	
-	
-	
-}
+		
+	  public UploadedFile getFile() {
+	        return file;
+	    }
+	 
+	    public void setFile(UploadedFile file) {
+	        this.file = file;
+	    }
+	     
+	    
+	    public void upload() {    		
+	    	arquivos.add(file);
+	      mensagemSucesso("Sucesso");
+	    }
+
+		public List<UploadedFile> getArquivos() {
+			return arquivos;
+		}
+
+		public void setArquivos(List<UploadedFile> arquivos) {
+			this.arquivos = arquivos;
+		}
+
+	    
+	}

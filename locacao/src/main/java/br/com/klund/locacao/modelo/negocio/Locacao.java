@@ -1,10 +1,7 @@
 package br.com.klund.locacao.modelo.negocio;
 
 import java.io.Serializable;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -28,9 +25,9 @@ public class Locacao implements Serializable {
 	@Column(name = "id_locacao")
 	private Long id;
 	@Column(nullable = false, insertable = true, updatable = false)
-	private LocalDate dataInicio;
+	private Date dataInicio;
 	@Column(insertable = true, updatable = true)
-	private LocalDate dataFim;
+	private Date dataFim;
 	@Column(name = "valorLocacao")
 	private Double valorLocacao;
 	@ManyToOne
@@ -68,22 +65,24 @@ public class Locacao implements Serializable {
 	}
 
 
-	public LocalDate getDataInicio() {
+	
+	
+	public Date getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(LocalDate dataInicio) {
+	public void setDataInicio(Date dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public LocalDate getDataFim() {
+	public Date getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(LocalDate dataFim) {
+	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
 	}
-	
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -99,15 +98,17 @@ public class Locacao implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
-	public void converterDataInicio(Date dataIni) {
-		Instant instant = dataIni.toInstant();
-		dataInicio = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+	
+	public String dataInicioFormatada() {
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+	     String dataFormatada = formatador.format(this.getDataInicio());
+	     return dataFormatada;
+	}
+	
+	public String dataFimFormatada() {
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+	     String dataFormatada = formatador.format(this.getDataFim());
+	     return dataFormatada;
 	}
 
-	public void converterDataFim(Date dataFinal) {
-		Instant instant = dataFinal.toInstant();
-		dataFim = instant.atZone(ZoneId.systemDefault()).toLocalDate();
 	}
-
-}

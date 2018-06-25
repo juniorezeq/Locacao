@@ -2,7 +2,6 @@ package br.com.klund.locacao.modelo.negocio;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -165,5 +164,5 @@ public class Equipamento implements Serializable {
 	     return dataFormatada;
 	}
 
-
+	
 }

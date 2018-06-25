@@ -12,7 +12,7 @@
 
 		<ui:define name="content">
 			<p:fieldset legend="Cadastro Equipamento" toggleable="true"
-				toggleSpeed="500" style="font-size: 12px" >
+				toggleSpeed="500" style="font-size: 12px">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
 						<p:outputLabel value="Tag:" for="cadastroTag" />
@@ -49,7 +49,10 @@
 
 						<p:outputLabel value="Validade Cerificação: " for="validade" />
 						<p:calendar id="validade"
-							value="#{equipamentoBean.equipamento.validadeCertificacao}" />
+							value="#{equipamentoBean.equipamento.validadeCertificacao}"
+							pattern="dd/MM/yyyy">
+
+						</p:calendar>
 
 						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
 						<p:selectOneMenu id="cadastroStatus"
@@ -68,10 +71,21 @@
 						<p:inputText id="cadastroNF"
 							value="#{equipamentoBean.equipamento.valorNota}" size="20" />
 
-						<p:commandButton value="Incluir"
-							action="#{equipamentoBean.incluir}" process="@form"
-							update="@form" icon="fa fa-fw fa-save" />
+
+						<p:fileUpload value="#{equipamentoBean.file}"
+							allowTypes="/(\.|\/)(pdf)$/" mode="simple" skinSimple="true" />
+
+						<p:commandButton value="Incluir arquivo" ajax="false"
+							update="@form" actionListener="#{equipamentoBean.upload()}"
+							disabled="false" />
 					</h:panelGrid>
+
+									<br></br>
+
+					<p:commandButton value="Incluir"
+						action="#{equipamentoBean.incluir}" process="@form" update="@form"
+						icon="fa fa-fw fa-save" />
+
 
 					<p:messages id="msg" autoUpdate="true" showDetail="true"
 						closable="true" style="60%">
