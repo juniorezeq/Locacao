@@ -8,11 +8,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.model.UploadedFile;
-
 import br.com.klund.locacao.modelo.dao.EquipamentoDao;
+import br.com.klund.locacao.modelo.dao.FornecedorDao;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
+import br.com.klund.locacao.modelo.negocio.Fornecedor;
 import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.validador.EquipamentoValidador;
 
@@ -31,11 +30,14 @@ public class EquipamentoBean implements Serializable {
 	@Inject
 	private Equipamento selecionado = new Equipamento();
 	private String buscar;
+	private String buscarFornecedor;
 	@Inject
 	private EquipamentoValidador equipamentoValidador;
-	private UploadedFile file;
-	private List<UploadedFile> arquivos = new ArrayList<UploadedFile>();
-
+	@Inject
+	private Fornecedor fornecedor;
+	@Inject
+	private FornecedorDao fornecedorDao;
+	
 
 	@PostConstruct
 	public void init() {
@@ -64,24 +66,36 @@ public class EquipamentoBean implements Serializable {
 		return lista;
 	}
 
-	
 	@Transacional
 	public List<Equipamento> listarDisponiveis() {
 		List<Equipamento> lista = new ArrayList<Equipamento>();
 		lista = equipamentoDao.equipamentosDisponiveis();
 		return lista;
 	}
+	
+	@Transacional
+	public String checarCnpj() {
+		Fornecedor fornecedorbuscaDao = fornecedorDao.buscaCnpj(buscarFornecedor);
+		if (fornecedorbuscaDao == null) {
+			mensagemErro("Fornecedor não foi encontrado verifique o CNPJ digitado");			
+            return null;
+            }
+		System.out.println(fornecedorbuscaDao.getCnpj());
+		fornecedor = fornecedorbuscaDao;
+		return null;
+	}
 
 	@Transacional
-	public void incluir() {	
-				if (equipamentoValidador.naoPodeIncluir(equipamento)) {
-				mensagemErro(equipamentoValidador.getMensagem());
-				return;
-			} else {
-				equipamentoDao.adiciona(equipamento);
-				equipamento = new Equipamento();
-				mensagemSucesso("cadastrado com sucesso.");
-			}			
+	public void incluir() {
+		equipamento.setFornecedor(fornecedor);
+		if (equipamentoValidador.naoPodeIncluir(equipamento)) {
+			mensagemErro(equipamentoValidador.getMensagem());
+			return;
+		} else {
+			equipamentoDao.adiciona(equipamento);
+			equipamento = new Equipamento();
+			mensagemSucesso("cadastrado com sucesso.");
+		}
 	}
 
 	@Transacional
@@ -156,8 +170,6 @@ public class EquipamentoBean implements Serializable {
 	public void setEquipamento(Equipamento equipamento) {
 		this.equipamento = equipamento;
 	}
-	
-	
 
 	public Equipamento getSelecionado() {
 		return selecionado;
@@ -170,34 +182,29 @@ public class EquipamentoBean implements Serializable {
 	public void onSelect(Equipamento equipamento) {
 		selecionado = new Equipamento();
 		selecionado = equipamento;
-	System.out.println(selecionado.getTag());
+		System.out.println(selecionado.getTag());
 	}
-	 
-	  public void onDeselect(Equipamento equipamento) {
-	    equipamento = new Equipamento();
-	  }
-		
-	  public UploadedFile getFile() {
-	        return file;
-	    }
-	 
-	    public void setFile(UploadedFile file) {
-	        this.file = file;
-	    }
-	     
-	    
-	    public void upload() {    		
-	    	arquivos.add(file);
-	      mensagemSucesso("Sucesso");
-	    }
 
-		public List<UploadedFile> getArquivos() {
-			return arquivos;
-		}
-
-		public void setArquivos(List<UploadedFile> arquivos) {
-			this.arquivos = arquivos;
-		}
-
-	    
+	public void onDeselect(Equipamento equipamento) {
+		equipamento = new Equipamento();
 	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
+	public String getBuscarFornecedor() {
+		return buscarFornecedor;
+	}
+
+	public void setBuscarFornecedor(String buscarFornecedor) {
+		this.buscarFornecedor = buscarFornecedor;
+	}
+	
+	
+	
+}

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.modelo.dao.UsuarioDao;
+import br.com.klund.locacao.modelo.negocio.TipoUsuario;
 import br.com.klund.locacao.modelo.negocio.Usuario;
 
 
@@ -129,6 +130,14 @@ public class LoginBean implements Serializable {
 		LoginBean.logado = logado;
 	}
 
-	
+	@Transacional
+	public boolean admin() {
+		boolean retorno = false;
+		if(logado.getTipoUsuario().equals(TipoUsuario.Administrador)) {
+			retorno = true;
+		}
+		return retorno;
+	}
+
 	
 }

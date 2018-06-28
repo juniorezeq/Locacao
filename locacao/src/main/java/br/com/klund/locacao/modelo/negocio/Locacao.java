@@ -2,6 +2,7 @@ package br.com.klund.locacao.modelo.negocio;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -24,6 +26,8 @@ public class Locacao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_locacao")
 	private Long id;
+	@Column(name = "codigo", length = 80, nullable = false, unique = true)
+	private String codigo;
 	@Column(nullable = false, insertable = true, updatable = false)
 	private Date dataInicio;
 	@Column(insertable = true, updatable = true)
@@ -36,8 +40,19 @@ public class Locacao implements Serializable {
 	@Column (name = "tipoLocacao")
 	private TipoLocacao tipoLocacao;
 	private StatusLocacao statusLocacao;
+	@ManyToMany
+	@JoinColumn(name = "id_locacao", referencedColumnName = "id_locacao")
+	private List<Equipamento> equipamentos;
 	
-	
+		
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
 	public TipoLocacao getTipoLocacao() {
 		return tipoLocacao;
 	}
@@ -54,8 +69,7 @@ public class Locacao implements Serializable {
 		this.valorLocacao = valorLocacao;
 	}
 
-	@ManyToMany
-	private List<Equipamento> equipamentos;
+	
 
 	public List<Equipamento> getEquipamentos() {
 		return equipamentos;
@@ -64,9 +78,6 @@ public class Locacao implements Serializable {
 	public void setEquipamentos(List<Equipamento> equipamentos) {
 		this.equipamentos = equipamentos;
 	}
-
-
-	
 	
 	public Date getDataInicio() {
 		return dataInicio;
@@ -119,7 +130,15 @@ public class Locacao implements Serializable {
 	public void setStatusLocacao(StatusLocacao statusLocacao) {
 		this.statusLocacao = statusLocacao;
 	}
-	
-	
+		
+		
+	public void addEquipamento(Equipamento equipamentoAdicionar) {
+		if(equipamentos.isEmpty()) {
+			equipamentos = new ArrayList<Equipamento>();
+		}
+		
+		equipamentos.add(equipamentoAdicionar);
+	}
+
 
 	}

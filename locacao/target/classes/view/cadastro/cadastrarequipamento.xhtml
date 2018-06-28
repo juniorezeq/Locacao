@@ -9,7 +9,6 @@
 <h:body>
 
 	<ui:composition template="/view/layout/Layout.xhtml">
-
 		<ui:define name="content">
 			<p:fieldset legend="Cadastro Equipamento" toggleable="true"
 				toggleSpeed="500" style="font-size: 12px">
@@ -35,7 +34,6 @@
 						<p:inputText id="cadastroElev"
 							value="#{equipamentoBean.equipamento.elevacao}" size="20" />
 
-
 						<p:outputLabel value="Diária Mensal:" for="cadastroDM" />
 						<p:inputText id="cadastroDM"
 							value="#{equipamentoBean.equipamento.precoDiariaMensal}"
@@ -45,7 +43,6 @@
 						<p:inputText id="cadastroQz"
 							value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
 							size="20" />
-
 
 						<p:outputLabel value="Validade Cerificação: " for="validade" />
 						<p:calendar id="validade"
@@ -71,28 +68,28 @@
 						<p:inputText id="cadastroNF"
 							value="#{equipamentoBean.equipamento.valorNota}" size="20" />
 
+						<p:outputLabel value="CNPJ do Proprietário:" for="cadastroCNPJ" />
+						<p:inputMask id="cadastroCNPJ" mask="99.999.999/9999-99"
+							value="#{equipamentoBean.buscarFornecedor}" size="20">
+							<p:ajax event="change" listener="#{equipamentoBean.checarCnpj()}"
+								update="cadastroFornecedor" />
+						</p:inputMask>
+						<p:outputLabel value="Proprietário Equipamento:"
+							for="cadastroFornecedor" />
+						<p:outputLabel id="cadastroFornecedor"
+							value="#{equipamentoBean.fornecedor.nome}" for="cadastroNF" />
+						<br></br>
 
-						<p:fileUpload value="#{equipamentoBean.file}"
-							allowTypes="/(\.|\/)(pdf)$/" mode="simple" skinSimple="true" />
+						<p:commandButton value="Incluir"
+							action="#{equipamentoBean.incluir}" process="@form"
+							update="@form" icon="fa fa-fw fa-save" />
 
-						<p:commandButton value="Incluir arquivo" ajax="false"
-							update="@form" actionListener="#{equipamentoBean.upload()}"
-							disabled="false" />
 					</h:panelGrid>
-
-									<br></br>
-
-					<p:commandButton value="Incluir"
-						action="#{equipamentoBean.incluir}" process="@form" update="@form"
-						icon="fa fa-fw fa-save" />
-
-
-					<p:messages id="msg" autoUpdate="true" showDetail="true"
-						closable="true" style="60%">
-						<p:effect type="pulsate" event="load" delay="500" />
-					</p:messages>
 				</h:form>
-
+				<p:messages id="msg" autoUpdate="true" showDetail="true"
+					closable="true" style="60%">
+					<p:effect type="pulsate" event="load" delay="500" />
+				</p:messages>
 			</p:fieldset>
 
 		</ui:define>

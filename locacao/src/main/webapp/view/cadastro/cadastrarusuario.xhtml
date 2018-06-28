@@ -15,10 +15,12 @@
 				toggleSpeed="500"  style="font-size: 12px">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
+					
 						<p:outputLabel value="Nome Usuario:" for="cadastroNome" />
 
 						<p:inputText id="cadastroNome"
-							value="#{usuarioBean.usuario.login}" size="20" />
+							value="#{usuarioBean.usuario.login}" size="20" >
+							</p:inputText>
 
 						<p:outputLabel value="Senha:" for="cadastroSenha" />
 						<p:inputText id="cadastroSenha"
@@ -35,7 +37,7 @@
 							<f:selectItem itemLabel="Cliente" itemValue="Cliente" />
 						</p:selectOneMenu>
 
-						<p:commandButton value="Incluir" action="#{usuarioBean.incluir}"
+						<p:commandButton id="incluir" enabled="#{loginBean.admin}" value="Incluir" action="#{usuarioBean.incluir}"
 							process="@form" update="@form" icon="fa fa-fw fa-save" />
 											</h:panelGrid>
 											

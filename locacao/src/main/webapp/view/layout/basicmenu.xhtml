@@ -10,6 +10,14 @@
 	<ui:composition>
 		<h:form>
 			<p:menu  style="font-size: 12px">
+			<p:submenu label="Fornecedor">
+					<p:menuitem value="Novo"
+						action="#{fornecedorBean.iniciarCadastro()}"
+						icon="fa fa-fw fa-user-plus" />
+					<p:menuitem value="listar"
+						action="#{fornecedorBean.listaFornecedor()}"
+						icon="fa fa-fw fa-align-justify" />
+				</p:submenu>
 				<p:submenu label="Equipamento">
 					<p:menuitem value="Novo" action="#{equipamentoBean.iniciarCadastro()}" icon="fa fa-fw fa-plus" />
 					<p:menuitem value="Listar" action="#{equipamentoBean.listarCadastro()}"
@@ -18,7 +26,8 @@
 						icon="fa fa-fw fa-gears" />
 				</p:submenu>
 				<p:submenu label="Locacão">
-					<p:menuitem value="Nova" action="#" icon="fa fa-fw fa-calendar" />
+					<p:menuitem value="Nova" action="#{locacaoBean.iniciarCadastro()}" icon="fa fa-fw fa-calendar" />
+					<p:menuitem value="Alterar" action="#{locacaoBean.alterarLocacao()}" icon="fa fa-fw fa-calendar" />
 				</p:submenu>
 				<p:submenu label="Cliente">
 					<p:menuitem value="Novo Cliente" action="#{clienteBean.iniciarCadastro()}"

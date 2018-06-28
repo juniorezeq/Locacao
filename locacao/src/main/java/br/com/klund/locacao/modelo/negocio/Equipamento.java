@@ -3,13 +3,20 @@ package br.com.klund.locacao.modelo.negocio;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 
 
 @Entity
@@ -42,7 +49,14 @@ public class Equipamento implements Serializable {
 	private Date validadeCertificacao;
 	@Column(name = "elevacao", length = 20)
 	private String elevacao;
+	@ManyToMany
+	@JoinColumn(name = "id_equipamento", referencedColumnName = "id_equipamento")
+	private List<Locacao> locacoes;
+	@ManyToOne
+	@JoinColumn(name = "id_fornecedor", referencedColumnName = "id_fornecedor")
+	private Fornecedor fornecedor;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -50,8 +64,15 @@ public class Equipamento implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	
+	public List<Locacao> getLocacoes() {
+		return locacoes;
+	}
+
+	public void setLocacoes(List<Locacao> locacoes) {
+		this.locacoes = locacoes;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -164,5 +185,19 @@ public class Equipamento implements Serializable {
 	     return dataFormatada;
 	}
 
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
+	@Override
+	public String toString() {
+		return "Tag: " + tag + ", descricao: " + descricao + ", swl: " + swl;
+	}
+
+	
 	
 }

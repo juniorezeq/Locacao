@@ -53,6 +53,10 @@
 							<p:column headerText="Status" resizable="true">
 								<h:outputText value="#{car.status}" />
 							</p:column>
+							
+								<p:column headerText="Status" resizable="true">
+								<h:outputText value="#{car.fornecedor.fantasia}" />
+							</p:column>
 
 							<p:column style="width:42px;text-align: center">
 								<p:commandButton update=":form:carDetail"
@@ -108,16 +112,51 @@
 
 									</p:calendar>
 
+									<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
+									<p:selectOneMenu id="cadastroStatus"
+										value="#{equipamentoBean.equipamento.status}"
+										style="width:150px">
+										<f:selectItem itemLabel="Status Atual" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItem itemLabel="Disponível" itemValue="Disponivel" />
+										<f:selectItem itemLabel="Manutenção" itemValue="Manutenção" />
+										<f:selectItem itemLabel="Locado" itemValue="Locado" />
+										<f:selectItem itemLabel="Obsoleto" itemValue="Obsoleto" />
+										<f:selectItem itemLabel="Equipamento de Terceiros"
+											itemValue="EquipamentoTerceiros" />
+									</p:selectOneMenu>
+
+									<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
+									<p:inputText id="cadastroNF"
+										value="#{equipamentoBean.equipamento.valorNota}" size="20" />
+
+									<p:outputLabel value="CNPJ do Proprietário:" for="cadastroCNPJ" />
+									<p:inputMask id="cadastroCNPJ" mask="99.999.999/9999-99"
+										value="#{equipamentoBean.buscarFornecedor}" size="20">
+										<p:ajax event="change"
+											listener="#{equipamentoBean.checarCnpj()}"
+											update="cadastroFornecedor" />
+									</p:inputMask>
+									<p:outputLabel value="Proprietário Equipamento:"
+										for="cadastroFornecedor" />
+									<p:outputLabel id="cadastroFornecedor"
+										value="#{equipamentoBean.fornecedor.nome}" for="cadastroNF" />
+									<br></br>
+
 									<p:commandButton value="Alterar" update="@all"
 										action="#{equipamentoBean.atualizaEquipamento()}"
 										styleClass="ui-priority-primary" />
 								</p:panelGrid>
 							</p:outputPanel>
 						</p:dialog>
-						<p:messages id="msg" />
+						
 					</h:form>
 
 				</h:panelGrid>
+				<p:messages id="msg" autoUpdate="true" showDetail="true"
+						closable="true" style="60%">
+						<p:effect type="pulsate" event="load" delay="500" />
+					</p:messages>
 			</p:fieldset>
 		</ui:define>
 	</ui:composition>
