@@ -47,13 +47,13 @@
 
 
 						<p:commandButton value="Apagar Usuario"
-							action="#{usuarioBean.destroyWorld}" update="msg">
+							action="#{usuarioBean.apagarUsuario()}" update="@all">
 							<p:confirm header="Confirmation" message="Are you sure?"
 								icon="ui-icon-alert" />
 						</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="font-size: 12px">
-							<p:commandButton value="Yes" type="button"
+							<p:commandButton  value="Yes" type="button"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 							<p:commandButton value="No" type="button"
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

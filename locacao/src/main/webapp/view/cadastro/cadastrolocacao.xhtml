@@ -18,43 +18,89 @@
 
 						<p:outputLabel value="Código Locação:" for="cadastroCod" />
 						<p:inputText id="cadastroCod"
-							value="#{locacaoBean.locacao.codigo}" size="20">
+							value="#{locacaoBean.locacao.codigo}" size="20" required="true">
 						</p:inputText>
-											
-						<p:outputLabel value="Tag Equipamento:" for="buscaTag">
-						</p:outputLabel>
-						<p:inputText id="buscaTag" value="#{locacaoBean.tag}"
-							size="20">
-							<p:ajax event="change" listener="#{locacaoBean.buscaPorTag()}"
-								update=":cadastro" />
-						</p:inputText>
-						
-								
+						<p:outputLabel value="Cliente - CNPJ:" for="cadastroCNPJ" />
+						<p:inputMask id="cadastroCNPJ" mask="99.999.999/9999-99"
+							title="Digite o CNPJ para buscar no cadastro de Clientes"
+							value="#{locacaoBean.buscarCliente}" size="20">
+							<p:ajax event="change" listener="#{locacaoBean.checarCnpj()}"
+								update="cadastroCliente" />
+						</p:inputMask>
+						<p:outputLabel value="Cliente:"
+							title="Quando Localizado no campo anterior, o nome do Cliente é exibido neste campo"
+							for="cadastroCliente" />
+						<p:outputLabel id="cadastroCliente"
+							value="#{locacaoBean.cliente.nome}" />
 
 						<p:outputLabel value="Data Inicio: " for="inicio" />
-						<p:calendar id="inicio" value="#{locacaoBean.locacao.dataInicio}"
-							pattern="dd/MM/yyyy">
+						<p:calendar required="true" id="inicio"
+							value="#{locacaoBean.locacao.dataInicio}" pattern="dd/MM/yyyy"
+							converter="LocalDateConverter">
 						</p:calendar>
 
-						<p:outputLabel value="Data Fim: " for="fim" />
-						<p:calendar id="fim" value="#{locacaoBean.locacao.dataFim}"
-							pattern="dd/MM/yyyy">
-						</p:calendar>
+						<p:outputLabel required="true" value="Tipo Locacao: "
+							for="TipoLocacao" />
+						<p:selectOneMenu id="TipoLocacao"
+							value="#{locacaoBean.locacao.tipoLocacao}" style="width:150px">
+							<f:selectItem itemLabel="Selecione o Tipo" itemValue=""
+								noSelectionOption="false" />
+							<f:selectItem itemLabel="Mensal" itemValue="Mensal" />
+							<f:selectItem itemLabel="Quinzenal" itemValue="Quinzenal" />
+							<f:selectItem itemLabel="Negociação Diferenciada"
+								itemValue="Diferenciado" />
+						</p:selectOneMenu>
 
+						<p:outputLabel value="Tag: " for="cadastroTag" />
+						<p:inputText id="cadastroTag"
+							title="Digite o Tag do equipamento para adicionar"
+							value="#{locacaoBean.tag}" size="20">
+							<p:ajax event="change" listener="#{locacaoBean.buscaPorTag()}"
+								update="cadastroEquipamento" />
+						</p:inputText>
+						<p:commandLink id="btnAdd"
+							actionListener="#{locacaoBean.addEquipamento()}" ajax="false">
+							<h:outputText value="Add Equipamento" />
+						</p:commandLink>
+						<p:outputLabel id="cadastroEquipamento"
+							value="#{locacaoBean.equipamento.descricao}" />
+
+
+						<br></br>
+
+						<p:dataTable resizable="true"
+							emptyMessage="Adicione os Itens que serão locados" id="basicDT"
+							var="car" value="#{locacaoBean.listaEquipamentos}">
+							<f:facet name="header"> Equipamentos </f:facet>
+							<p:column headerText="Tag" resizable="true">
+								<h:outputText value="#{car.tag}" />
+							</p:column>
+
+							<p:column headerText="descrição" resizable="true">
+								<h:outputText value="#{car.descricao}" />
+							</p:column>
+
+
+							<p:column headerText="SWL" resizable="true" sortBy="#{car.swl}">
+								<h:outputText value="#{car.swl}" />
+							</p:column>
+						</p:dataTable>
 
 						<p:commandButton id="incluir" value="Incluir"
 							action="#{locacaoBean.incluir()}" process="@form" update="@form"
 							icon="fa fa-fw fa-save" />
-					</h:panelGrid>
 
+						<p:outputLabel style="color:#ff0000;"
+							value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" />
+					</h:panelGrid>
 					<p:messages id="msg" autoUpdate="true" showDetail="true"
 						closable="true" style="60%">
 						<p:effect type="pulsate" event="load" delay="500" />
 					</p:messages>
+
 				</h:form>
 
 			</p:fieldset>
-
 		</ui:define>
 	</ui:composition>
 </h:body>

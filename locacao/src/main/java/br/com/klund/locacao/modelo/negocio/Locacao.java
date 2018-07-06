@@ -1,9 +1,9 @@
 package br.com.klund.locacao.modelo.negocio;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,9 +28,9 @@ public class Locacao implements Serializable {
 	@Column(name = "codigo", length = 80, nullable = false, unique = true)
 	private String codigo;
 	@Column(nullable = false, insertable = true, updatable = false)
-	private Date dataInicio;
+	private LocalDate dataInicio;
 	@Column(insertable = true, updatable = true)
-	private Date dataFim;
+	private LocalDate dataFim;
 	@Column(name = "valorLocacao")
 	private Double valorLocacao;
 	@ManyToOne
@@ -39,7 +38,7 @@ public class Locacao implements Serializable {
 	private Cliente cliente;
 	@Column (name = "tipoLocacao")
 	private TipoLocacao tipoLocacao;
-	private StatusLocacao statusLocacao;
+	private StatusLocacao status;
 	@ManyToMany
 	@JoinColumn(name = "id_locacao", referencedColumnName = "id_locacao")
 	private List<Equipamento> equipamentos;
@@ -79,19 +78,20 @@ public class Locacao implements Serializable {
 		this.equipamentos = equipamentos;
 	}
 	
-	public Date getDataInicio() {
+
+	public LocalDate getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(Date dataInicio) {
+	public void setDataInicio(LocalDate dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public Date getDataFim() {
+	public LocalDate getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(Date dataFim) {
+	public void setDataFim(LocalDate dataFim) {
 		this.dataFim = dataFim;
 	}
 
@@ -112,23 +112,19 @@ public class Locacao implements Serializable {
 	}
 	
 	public String dataInicioFormatada() {
-		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
-	     String dataFormatada = formatador.format(this.getDataInicio());
-	     return dataFormatada;
+		 return this.dataInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 	
 	public String dataFimFormatada() {
-		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
-	     String dataFormatada = formatador.format(this.getDataFim());
-	     return dataFormatada;
+		 return this.dataFim.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 
 	public StatusLocacao getStatusLocacao() {
-		return statusLocacao;
+		return status;
 	}
 
 	public void setStatusLocacao(StatusLocacao statusLocacao) {
-		this.statusLocacao = statusLocacao;
+		this.status = statusLocacao;
 	}
 		
 		

@@ -11,6 +11,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import br.com.klund.locacao.modelo.negocio.Equipamento;
 import br.com.klund.locacao.modelo.negocio.Locacao;
 
 
@@ -30,11 +31,11 @@ public class LocacaoDao implements Serializable {
 	@Inject
 	private EntityManager em;
 
-	public boolean existe(Locacao locacao) {
+	public boolean existe(String codigo) {
 		TypedQuery<Locacao> query = em.createQuery(" select u from Locacao u " + " where u.codigo = :pCodigo",
 				Locacao.class);
 
-		query.setParameter("pCodigo", locacao.getCodigo());
+		query.setParameter("pCodigo", codigo);
 		try {
 			@SuppressWarnings("unused")
 			Locacao resultado = query.getSingleResult();
@@ -84,10 +85,10 @@ public class LocacaoDao implements Serializable {
 		return lista;
 	}
 	
-	public List<Locacao> locacaosAtivas() {
+	public List<Locacao> locacoesAtivas() {
 		TypedQuery<Locacao> query = em.createQuery(
 				  " select u from Locacao u" + 
-				  " where u.statuslocacao = '0'", Locacao.class);
+				  " where u.status = '0'", Locacao.class);
 			try {
 			List<Locacao> resultado = query.getResultList();
 			return resultado;

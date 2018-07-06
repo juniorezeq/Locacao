@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:body>
+	<ui:composition template="/view/layout/Layout.xhtml">
+		<ui:define name="content">
+			<p:fieldset legend="Lista de Locacões Ativas" style="font-size: 10px"
+				toggleable="true">
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:form id="form">
+						<p:dataTable sortField="#{car.codigo}" resizable="true"
+							id="basicDT" var="car" value="#{locacaoBean.listarAtivas()}">
+							<f:facet name="header"> Locações Ativas no Sistema </f:facet>
+							<p:column width="15%" headerText="código Locacao"
+								resizable="true">
+								<h:outputText value="#{car.codigo}" />
+							</p:column>
+
+							<p:column headerText="Cliente" resizable="true">
+								<h:outputText value="#{car.cliente.nome}" />
+							</p:column>
+
+							<p:column width="15%" headerText="data Inicio" resizable="true">
+								<h:outputText value="#{car.dataInicioFormatada()}" />
+							</p:column>
+
+							<p:column width="10%" headerText="Tipo" resizable="true">
+								<h:outputText value="#{car.tipoLocacao}" />
+							</p:column>
+
+							<p:column width="10%" headerText="equipamentos"
+								style="width:42px;text-align: center">
+								<p:commandButton update=":form:carDetail"
+									oncomplete="PF('carDialog').show()" icon="fa fa-fw fa-list"
+									title="View">
+									<f:setPropertyActionListener value="#{car}"
+										target="#{locacaoBean.locacao}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+
+						<p:dialog
+							header="Lista de Equipamentos  - #{locacaoBean.locacao.codigo}"
+							widgetVar="carDialog" modal="true" showEffect="fade"
+							hideEffect="fade" resizable="false">
+							<p:outputPanel id="carDetail" style="text-align:center;">
+								<p:panelGrid columns="2"
+									rendered="#{not empty locacaoBean.locacao}">
+
+									<b:dataTable value="#{locacaoBean.locacao.equipamentos}"
+										lang="pt-br" var="car">
+										<b:dataTableColumn value="#{car.tag}" label="tag" />
+										<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
+										<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
+										<b:dataTableColumn value="#{car.swl}" label="SWL" order="asc" />
+										<b:dataTableColumn label="Validade Certificado"
+											value="#{car.validadeCertificacaoFormatada()}"
+											show-time="false" converter="LocalDateConverter" />
+										<b:dataTableColumn value="#{car.valorRealValorNF()}"
+											label="Valor NF" />
+										<b:dataTableColumn value="#{car.status}" label="Status" />
+										<b:dataTableColumn value="#{car.fornecedor.fantasia}"
+											label="Proprietário" />
+									</b:dataTable>
+
+
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:dialog>
+
+					</h:form>
+
+				</h:panelGrid>
+				<p:messages id="msg" autoUpdate="true" showDetail="true"
+					closable="true" style="60%">
+					<p:effect type="pulsate" event="load" delay="500" />
+				</p:messages>
+			</p:fieldset>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

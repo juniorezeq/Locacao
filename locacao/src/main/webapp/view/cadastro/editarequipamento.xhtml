@@ -14,7 +14,7 @@
 				toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form id="form">
-						<p:dataTable resizable="true" id="basicDT" var="car"
+						<p:dataTable sortField="#{car.tag}" resizable="true" id="basicDT" var="car"
 							value="#{equipamentoBean.listarTodos()}">
 							<f:facet name="header"> Equipamentos </f:facet>
 							<p:column headerText="Tag" resizable="true">
@@ -29,38 +29,38 @@
 								<h:outputText value="#{car.modelo}" />
 							</p:column>
 
-							<p:column headerText="SWL" resizable="true" sortBy="#{car.swl}">
+							<p:column headerText="SWL" resizable="true" >
 								<h:outputText value="#{car.swl}" />
 							</p:column>
 
 							<p:column headerText="Diária Mensal" resizable="true">
-								<h:outputText value="#{car.precoDiariaQuinzenal}" />
+								<h:outputText value="#{car.valorRealDiariaMensal()}" />
 							</p:column>
 
 
 							<p:column headerText="Diária Quinzenal" resizable="true">
-								<h:outputText value="#{car.precoDiariaMensal}" />
+								<h:outputText value="#{car.valorRealDiariaQuinzenal()}" />
 							</p:column>
 
 							<p:column headerText="Validade Certificação" resizable="true">
-								<h:outputText value="#{car.dataFormatada()}" />
+								<h:outputText  value="#{car.validadeCertificacaoFormatada()}" />
 							</p:column>
 
 							<p:column headerText="Valor NF" resizable="true">
-								<h:outputText value="#{car.valorNota}" />
+								<h:outputText value="#{car.valorRealValorNF()}" />
 							</p:column>
 
 							<p:column headerText="Status" resizable="true">
 								<h:outputText value="#{car.status}" />
 							</p:column>
 							
-								<p:column headerText="Status" resizable="true">
+								<p:column headerText="Proprietário" resizable="true">
 								<h:outputText value="#{car.fornecedor.fantasia}" />
 							</p:column>
 
 							<p:column style="width:42px;text-align: center">
 								<p:commandButton update=":form:carDetail"
-									oncomplete="PF('carDialog').show()" icon="ui-icon-search"
+									oncomplete="PF('carDialog').show()" icon="fa fa-fw fa-pencil"
 									title="View">
 									<f:setPropertyActionListener value="#{car}"
 										target="#{equipamentoBean.equipamento}" />
@@ -95,21 +95,19 @@
 										value="#{equipamentoBean.equipamento.elevacao}" size="20" />
 
 									<p:outputLabel value="Diária Mensal:" for="cadastroDM" />
-									<p:inputText id="cadastroDM"
+									<p:inputText mask="9.999.999,99" id="cadastroDM"
 										value="#{equipamentoBean.equipamento.precoDiariaMensal}"
-										size="20" />
+										size="20" > <f:convertNumber pattern="#,##0.00"></f:convertNumber></p:inputText>
 
 									<p:outputLabel value="Diária Quinzenal:" for="cadastroQz" />
 									<p:inputText id="cadastroQz"
 										value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
-										size="20" />
-
+										size="20"> <f:convertNumber pattern="#,##0.00"></f:convertNumber></p:inputText>
 
 									<p:outputLabel value="Validade Cerificação: " for="validade" />
 									<p:calendar id="validade"
 										value="#{equipamentoBean.equipamento.validadeCertificacao}"
-										pattern="dd/MM/yyyy">
-
+										pattern="dd/MM/yyyy" converter="LocalDateConverter">
 									</p:calendar>
 
 									<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
@@ -118,9 +116,9 @@
 										style="width:150px">
 										<f:selectItem itemLabel="Status Atual" itemValue=""
 											noSelectionOption="true" />
-										<f:selectItem itemLabel="Disponível" itemValue="Disponivel" />
+										<f:selectItem itemLabel="Disponível" itemValue="Disponível" />
 										<f:selectItem itemLabel="Manutenção" itemValue="Manutenção" />
-										<f:selectItem itemLabel="Locado" itemValue="Locado" />
+										<f:selectItem itemLabel="Alugado" itemValue="Alugado" />
 										<f:selectItem itemLabel="Obsoleto" itemValue="Obsoleto" />
 										<f:selectItem itemLabel="Equipamento de Terceiros"
 											itemValue="EquipamentoTerceiros" />
@@ -128,24 +126,17 @@
 
 									<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
 									<p:inputText id="cadastroNF"
-										value="#{equipamentoBean.equipamento.valorNota}" size="20" />
+										value="#{equipamentoBean.equipamento.valorNota}" size="20" ><f:convertNumber pattern="#,##0.00"></f:convertNumber></p:inputText>
 
-									<p:outputLabel value="CNPJ do Proprietário:" for="cadastroCNPJ" />
-									<p:inputMask id="cadastroCNPJ" mask="99.999.999/9999-99"
-										value="#{equipamentoBean.buscarFornecedor}" size="20">
-										<p:ajax event="change"
-											listener="#{equipamentoBean.checarCnpj()}"
-											update="cadastroFornecedor" />
-									</p:inputMask>
-									<p:outputLabel value="Proprietário Equipamento:"
+								  	<p:outputLabel value="Proprietário Equipamento:"
 										for="cadastroFornecedor" />
 									<p:outputLabel id="cadastroFornecedor"
-										value="#{equipamentoBean.fornecedor.nome}" for="cadastroNF" />
-									<br></br>
-
-									<p:commandButton value="Alterar" update="@all"
-										action="#{equipamentoBean.atualizaEquipamento()}"
-										styleClass="ui-priority-primary" />
+										value="#{equipamentoBean.equipamento.fornecedor.nome}" for="cadastroNF" />
+							
+									<p:commandButton value="Alterar" action="#{equipamentoBean.atualizaEquipamento()}"
+										styleClass="ui-priority-primary" update="form" onsuccess="PF('carDialog').hide()"/>
+										<p:commandButton value="Apagar" action="#{equipamentoBean.apagarEquipamento()}"
+										styleClass="ui-priority-primary" update="form" onsuccess="PF('carDialog').hide()"/>
 								</p:panelGrid>
 							</p:outputPanel>
 						</p:dialog>

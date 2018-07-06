@@ -23,11 +23,12 @@
 					<p:menuitem value="Listar" action="#{equipamentoBean.listarCadastro()}"
 						icon="fa fa-fw fa-align-justify" />
 						<p:menuitem value="Editar" action="#{equipamentoBean.alterarCadastro()}"
-						icon="fa fa-fw fa-gears" />
+						icon="fa fa-fw fa-pencil" />
 				</p:submenu>
 				<p:submenu label="Locacão">
 					<p:menuitem value="Nova" action="#{locacaoBean.iniciarCadastro()}" icon="fa fa-fw fa-calendar" />
-					<p:menuitem value="Alterar" action="#{locacaoBean.alterarLocacao()}" icon="fa fa-fw fa-calendar" />
+					<p:menuitem value="Listar Ativas" action="#{locacaoBean.listarLocacao()}" icon="fa fa-fw fa-align-justify" />
+					<p:menuitem value="Alterar" action="#{locacaoBean.alterarLocacao()}" icon="fa fa-fw fa-pencil" />
 				</p:submenu>
 				<p:submenu label="Cliente">
 					<p:menuitem value="Novo Cliente" action="#{clienteBean.iniciarCadastro()}"

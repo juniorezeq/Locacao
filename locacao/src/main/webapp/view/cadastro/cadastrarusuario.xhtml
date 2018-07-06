@@ -18,12 +18,12 @@
 					
 						<p:outputLabel value="Nome Usuario:" for="cadastroNome" />
 
-						<p:inputText id="cadastroNome"
+						<p:inputText required="true" id="cadastroNome"
 							value="#{usuarioBean.usuario.login}" size="20" >
 							</p:inputText>
 
 						<p:outputLabel value="Senha:" for="cadastroSenha" />
-						<p:inputText id="cadastroSenha"
+						<p:inputText required="true"  id="cadastroSenha"
 							value="#{usuarioBean.usuario.senha}" size="20">
 						</p:inputText>
 

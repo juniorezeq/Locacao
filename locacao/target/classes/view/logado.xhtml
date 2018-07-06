@@ -35,13 +35,13 @@
 							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
 							<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
 							<b:dataTableColumn value="#{car.swl}" label="SWL" />
-							<b:dataTableColumn value="#{car.precoDiariaMensal}"
+							<b:dataTableColumn value="#{car.valorRealDiariaMensal()}"
 								label="Diária/Mês" />
-							<b:dataTableColumn value="#{car.precoDiariaQuinzenal}"
+							<b:dataTableColumn value="#{car.valorRealDiariaQuinzenal()}"
 								label="Diária/Quinzenal" />
-							<b:dataTableColumn value="#{car.dataFormatada()}"
-								label="Certificação" />
-							<b:dataTableColumn value="#{car.valorNota}" label="Valor NF" />
+							<b:dataTableColumn value="#{car.validadeCertificacaoFormatada()}"
+								label="Validadde da Certificação" />
+							<b:dataTableColumn value="#{car.valorRealValorNF()}" label="Valor NF" />
 							<b:dataTableColumn value="#{car.status}" label="Status" />
 						</b:dataTable>
 					</h:panelGrid>

@@ -146,7 +146,7 @@ public class UsuarioBean implements Serializable {
 	}
 	
 	 public void destroyWorld() {
-	       System.out.println(usuario.toString());
+	       apagarUsuario();
 	    }
 	     
 	 

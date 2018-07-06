@@ -10,45 +10,66 @@
 
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
+		<h:form>
 			<p:fieldset legend="Cadastro Equipamento" toggleable="true"
 				toggleSpeed="500" style="font-size: 12px">
-				<h:form>
+				
 					<h:panelGrid columns="2" cellpadding="5">
 						<p:outputLabel value="Tag:" for="cadastroTag" />
 						<p:inputText id="cadastroTag"
-							value="#{equipamentoBean.equipamento.tag}" size="20" />
+							value="#{equipamentoBean.equipamento.tag}" required="true"
+							title="Tag do Equipamento a cadastrar" size="20" />
 
 						<p:outputLabel value="Modelo:" for="cadastroModelo" />
 						<p:inputText id="cadastroModelo"
-							value="#{equipamentoBean.equipamento.modelo}" size="20" />
+							value="#{equipamentoBean.equipamento.modelo}" required="true"
+							title="Modelo do Equipamento a cadastrar" size="20" />
 
 						<p:outputLabel value="Descrição:" for="cadastroDescricao" />
 						<p:inputText id="cadastroDescricao"
-							value="#{equipamentoBean.equipamento.descricao}" size="20" />
+							value="#{equipamentoBean.equipamento.descricao}" required="true"
+							title="Descrição do Equipamento a cadastrar" size="20" />
 
 						<p:outputLabel value="SWL: " for="cadastroSWL" />
 						<p:inputText id="cadastroSWL"
-							value="#{equipamentoBean.equipamento.swl}" size="20" />
+							value="#{equipamentoBean.equipamento.swl}" required="true"
+							title="Capacidade do Equipamento a cadastrar" size="20" />
 
 						<p:outputLabel value="Elevação Corrente:" for="cadastroElev" />
 						<p:inputText id="cadastroElev"
-							value="#{equipamentoBean.equipamento.elevacao}" size="20" />
+							value="#{equipamentoBean.equipamento.elevacao}"
+							title="Em caso de Talhas, favor informar a elevação" size="20" />
 
 						<p:outputLabel value="Diária Mensal:" for="cadastroDM" />
-						<p:inputText id="cadastroDM"
+						<p:inputMask mask="99.999,99" required="true"
+							title=" Exemplo 85.520,00 - centavos após a vírgula"
+							id="cadastroDM"
 							value="#{equipamentoBean.equipamento.precoDiariaMensal}"
-							size="20" />
+							size="20">
+							<f:convertNumber pattern="#,##0.00" required="true"></f:convertNumber>
+						</p:inputMask>
 
 						<p:outputLabel value="Diária Quinzenal:" for="cadastroQz" />
-						<p:inputText id="cadastroQz"
+						<p:inputMask mask="99.999,99" required="true"
+							title=" Exemplo 85.520,00 - centavos após a vírgula"
+							id="cadastroQz"
 							value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
-							size="20" />
+							size="20">
+							<f:convertNumber pattern="#,##0.00" required="true"></f:convertNumber>
+						</p:inputMask>
+
+						<p:outputLabel value="Data Cerificação: " for="dataCert" />
+						<p:calendar id="dataCert"
+							value="#{equipamentoBean.equipamento.dataCertificacao}"
+							pattern="dd/MM/yyyy" converter="LocalDateConverter"
+							title="Data da última certificação">
+						</p:calendar>
 
 						<p:outputLabel value="Validade Cerificação: " for="validade" />
 						<p:calendar id="validade"
 							value="#{equipamentoBean.equipamento.validadeCertificacao}"
-							pattern="dd/MM/yyyy">
-
+							pattern="dd/MM/yyyy" converter="LocalDateConverter"
+							title="Váliadade da certificação">
 						</p:calendar>
 
 						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
@@ -56,42 +77,54 @@
 							value="#{equipamentoBean.equipamento.status}" style="width:150px">
 							<f:selectItem itemLabel="Status Atual" itemValue=""
 								noSelectionOption="true" />
-							<f:selectItem itemLabel="Disponível" itemValue="Disponivel" />
+							<f:selectItem itemLabel="Disponível" itemValue="Disponível" />
 							<f:selectItem itemLabel="Manutenção" itemValue="Manutenção" />
-							<f:selectItem itemLabel="Locado" itemValue="Locado" />
+							<f:selectItem itemLabel="Alugado" itemValue="Alugado" />
 							<f:selectItem itemLabel="Obsoleto" itemValue="Obsoleto" />
 							<f:selectItem itemLabel="Equipamento de Terceiros"
 								itemValue="EquipamentoTerceiros" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
-						<p:inputText id="cadastroNF"
-							value="#{equipamentoBean.equipamento.valorNota}" size="20" />
+						<p:inputMask mask="9.999.999,99" id="cadastroNF"
+							value="#{equipamentoBean.equipamento.valorNota}" required="true"
+							title=" Exemplo 1.885.520,00 - centavos após a vírgula" size="20">
+							<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+						</p:inputMask>
 
 						<p:outputLabel value="CNPJ do Proprietário:" for="cadastroCNPJ" />
 						<p:inputMask id="cadastroCNPJ" mask="99.999.999/9999-99"
+							title="Digite o CNPJ para buscar no cadastro de fornecedores"
 							value="#{equipamentoBean.buscarFornecedor}" size="20">
 							<p:ajax event="change" listener="#{equipamentoBean.checarCnpj()}"
 								update="cadastroFornecedor" />
 						</p:inputMask>
 						<p:outputLabel value="Proprietário Equipamento:"
+							title="Quando Localizado no campo anterior, o nome do Fornecedor é exibido neste campo"
 							for="cadastroFornecedor" />
 						<p:outputLabel id="cadastroFornecedor"
 							value="#{equipamentoBean.fornecedor.nome}" for="cadastroNF" />
-						<br></br>
 
-						<p:commandButton value="Incluir"
+						<br></br>
+						<p:outputLabel style="color:#ff0000;"
+							value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" />
+
+
+					</h:panelGrid>
+<p:commandButton id="btnIncluir" value="Incluir Equipamento"
 							action="#{equipamentoBean.incluir}" process="@form"
 							update="@form" icon="fa fa-fw fa-save" />
 
-					</h:panelGrid>
-				</h:form>
-				<p:messages id="msg" autoUpdate="true" showDetail="true"
-					closable="true" style="60%">
-					<p:effect type="pulsate" event="load" delay="500" />
-				</p:messages>
-			</p:fieldset>
 
+					<p:messages id="msg" autoUpdate="true" showDetail="true"
+						closable="true" style="60%">
+						<p:effect type="pulsate" event="load" delay="500" />
+					</p:messages>
+					
+					
+			</p:fieldset>
+			
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

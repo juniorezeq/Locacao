@@ -1,11 +1,11 @@
 package br.com.klund.locacao.modelo.negocio;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -38,15 +37,17 @@ public class Equipamento implements Serializable {
 	@Column(name = "tag", length = 20, nullable = false, unique= true)
 	private String tag;
 	@Column(name = "valorNota")
-	private float valorNota;
+	private Float valorNota;
 	@Column(name = "precoDiariaMensal")
-	private float precoDiariaMensal;
+	private Float precoDiariaMensal;
 	@Column(name = "precoDiariaQuinzenal")
-	private float precoDiariaQuinzenal;
+	private Float precoDiariaQuinzenal;
 	@Column (name = "status")
 	private StatusEquipamento status;
+	@Column (name = "dataCertificacao")
+	private LocalDate dataCertificacao;
 	@Column (name = "validadeCertificacao")
-	private Date validadeCertificacao;
+	private LocalDate validadeCertificacao;
 	@Column(name = "elevacao", length = 20)
 	private String elevacao;
 	@ManyToMany
@@ -130,28 +131,27 @@ public class Equipamento implements Serializable {
 		this.tag = tag;
 	}
 
-	
-	public float getValorNota() {
+	public Float getValorNota() {
 		return valorNota;
 	}
 
-	public void setValorNota(float valorNota) {
+	public void setValorNota(Float valorNota) {
 		this.valorNota = valorNota;
 	}
 
-	public float getPrecoDiariaMensal() {
+	public Float getPrecoDiariaMensal() {
 		return precoDiariaMensal;
 	}
 
-	public void setPrecoDiariaMensal(float precoDiariaMensal) {
+	public void setPrecoDiariaMensal(Float precoDiariaMensal) {
 		this.precoDiariaMensal = precoDiariaMensal;
 	}
 
-	public float getPrecoDiariaQuinzenal() {
+	public Float getPrecoDiariaQuinzenal() {
 		return precoDiariaQuinzenal;
 	}
 
-	public void setPrecoDiariaQuinzenal(float precoDiariaQuinzenal) {
+	public void setPrecoDiariaQuinzenal(Float precoDiariaQuinzenal) {
 		this.precoDiariaQuinzenal = precoDiariaQuinzenal;
 	}
 
@@ -163,11 +163,21 @@ public class Equipamento implements Serializable {
 		this.status = status;
 	}
 
-	public Date getValidadeCertificacao() {
+
+
+	public LocalDate getDataCertificacao() {
+		return dataCertificacao;
+	}
+
+	public void setDataCertificacao(LocalDate dataCertificacao) {
+		this.dataCertificacao = dataCertificacao;
+	}
+
+	public LocalDate getValidadeCertificacao() {
 		return validadeCertificacao;
 	}
 
-	public void setValidadeCertificacao(Date validadeCertificacao) {
+	public void setValidadeCertificacao(LocalDate validadeCertificacao) {
 		this.validadeCertificacao = validadeCertificacao;
 	}
 
@@ -179,12 +189,30 @@ public class Equipamento implements Serializable {
 		this.elevacao = elevacao;
 	}
 
-	public String dataFormatada() {
-		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
-	     String dataFormatada = formatador.format(this.getValidadeCertificacao());
-	     return dataFormatada;
+	public String valorRealDiariaMensal() {
+		NumberFormat formatoReal = NumberFormat.getCurrencyInstance();
+		return formatoReal.format(this.precoDiariaMensal);
+	}
+	
+	public String valorRealDiariaQuinzenal() {
+		NumberFormat formatoReal = NumberFormat.getCurrencyInstance();
+		return formatoReal.format(this.precoDiariaQuinzenal);
+	}
+	
+	
+	public String valorRealValorNF() {
+		NumberFormat formatoReal = NumberFormat.getCurrencyInstance();
+		return formatoReal.format(this.valorNota);
+	}
+	
+	public String validadeCertificacaoFormatada() {
+		 return this.validadeCertificacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 
+	public String dataCertificacaoFormatada() {
+		       return this.dataCertificacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	}
+	
 	public Fornecedor getFornecedor() {
 		return fornecedor;
 	}
@@ -198,6 +226,5 @@ public class Equipamento implements Serializable {
 		return "Tag: " + tag + ", descricao: " + descricao + ", swl: " + swl;
 	}
 
-	
 	
 }
