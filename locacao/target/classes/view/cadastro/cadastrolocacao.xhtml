@@ -14,6 +14,11 @@
 			<p:fieldset legend="Cadastro Locação" toggleable="true"
 				toggleSpeed="500" style="font-size: 12px">
 				<h:form id="cadastro">
+				<p:messages id="msg" autoUpdate="true" showDetail="true"
+						closable="true" style="60%">
+						<p:effect type="pulsate" event="load" delay="500" />
+					</p:messages>
+				
 					<h:panelGrid columns="2" cellpadding="5">
 
 						<p:outputLabel value="Código Locação:" for="cadastroCod" />
@@ -58,17 +63,14 @@
 							<p:ajax event="change" listener="#{locacaoBean.buscaPorTag()}"
 								update="cadastroEquipamento" />
 						</p:inputText>
-						<p:commandLink id="btnAdd"
+						<br></br>
+						<p:outputLabel id="cadastroEquipamento"
+							value="#{locacaoBean.equipamento.descricao} #{locacaoBean.equipamento.swl} #{locacaoBean.equipamento.status}" for="basicDT" />
+<p:commandLink id="btnAdd"
 							actionListener="#{locacaoBean.addEquipamento()}" ajax="false">
 							<h:outputText value="Add Equipamento" />
 						</p:commandLink>
-						<p:outputLabel id="cadastroEquipamento"
-							value="#{locacaoBean.equipamento.descricao}" />
-
-
-						<br></br>
-
-						<p:dataTable resizable="true"
+							<p:dataTable resizable="true"
 							emptyMessage="Adicione os Itens que serão locados" id="basicDT"
 							var="car" value="#{locacaoBean.listaEquipamentos}">
 							<f:facet name="header"> Equipamentos </f:facet>
@@ -85,19 +87,18 @@
 								<h:outputText value="#{car.swl}" />
 							</p:column>
 						</p:dataTable>
+						
+						<p:outputLabel value="Observação:" for="cadastroObs" />
+						<p:inputText id="cadastroObs" value="#{locacaoBean.locacao.observacoes}" size="120" />
 
 						<p:commandButton id="incluir" value="Incluir"
-							action="#{locacaoBean.incluir()}" process="@form" update="@form"
+							action="#{locacaoBean.incluir()}" process="@form" update="@all"
 							icon="fa fa-fw fa-save" />
 
 						<p:outputLabel style="color:#ff0000;"
 							value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" />
 					</h:panelGrid>
-					<p:messages id="msg" autoUpdate="true" showDetail="true"
-						closable="true" style="60%">
-						<p:effect type="pulsate" event="load" delay="500" />
-					</p:messages>
-
+					
 				</h:form>
 
 			</p:fieldset>

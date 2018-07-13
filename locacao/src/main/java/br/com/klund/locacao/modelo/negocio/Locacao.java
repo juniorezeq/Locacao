@@ -42,6 +42,8 @@ public class Locacao implements Serializable {
 	@ManyToMany
 	@JoinColumn(name = "id_locacao", referencedColumnName = "id_locacao")
 	private List<Equipamento> equipamentos;
+	private String observacoes;
+	@Column(length= 290, insertable = true, updatable = false)
 	
 		
 	public String getCodigo() {
@@ -70,6 +72,14 @@ public class Locacao implements Serializable {
 
 	
 
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
+	}
+
 	public List<Equipamento> getEquipamentos() {
 		return equipamentos;
 	}
@@ -78,6 +88,14 @@ public class Locacao implements Serializable {
 		this.equipamentos = equipamentos;
 	}
 	
+
+	public StatusLocacao getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusLocacao status) {
+		this.status = status;
+	}
 
 	public LocalDate getDataInicio() {
 		return dataInicio;

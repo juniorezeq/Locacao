@@ -5,28 +5,34 @@ import java.time.LocalDateTime;
 import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.klund.locacao.modelo.dao.UsuarioDao;
+import br.com.klund.locacao.modelo.negocio.TipoUsuario;
 import br.com.klund.locacao.modelo.negocio.Usuario;
 import br.com.klund.locacao.tx.Transacional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Named
 @ViewScoped
 public class UsuarioBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	@ManagedProperty(value = "#{loginBean}" )
 	@Inject
 	private UsuarioDao usuarioDao = new UsuarioDao();
 	@Inject
 	private Usuario usuario = new Usuario();
 	private String buscar;
+	
+
 
 	@PostConstruct
 	public void init() {
@@ -35,12 +41,22 @@ public class UsuarioBean implements Serializable {
 
 	@Transacional
 	public String iniciarCadastro() {
-		return "/view/cadastro/cadastrarusuario.xhtml?faces-redirect=true";
+		if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/cadastrarusuario.xhtml?faces-redirect=true";
+		}
+		
 	}
 
 	@Transacional
 	public String alterarCadastro() {
-		return "/view/cadastro/editarusuario.xhtml?faces-redirect=true";
+		if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/editarusuario.xhtml?faces-redirect=true";
+		}
+		
 	}
 
 	@Transacional
@@ -61,16 +77,22 @@ public class UsuarioBean implements Serializable {
 		if (usuario.getLogin().isEmpty() || usuario.getSenha().isEmpty()) {
 			mensagemErro("Todos os campos devem ser preenchidos");
 			return null;
-		}
-		boolean existe = usuarioDao.existeLogin(usuario.getLogin());
-		if (existe == false) {
-			usuarioDao.adiciona(usuario);
-			usuario = new Usuario();
-			mensagemSucesso("Cadastrado com sucesso");
+		}if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+			mensagemErro("Você não tem permissão para usar este recurso");
 			return null;
+		}else {
+			boolean existe = usuarioDao.existeLogin(usuario.getLogin());
+			if (existe == false) {
+				usuarioDao.adiciona(usuario);
+				usuario = new Usuario();
+				mensagemSucesso("Cadastrado com sucesso");
+				return null;
+			}
+			mensagemErro("Não foi possivel realizar o cadastro usuário já existe");
+			return null;
+			
 		}
-		mensagemErro("Não foi possivel realizar o cadastro usuário já existe");
-		return null;
+	
 	}
 
 	public Usuario getUsuario() {

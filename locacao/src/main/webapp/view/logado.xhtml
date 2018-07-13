@@ -29,7 +29,7 @@
 				toggleSpeed="500" style="font-size: 12px">
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
-						<b:dataTable value="#{equipamentoBean.listarDisponiveis()}"
+						<b:dataTable id="basicDT" value="#{equipamentoBean.listarDisponiveis()}"
 							var="car" style="font-size: 10px" >
 							<b:dataTableColumn value="#{car.tag}" order="asc" label="tag" />
 							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
@@ -44,6 +44,11 @@
 							<b:dataTableColumn value="#{car.valorRealValorNF()}" label="Valor NF" />
 							<b:dataTableColumn value="#{car.status}" label="Status" />
 						</b:dataTable>
+						<br></br>
+							<p:commandButton value="Imprimir" type="button"
+							icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+							<p:printer target="basicDT" />
+						</p:commandButton>
 					</h:panelGrid>
 				</h:form>
 			</p:fieldset>

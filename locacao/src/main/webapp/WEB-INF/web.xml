@@ -35,7 +35,7 @@
 		<param-value>true</param-value>
 	</context-param>
 
-	<!-- Especifica o tema que o Primefaces deve utilizar -->
+	<!-- Especifica o tema que o Primefaces deve utilizar Tema Utilizado start-->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>start</param-value>

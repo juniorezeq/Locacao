@@ -20,6 +20,7 @@ import br.com.klund.locacao.modelo.negocio.Locacao;
 import br.com.klund.locacao.modelo.negocio.StatusEquipamento;
 import br.com.klund.locacao.modelo.negocio.StatusLocacao;
 import br.com.klund.locacao.tx.Transacional;
+import br.com.klund.locacao.validador.LocacaoValidador;
 
 @Named
 @ViewScoped
@@ -44,6 +45,7 @@ public class LocacaoBean implements Serializable {
 	@Inject
 	private ClienteDao clienteDao = new ClienteDao();
 	private List<Equipamento> listaEquipamentos = new ArrayList<Equipamento>();
+	private LocacaoValidador locacaoValidador = new LocacaoValidador();
 
 	@PostConstruct
 	public void init() {
@@ -60,7 +62,18 @@ public class LocacaoBean implements Serializable {
 	public String listarLocacao() {
 		return "/view/cadastro/listalocacoes.xhtml?faces-redirect=true";
 	}
+	
+	@Transacional
+	public String finalizadas() {
+		return "/view/cadastro/listafinalizadas.xhtml?faces-redirect=true";
+	}
 
+
+	
+	@Transacional
+	public String finalizarLocacao() {
+		return "/view/cadastro/finalizarlocacao.xhtml?faces-redirect=true";
+	}
 	@Transacional
 	public String alterarLocacao() {
 		return "/view/cadastro/editarlocacao.xhtml?faces-redirect=true";
@@ -69,6 +82,13 @@ public class LocacaoBean implements Serializable {
 	@Transacional
 	public String limpar() {
 		locacao = new Locacao();
+		cliente = new Cliente();
+		tag = "";
+		codBuscar = "";
+		buscarCliente = "";
+		selecionado = new Cliente();
+		cliente = new Cliente();
+		listaEquipamentos = new ArrayList<Equipamento>();
 		return null;
 	}
 
@@ -89,8 +109,17 @@ public class LocacaoBean implements Serializable {
 		if (listaEquipamentos.isEmpty()) {
 			listaEquipamentos = new ArrayList<Equipamento>();
 		}
-		listaEquipamentos.add(equipamento);
-		equipamento = new Equipamento();
+		if (locacaoValidador.naopodeAddEquipamento(equipamento, listaEquipamentos)) {
+			mensagemErro(locacaoValidador.getMensagem());
+			return;
+		} else {
+			listaEquipamentos.add(equipamento);
+			mensagemSucesso("add com sucesso: " + equipamento.getTag());
+			equipamento = new Equipamento();
+			
+		}
+		
+			
 	}
 	
 	@Transacional
@@ -120,7 +149,7 @@ public class LocacaoBean implements Serializable {
 			locacao.setEquipamentos(listaEquipamentos);
 			locacaoDao.adiciona(locacao);
 			mensagemSucesso("Cadastrado com sucesso");
-			locacao = new Locacao();
+		    limpar();
 			return null;
 		}
 		mensagemErro("O Codigo informado pertence a outra locação cadastrada");
@@ -131,6 +160,13 @@ public class LocacaoBean implements Serializable {
 		for (int i = 0; i< listaEquipamentos.size(); i++) {
 			listaEquipamentos.get(i).setStatus(StatusEquipamento.Alugado);
 			equipamentoDao.atualiza(listaEquipamentos.get(i));
+		}
+	}
+	
+	public void disponilizarEquipamento(Locacao locacao) {
+		for (int i = 0; i< locacao.getEquipamentos().size(); i++) {
+			locacao.getEquipamentos().get(i).setStatus(StatusEquipamento.Disponível);
+			equipamentoDao.atualiza(locacao.getEquipamentos().get(i));
 		}
 	}
 	
@@ -151,6 +187,16 @@ public class LocacaoBean implements Serializable {
 	}
 	
 	@Transacional
+	public String FinalizarLocacao() {
+		disponilizarEquipamento(locacao);
+		locacao.setStatus(StatusLocacao.Finalizada);		
+		locacaoDao.atualiza(locacao);
+		mensagemSucesso("Finalizada Corretamente!");
+		locacao = new Locacao();
+		return null;
+	}
+	
+	@Transacional
 	public void selecionarCliente(Cliente clienteRec) {
 		this.cliente = clienteRec;
 	}
@@ -160,6 +206,13 @@ public class LocacaoBean implements Serializable {
 		List<Locacao> ativas = new ArrayList<Locacao>();
 		ativas = locacaoDao.locacoesAtivas();
 		return ativas;
+	}
+	
+	@Transacional
+	public List<Locacao> listarFinalizadas(){
+		List<Locacao> finalizadas = new ArrayList<Locacao>();
+		finalizadas = locacaoDao.locacosFinalizadas();
+		return finalizadas;
 	}
 
 	@Transacional

@@ -51,7 +51,7 @@ public class LoginBean implements Serializable {
 		
 	@Transacional
 	public String perfil(){
-		return "/view/perfil/perfil.xhtml?faces-redirect=true";
+		return "/view/perfil/perfil.xhtml";
 	}
 	
 	@Transacional
@@ -138,6 +138,5 @@ public class LoginBean implements Serializable {
 		}
 		return retorno;
 	}
-
 	
 }

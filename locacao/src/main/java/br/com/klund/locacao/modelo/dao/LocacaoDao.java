@@ -34,7 +34,6 @@ public class LocacaoDao implements Serializable {
 	public boolean existe(String codigo) {
 		TypedQuery<Locacao> query = em.createQuery(" select u from Locacao u " + " where u.codigo = :pCodigo",
 				Locacao.class);
-
 		query.setParameter("pCodigo", codigo);
 		try {
 			@SuppressWarnings("unused")
@@ -89,6 +88,18 @@ public class LocacaoDao implements Serializable {
 		TypedQuery<Locacao> query = em.createQuery(
 				  " select u from Locacao u" + 
 				  " where u.status = '0'", Locacao.class);
+			try {
+			List<Locacao> resultado = query.getResultList();
+			return resultado;
+		} catch (NoResultException ex) {
+		return null;
+		}
+	}
+	
+	public List<Locacao> locacosFinalizadas() {
+		TypedQuery<Locacao> query = em.createQuery(
+				  " select u from Locacao u" + 
+				  " where u.status = '1'", Locacao.class);
 			try {
 			List<Locacao> resultado = query.getResultList();
 			return resultado;

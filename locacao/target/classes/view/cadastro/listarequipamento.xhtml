@@ -15,7 +15,7 @@
 				toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form>
-						<b:dataTable value="#{equipamentoBean.listarTodos()}" var="car"
+						<b:dataTable id="basicDT" value="#{equipamentoBean.listarTodos()}"  var="car"
 							select="true" selectionMode="single"
 							onselect="ajax:equipamentoBean.onSelect(car);"
 							ondeselect="ajax:equipamentoBean.onDeselect(car);">
@@ -23,6 +23,7 @@
 							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
 							<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
 							<b:dataTableColumn value="#{car.swl}" label="SWL" order="asc"/>
+							<b:dataTableColumn value="#{car.elevacao}" label="Elevação" />
 							<b:dataTableColumn value="#{car.valorRealDiariaMensal()}"
 								label="Diária/Mês" />
 							<b:dataTableColumn value="#{car.valorRealDiariaQuinzenal()}"
@@ -32,6 +33,12 @@
 							<b:dataTableColumn value="#{car.status}" label="Status" />
 							<b:dataTableColumn value="#{car.fornecedor.fantasia}" label="Proprietário" />
 						</b:dataTable>
+					
+					<br></br>
+					<p:commandButton value="Imprimir" type="button"
+							icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+							<p:printer target="basicDT" />
+						</p:commandButton>
 					
 					</h:form>
 				</h:panelGrid>

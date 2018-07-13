@@ -14,7 +14,7 @@
 			<p:fieldset legend="Lista de Clientes" style="font-size: 10px" toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form>
-						<b:dataTable value="#{clienteBean.clientessCadastrados()}"
+						<b:dataTable id="dtCliente" value="#{clienteBean.clientessCadastrados()}"
 							var="car">
 							<b:dataTableColumn value="#{car.cnpj}" order="asc" />
 							<b:dataTableColumn value="#{car.nome}" />
@@ -25,6 +25,10 @@
 							<b:dataTableColumn value="#{car.uf}" />
 							<b:dataTableColumn value="#{car.telefone}" />
 										</b:dataTable>
+												<p:commandButton value="Imprimir" type="button" icon="ui-icon-print"
+							style="display:block;margin-bottom: 20px">
+							<p:printer target="dtCliente" />
+						</p:commandButton>
 					</h:form>
 				</h:panelGrid>
 			</p:fieldset>

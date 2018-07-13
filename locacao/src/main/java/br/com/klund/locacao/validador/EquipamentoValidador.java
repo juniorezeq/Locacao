@@ -50,7 +50,6 @@ public class EquipamentoValidador {
 			return teste;
 		}
 		
-		
 		return teste;
 	}
 

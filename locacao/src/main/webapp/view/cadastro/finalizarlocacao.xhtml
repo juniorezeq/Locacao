@@ -9,14 +9,13 @@
 <h:body>
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Locacões Ativas" style="font-size: 10px"
+			<p:fieldset legend="Finalizar Locação" style="font-size: 10px"
 				toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form id="form">
 						<p:dataTable sortField="#{car.codigo}" resizable="true"
 							id="basicDT" var="car" value="#{locacaoBean.listarAtivas()}">
-							<f:facet name="header"> Locações Ativas no Sistema
-							</f:facet>
+							<f:facet name="header"> Locações Ativas no Sistema </f:facet>
 							<p:column width="15%" headerText="código Locacao"
 								resizable="true">
 								<h:outputText value="#{car.codigo}" />
@@ -33,31 +32,21 @@
 							<p:column width="10%" headerText="Tipo" resizable="true">
 								<h:outputText value="#{car.tipoLocacao}" />
 							</p:column>
-
-							<p:column width="10%" headerText="observações"
-								style="width:42px;text-align: center">
-								<p:commandButton update=":form:obsDetail"
-									oncomplete="PF('obsDialog').show()" icon="fa fa-fw fa-list"
-									title="View">
-									<f:setPropertyActionListener value="#{car}"
-										target="#{locacaoBean.locacao}" />
-								</p:commandButton>
-							</p:column>
-
-							<p:column width="10%" headerText="equipamentos"
-								style="width:42px;text-align: center">
-								<p:commandButton update=":form:carDetail"
-									oncomplete="PF('carDialog').show()" icon="fa fa-fw fa-list"
-									title="View">
-									<f:setPropertyActionListener value="#{car}"
-										target="#{locacaoBean.locacao}" />
-								</p:commandButton>
-							</p:column>
 							
+								<p:column width="10%" headerText="equipamentos"
+								style="width:42px;text-align: center">
+								<p:commandButton update=":form:equipDetail"
+									oncomplete="PF('equipamentos').show()" icon="fa fa-fw fa-list"
+									title="View">
+									<f:setPropertyActionListener value="#{car}"
+										target="#{locacaoBean.locacao}" />
+								</p:commandButton>
+							</p:column>
+
 							<p:column width="10%" headerText="Finalizar"
 								style="width:42px;text-align: center">
-								<p:commandButton update=":form:finalizarDetail"
-									oncomplete="PF('finalizarDialog').show()" icon="fa fa-fw fa-money"
+								<p:commandButton update=":form:carDetail"
+									oncomplete="PF('carDialog').show()" icon="fa fa-fw fa-money"
 									title="View">
 									<f:setPropertyActionListener value="#{car}"
 										target="#{locacaoBean.locacao}" />
@@ -65,16 +54,35 @@
 							</p:column>
 						</p:dataTable>
 
-						<p:commandButton value="Imprimir" type="button"
-							icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-							<p:printer target="basicDT" />
-						</p:commandButton>
-
 						<p:dialog
 							header="Lista de Equipamentos  - #{locacaoBean.locacao.codigo}"
 							widgetVar="carDialog" modal="true" showEffect="fade"
 							hideEffect="fade" resizable="false">
 							<p:outputPanel id="carDetail" style="text-align:center;">
+								<p:panelGrid columns="2"
+									rendered="#{not empty locacaoBean.locacao}">
+
+									<p:outputLabel value="Data Finalização: " for="dataFim" />
+									<p:calendar  id="dataFim"
+										value="#{locacaoBean.locacao.dataFim}" pattern="dd/MM/yyyy"
+										converter="LocalDateConverter">
+									</p:calendar>
+									
+									<p:outputLabel value="Confirma: " for="dataFim" />
+									<p:commandButton
+									oncomplete="PF('carDialog').hide()" value="Confirmar" icon="fa fa-fw fa-check"
+									title="View" actionListener="#{locacaoBean.FinalizarLocacao()}" update="basicDT"/> 
+							
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:dialog>
+
+
+<p:dialog
+							header="Lista de Equipamentos  - #{locacaoBean.locacao.codigo}"
+							widgetVar="equipamentos" modal="true" showEffect="fade"
+							hideEffect="fade" resizable="false">
+							<p:outputPanel id="equipDetail" style="text-align:center;">
 								<p:panelGrid columns="2"
 									rendered="#{not empty locacaoBean.locacao}">
 
@@ -98,49 +106,6 @@
 								</p:panelGrid>
 							</p:outputPanel>
 						</p:dialog>
-
-
-						<p:dialog header="Observações" widgetVar="obsDialog" modal="true"
-							showEffect="fade" hideEffect="fade" resizable="false">
-							<p:outputPanel id="obsDetail" style="text-align:center;">
-								<p:panelGrid columns="2"
-									rendered="#{not empty locacaoBean.locacao}">
-
-
-									<h:outputText value="Observações: " />
-									<h:outputText value="#{locacaoBean.locacao.observacoes}"
-										style="font-weight: bold" />
-
-								</p:panelGrid>
-							</p:outputPanel>
-						</p:dialog>
-						
-						
-								<p:dialog
-							header="Lista de Equipamentos  - #{locacaoBean.locacao.codigo}"
-							widgetVar="finalizarDialog" modal="true" showEffect="fade"
-							hideEffect="fade" resizable="false">
-							<p:outputPanel id="finalizarDetail" style="text-align:center;">
-								<p:panelGrid columns="2"
-									rendered="#{not empty locacaoBean.locacao}">
-
-									<p:outputLabel value="Data Finalização: " for="dataFim" />
-									<p:calendar  id="dataFim"
-										value="#{locacaoBean.locacao.dataFim}" pattern="dd/MM/yyyy"
-										converter="LocalDateConverter">
-									</p:calendar>
-									
-									<p:outputLabel value="Confirma: " for="dataFim" />
-									<p:commandButton
-									oncomplete="PF('finalizarDialog').hide()" value="Confirmar" icon="fa fa-fw fa-check"
-									title="View" actionListener="#{locacaoBean.FinalizarLocacao()}" update="basicDT"/> 
-							
-								</p:panelGrid>
-							</p:outputPanel>
-						</p:dialog>
-						
-						
-
 					</h:form>
 
 				</h:panelGrid>
