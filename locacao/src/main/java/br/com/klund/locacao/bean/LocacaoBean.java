@@ -16,9 +16,11 @@ import br.com.klund.locacao.modelo.dao.EquipamentoDao;
 import br.com.klund.locacao.modelo.dao.LocacaoDao;
 import br.com.klund.locacao.modelo.negocio.Cliente;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
+import br.com.klund.locacao.modelo.negocio.Fornecedor;
 import br.com.klund.locacao.modelo.negocio.Locacao;
 import br.com.klund.locacao.modelo.negocio.StatusEquipamento;
 import br.com.klund.locacao.modelo.negocio.StatusLocacao;
+import br.com.klund.locacao.modelo.negocio.TipoUsuario;
 import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.validador.LocacaoValidador;
 
@@ -55,7 +57,12 @@ public class LocacaoBean implements Serializable {
 
 	@Transacional
 	public String iniciarCadastro() {
-		return "/view/cadastro/cadastrolocacao.xhtml?faces-redirect=true";
+		if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/cadastrolocacao.xhtml?faces-redirect=true";
+		}
+		
 	}
 
 	@Transacional
@@ -115,8 +122,7 @@ public class LocacaoBean implements Serializable {
 		} else {
 			listaEquipamentos.add(equipamento);
 			mensagemSucesso("add com sucesso: " + equipamento.getTag());
-			equipamento = new Equipamento();
-			
+			equipamento = new Equipamento();	
 		}
 		
 			
@@ -141,19 +147,27 @@ public class LocacaoBean implements Serializable {
 
 	@Transacional
 	public String incluir() {
-		boolean existe = locacaoDao.existe(locacao.getCodigo());
-		if (existe == false) {
-			locacao.setCliente(cliente);
+		locacao.setCliente(cliente);
+		locacao.setEquipamentos(listaEquipamentos);
+		if (locacaoValidador.naoPodeIncluir(locacao)) {
+			mensagemErro(locacaoValidador.getMensagem());
+			return null;
+		} else {
 			locacao.setStatusLocacao(StatusLocacao.Ativa);
 		    alugarEquipamento();
-			locacao.setEquipamentos(listaEquipamentos);
 			locacaoDao.adiciona(locacao);
 			mensagemSucesso("Cadastrado com sucesso");
 		    limpar();
 			return null;
 		}
-		mensagemErro("O Codigo informado pertence a outra locação cadastrada");
-		return null;
+		
+		
+		//boolean existe = locacaoDao.existe(locacao.getCodigo());
+		//if (existe == false) {
+			
+	//	}
+	//	mensagemErro("O Codigo informado pertence a outra locação cadastrada");
+		//return null;
 	}
 
 	public void alugarEquipamento() {

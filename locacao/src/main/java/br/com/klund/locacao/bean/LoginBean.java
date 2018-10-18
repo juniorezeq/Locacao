@@ -20,7 +20,6 @@ import br.com.klund.locacao.modelo.dao.UsuarioDao;
 import br.com.klund.locacao.modelo.negocio.TipoUsuario;
 import br.com.klund.locacao.modelo.negocio.Usuario;
 
-
 @Named
 @ViewScoped
 public class LoginBean implements Serializable {
@@ -28,14 +27,18 @@ public class LoginBean implements Serializable {
 	private static final String USUARIO_LOGADO = "usuarioLogado";
 	private static Usuario logado;
 
-
 	private static final long serialVersionUID = 1L;
 	@Inject
 	private HttpSession session;
 	@Inject
 	private UsuarioDao usuarioDao;
 	private Usuario usuario;
-	
+	private String senhaNova1;
+	private String senhaNova2;
+	private String senhaAtualBD;
+	private String senhaAtual;
+
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -48,15 +51,15 @@ public class LoginBean implements Serializable {
 			usuario = new Usuario();
 		}
 	}
-		
+
 	@Transacional
-	public String perfil(){
+	public String perfil() {
 		return "/view/perfil/perfil.xhtml";
 	}
-	
+
 	@Transacional
 	public String loga() {
-		Usuario usuarioAutenticado  = usuarioDao.buscaUsuarioPelaAutenticacao(this.usuario);
+		Usuario usuarioAutenticado = usuarioDao.buscaUsuarioPelaAutenticacao(this.usuario);
 		if (usuarioAutenticado != null) {
 			usuarioAutenticado.setDataDoUltimoAcesso(LocalDateTime.now());
 			usuarioDao.atualiza(usuarioAutenticado);
@@ -66,20 +69,20 @@ public class LoginBean implements Serializable {
 			return "/view/logado.xhtml?faces-redirect=true";
 		}
 		String mensagem = "Usuário ou senha inválido!";
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", mensagem));
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", mensagem));
 		return null;
 	}
-	
-	
-	public Date ultimoAcesso(){
+
+	public Date ultimoAcesso() {
 		Date date = asDate(usuario.getDataDoUltimoAcesso());
 		return date;
 	}
-	
-	 public static Date asDate(LocalDateTime localDateTime) {
-		    return (Date) Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-		  }
-	 
+
+	public static Date asDate(LocalDateTime localDateTime) {
+		return (Date) Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
 	@Transacional
 	public String desloga() {
 		session.removeAttribute(USUARIO_LOGADO);
@@ -87,21 +90,19 @@ public class LoginBean implements Serializable {
 		usuario = new Usuario();
 		return "/view/login/login.xhtml?faces-redirect=true";
 	}
-	
-	
+
 	@Transacional
 	public List<Usuario> usuarios() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
-		usuarios = usuarioDao.listarTodos();		
-			return usuarios;
-		}
-	
+		usuarios = usuarioDao.listarTodos();
+		return usuarios;
+	}
+
 	@Transacional
 	public String novoUsuario() {
 		return "/view/novousuario.xhtml?faces-redirect=true";
-		}
+	}
 
-	
 	@Transacional
 	public void atualizaUsuario() {
 		try {
@@ -133,10 +134,43 @@ public class LoginBean implements Serializable {
 	@Transacional
 	public boolean admin() {
 		boolean retorno = false;
-		if(logado.getTipoUsuario().equals(TipoUsuario.Administrador)) {
+		if (logado.getTipoUsuario().equals(TipoUsuario.Administrador)) {
 			retorno = true;
 		}
 		return retorno;
+	}
+
+	public String getSenhaNova1() {
+		return senhaNova1;
+	}
+
+	public void setSenhaNova1(String senhaNova1) {
+		this.senhaNova1 = senhaNova1;
+	}
+
+	public String getSenhaNova2() {
+		return senhaNova2;
+	}
+
+	public void setSenhaNova2(String senhaNova2) {
+		this.senhaNova2 = senhaNova2;
+	}
+
+
+	public String getSenhaAtualBD() {
+		return senhaAtualBD;
+	}
+
+	public void setSenhaAtualBD(String senhaAtualBD) {
+		this.senhaAtualBD = senhaAtualBD;
+	}
+
+	public String getSenhaAtual() {
+		return senhaAtual;
+	}
+
+	public void setSenhaAtual(String senhaAtual) {
+		this.senhaAtual = senhaAtual;
 	}
 	
 }

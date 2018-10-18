@@ -14,7 +14,7 @@
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form id="form">
 						<p:dataTable sortField="#{car.codigo}" resizable="true"
-							id="basicDT" var="car" value="#{locacaoBean.listarAtivas()}">
+							id="basicDT" var="car" value="#{locacaoBean.listarAtivas()}" emptyMessage="Nenhuma Locação Ativa no momento">
 							<f:facet name="header"> Locações Ativas no Sistema
 							</f:facet>
 							<p:column width="15%" headerText="código Locacao"
@@ -32,6 +32,11 @@
 
 							<p:column width="10%" headerText="Tipo" resizable="true">
 								<h:outputText value="#{car.tipoLocacao}" />
+							</p:column>
+							<p:column width="10%" headerText="Valor" resizable="true">
+								<h:outputText value="#{car.valorTotal}" >
+								<f:convertNumber type="currency" />
+								</h:outputText>
 							</p:column>
 
 							<p:column width="10%" headerText="observações"
@@ -54,9 +59,9 @@
 								</p:commandButton>
 							</p:column>
 							
-							<p:column width="10%" headerText="Finalizar"
+							<p:column width="10%"  headerText="Finalizar"
 								style="width:42px;text-align: center">
-								<p:commandButton update=":form:finalizarDetail"
+								<p:commandButton  style="background:#ff0000" update=":form:finalizarDetail"
 									oncomplete="PF('finalizarDialog').show()" icon="fa fa-fw fa-money"
 									title="View">
 									<f:setPropertyActionListener value="#{car}"
@@ -94,18 +99,15 @@
 											label="Proprietário" />
 									</b:dataTable>
 
-
 								</p:panelGrid>
 							</p:outputPanel>
 						</p:dialog>
-
 
 						<p:dialog header="Observações" widgetVar="obsDialog" modal="true"
 							showEffect="fade" hideEffect="fade" resizable="false">
 							<p:outputPanel id="obsDetail" style="text-align:center;">
 								<p:panelGrid columns="2"
 									rendered="#{not empty locacaoBean.locacao}">
-
 
 									<h:outputText value="Observações: " />
 									<h:outputText value="#{locacaoBean.locacao.observacoes}"

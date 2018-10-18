@@ -9,8 +9,39 @@
 <h:body>
 	<ui:composition>
 		<h:form>
-			<p:menu  style="font-size: 12px">
-			<p:submenu label="Fornecedor">
+			<h:graphicImage value="/imagens/site.jpg"
+				style="height : 39px; width : 158px;">
+			</h:graphicImage>
+			<p:menu style="font-size: 12px">
+				<p:submenu label="Equipamento">
+					<p:menuitem value="Novo"
+						action="#{equipamentoBean.iniciarCadastro()}"
+						icon="fa fa-fw fa-plus" />
+					<p:menuitem value="Listar/Pesquisa"
+						action="#{equipamentoBean.listarCadastro()}"
+						icon="fa fa-fw fa-align-justify" />
+					<p:menuitem value="Editar"
+						action="#{equipamentoBean.alterarCadastro()}"
+						icon="fa fa-fw fa-pencil" />
+				</p:submenu>
+				<p:submenu label="Locacão">
+					<p:menuitem value="Nova" action="#{locacaoBean.iniciarCadastro()}"
+						icon="fa fa-fw fa-calendar" />
+					<p:menuitem value="Listar Ativas"
+						action="#{locacaoBean.listarLocacao()}"
+						icon="fa fa-fw fa-align-justify" />
+					<p:menuitem value="Finalizadas"
+						action="#{locacaoBean.finalizadas()}"
+						icon="fa fa-fw fa-align-justify" />
+				</p:submenu>
+				<p:submenu label="Cliente">
+					<p:menuitem value="Novo Cliente"
+						action="#{clienteBean.iniciarCadastro()}"
+						icon="fa fa-fw fa-user-plus" />
+					<p:menuitem value="Listar" action="#{clienteBean.listaCliente()}"
+						icon="fa fa-fw fa-align-justify" />
+				</p:submenu>
+				<p:submenu label="Fornecedor">
 					<p:menuitem value="Novo"
 						action="#{fornecedorBean.iniciarCadastro()}"
 						icon="fa fa-fw fa-user-plus" />
@@ -18,31 +49,15 @@
 						action="#{fornecedorBean.listaFornecedor()}"
 						icon="fa fa-fw fa-align-justify" />
 				</p:submenu>
-				<p:submenu label="Equipamento">
-					<p:menuitem value="Novo" action="#{equipamentoBean.iniciarCadastro()}" icon="fa fa-fw fa-plus" />
-					<p:menuitem value="Listar" action="#{equipamentoBean.listarCadastro()}"
-						icon="fa fa-fw fa-align-justify" />
-						<p:menuitem value="Editar" action="#{equipamentoBean.alterarCadastro()}"
-						icon="fa fa-fw fa-pencil" />
-				</p:submenu>
-				<p:submenu label="Locacão">
-					<p:menuitem value="Nova" action="#{locacaoBean.iniciarCadastro()}" icon="fa fa-fw fa-calendar" />
-					<p:menuitem value="Listar Ativas" action="#{locacaoBean.listarLocacao()}" icon="fa fa-fw fa-align-justify" />
-					<p:menuitem value="Finalizadas" action="#{locacaoBean.finalizadas()}" icon="fa fa-fw fa-align-justify" />
-				</p:submenu>
-				<p:submenu label="Cliente">
-					<p:menuitem value="Novo Cliente" action="#{clienteBean.iniciarCadastro()}"
-						icon="fa fa-fw fa-user-plus" />
-					<p:menuitem value="Listar" action="#{clienteBean.listaCliente()}"
-						icon="fa fa-fw fa-align-justify" />
-				</p:submenu>				
 				<p:submenu label="Usuário">
+					<p:menuitem value="Alterar Senha"
+						action="#{usuarioBean.alterarSenha()}"
+						icon="fa fa-fw fa-user-secret" />
 					<p:menuitem value="Novo Usuário"
 						action="#{usuarioBean.iniciarCadastro()}"
 						icon="fa fa-fw fa-user-plus" />
-						<p:menuitem value="Editar Usuário"
-						action="#{usuarioBean.alterarCadastro()}"
-						icon="fa fa-fw fa-user" />
+					<p:menuitem value="Editar Usuário"
+						action="#{usuarioBean.alterarCadastro()}" icon="fa fa-fw fa-user" />
 					<p:menuitem value="listar usuários"
 						action="#{usuarioBean.listarCadastro()}"
 						icon="fa fa-fw fa-align-justify" />
@@ -52,7 +67,9 @@
 						icon="fa fa-fw fa-home" />
 					<p:menuitem value="Sair" action="#{loginBean.desloga()}"
 						icon="fa fa-fw fa-times-circle" />
-				</p:submenu>				
+				</p:submenu>
+
+
 			</p:menu>
 		</h:form>
 	</ui:composition>

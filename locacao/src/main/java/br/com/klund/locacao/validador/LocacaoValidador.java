@@ -1,13 +1,11 @@
 package br.com.klund.locacao.validador;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.klund.locacao.modelo.dao.LocacaoDao;
 import br.com.klund.locacao.modelo.negocio.Locacao;
 import br.com.klund.locacao.modelo.negocio.StatusEquipamento;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
@@ -18,20 +16,23 @@ import br.com.klund.locacao.modelo.negocio.Equipamento;
 public class LocacaoValidador {
 
 	private String mensagem;
-	@Inject
-	private LocacaoDao locacaoDao;	
 
 	public boolean naoPodeIncluir(Locacao locacao) {
 		
 		boolean teste = false;
-		
 		if (locacao.getCodigo().isEmpty()) {
 			mensagem = "Código não foi informado";
 			teste = true;
 			return teste;
 		}
 		
-		if (locacao.getDataFim()==null) {
+		if (locacao.getEquipamentos().isEmpty()) {
+			mensagem = "favor informar os equipamentos";
+			teste = true;
+			return teste;
+		}
+		
+		if (locacao.getDataInicio()==null) {
 			mensagem = "a data inicial não foi informada";
 			teste = true;
 			return teste;
@@ -45,6 +46,13 @@ public class LocacaoValidador {
 		
 		if (locacao.getTipoLocacao()==null) {
 			mensagem = "o Tipo Locação deve ser informado";
+			teste = true;
+			return teste;
+		}
+		
+		LocalDate a = LocalDate.now();
+		if(locacao.getDataInicio().isAfter(a)) {
+			mensagem = "a data Inicio informada é inválida";
 			teste = true;
 			return teste;
 		}
@@ -64,6 +72,8 @@ public class LocacaoValidador {
 			resultado = true;
 			return resultado;
 		}
+		
+		
 		if (equipamento.equals(null)) {
 			mensagem = "selecione um equipamento válido";
 			resultado = true;

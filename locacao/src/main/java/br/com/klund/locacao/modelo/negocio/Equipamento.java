@@ -1,7 +1,6 @@
 package br.com.klund.locacao.modelo.negocio;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -48,6 +47,8 @@ public class Equipamento implements Serializable {
 	private LocalDate dataCertificacao;
 	@Column (name = "validadeCertificacao")
 	private LocalDate validadeCertificacao;
+	@Column (name = "pastacertificados")
+	private String pastaCertificados;
 	@Column(name = "elevacao", length = 20)
 	private String elevacao;
 	@ManyToMany
@@ -117,6 +118,16 @@ public class Equipamento implements Serializable {
 
 	public String getSwl() {
 		return swl;
+	}
+	
+	
+
+	public String getPastaCertificados() {
+		return pastaCertificados;
+	}
+
+	public void setPastaCertificados(String pastaCertificados) {
+		this.pastaCertificados = pastaCertificados;
 	}
 
 	public void setSwl(String swl) {

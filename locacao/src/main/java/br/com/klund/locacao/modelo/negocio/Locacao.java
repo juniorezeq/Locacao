@@ -31,8 +31,6 @@ public class Locacao implements Serializable {
 	private LocalDate dataInicio;
 	@Column(insertable = true, updatable = true)
 	private LocalDate dataFim;
-	@Column(name = "valorLocacao")
-	private Double valorLocacao;
 	@ManyToOne
 	@JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
 	private Cliente cliente;
@@ -42,9 +40,10 @@ public class Locacao implements Serializable {
 	@ManyToMany
 	@JoinColumn(name = "id_locacao", referencedColumnName = "id_locacao")
 	private List<Equipamento> equipamentos;
+	@Column(length= 290, insertable = true, updatable = true)
 	private String observacoes;
-	@Column(length= 290, insertable = true, updatable = false)
-	
+	@Column(length= 30, insertable = true, updatable = true)
+	private Float valorTotal;
 		
 	public String getCodigo() {
 		return codigo;
@@ -62,15 +61,6 @@ public class Locacao implements Serializable {
 		this.tipoLocacao = tipoLocacao;
 	}
 
-	public Double getValorLocacao() {
-		return valorLocacao;
-	}
-
-	public void setValorLocacao(Double valorLocacao) {
-		this.valorLocacao = valorLocacao;
-	}
-
-	
 
 	public String getObservacoes() {
 		return observacoes;
@@ -107,6 +97,14 @@ public class Locacao implements Serializable {
 
 	public LocalDate getDataFim() {
 		return dataFim;
+	}
+
+	public Float getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(Float valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 	public void setDataFim(LocalDate dataFim) {

@@ -18,6 +18,7 @@ import br.com.klund.locacao.tx.Transacional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Named
@@ -32,12 +33,15 @@ public class UsuarioBean implements Serializable {
 	private Usuario usuario = new Usuario();
 	private String buscar;
 	
-
-
 	@PostConstruct
 	public void init() {
 		usuario = new Usuario();
 	}
+	
+	@Transacional
+	public String alterarSenha() {
+		return "/view/cadastro/alterarsenha.xhtml?faces-redirect=true";
+		}
 
 	@Transacional
 	public String iniciarCadastro() {
@@ -46,7 +50,6 @@ public class UsuarioBean implements Serializable {
 		}else {
 			return "/view/cadastro/cadastrarusuario.xhtml?faces-redirect=true";
 		}
-		
 	}
 
 	@Transacional
@@ -130,6 +133,7 @@ public class UsuarioBean implements Serializable {
 			usuarioDao.atualiza(usuario);
 			mensagemSucesso("Alterado com sucesso");
 			usuario = new Usuario();
+			buscar ="";
 			} catch (Exception e) {
 			mensagemErro("Erro não foi possivel atualizar");
 		}
@@ -148,6 +152,15 @@ public class UsuarioBean implements Serializable {
 		}
 	}
 
+	@Transacional
+	public void gerarSenha() {
+		UUID uuid = UUID.randomUUID();
+		String myRandom = uuid.toString();
+		String temp = myRandom.substring(31);
+		usuario.setSenha(temp);
+	}
+	
+	
 	private void mensagemSucesso(String mensagem) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!!", mensagem));
@@ -156,7 +169,6 @@ public class UsuarioBean implements Serializable {
 	private void mensagemErro(String mensagem) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", mensagem));
-
 	}
 
 	public String getBuscar() {
@@ -171,7 +183,4 @@ public class UsuarioBean implements Serializable {
 	       apagarUsuario();
 	    }
 	     
-	 
-
-
-}
+	 }

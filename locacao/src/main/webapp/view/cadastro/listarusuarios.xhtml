@@ -16,6 +16,7 @@
 					<h:form>
 						<b:dataTable value="#{loginBean.usuarios()}" var="car">
 							<b:dataTableColumn value="#{car.id}" order="asc" />
+							<b:dataTableColumn value="#{car.nome}" />
 							<b:dataTableColumn value="#{car.login}" />
 							<b:dataTableColumn value="#{car.tipoUsuario}" />
 							<b:dataTableColumn value="#{car.dataDoCadastro}" />

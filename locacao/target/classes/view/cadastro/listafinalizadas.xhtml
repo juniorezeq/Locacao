@@ -9,8 +9,8 @@
 <h:body>
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Locacões Finalizadas" style="font-size: 10px"
-				toggleable="true">
+			<p:fieldset legend="Lista de Locacões Finalizadas"
+				style="font-size: 10px" toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form id="form">
 						<p:dataTable sortField="#{car.codigo}" resizable="true"
@@ -35,6 +35,10 @@
 								<h:outputText value="#{car.dataFimFormatada()}" />
 							</p:column>
 
+							<p:column width="15%" headerText="valor Locação:" resizable="true">
+								<h:outputText value="#{car.valorTotal}" />
+							</p:column>
+
 
 							<p:column width="10%" headerText="Tipo" resizable="true">
 								<h:outputText value="#{car.tipoLocacao}" />
@@ -52,8 +56,8 @@
 
 						</p:dataTable>
 
-						<p:commandButton value="Imprimir" type="button" icon="ui-icon-print"
-							style="display:block;margin-bottom: 20px">
+						<p:commandButton value="Imprimir" type="button"
+							icon="ui-icon-print" style="display:block;margin-bottom: 20px">
 							<p:printer target="basicDT" />
 						</p:commandButton>
 

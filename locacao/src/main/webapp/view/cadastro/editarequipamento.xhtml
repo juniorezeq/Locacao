@@ -14,8 +14,8 @@
 				toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
 					<h:form id="form">
-						<p:dataTable sortField="#{car.tag}" resizable="true" id="basicDT" var="car"
-							value="#{equipamentoBean.listarTodos()}">
+						<p:dataTable sortField="#{car.tag}" resizable="true" id="basicDT"
+							var="car" value="#{equipamentoBean.listarTodos()}">
 							<f:facet name="header"> Equipamentos </f:facet>
 							<p:column headerText="Tag" resizable="true">
 								<h:outputText value="#{car.tag}" />
@@ -29,7 +29,7 @@
 								<h:outputText value="#{car.modelo}" />
 							</p:column>
 
-							<p:column headerText="SWL" resizable="true" >
+							<p:column headerText="SWL" resizable="true">
 								<h:outputText value="#{car.swl}" />
 							</p:column>
 
@@ -43,7 +43,7 @@
 							</p:column>
 
 							<p:column headerText="Validade Certificação" resizable="true">
-								<h:outputText  value="#{car.validadeCertificacaoFormatada()}" />
+								<h:outputText value="#{car.validadeCertificacaoFormatada()}" />
 							</p:column>
 
 							<p:column headerText="Valor NF" resizable="true">
@@ -53,15 +53,15 @@
 							<p:column headerText="Status" resizable="true">
 								<h:outputText value="#{car.status}" />
 							</p:column>
-							
-								<p:column headerText="Proprietário" resizable="true">
+
+							<p:column headerText="Proprietário" resizable="true">
 								<h:outputText value="#{car.fornecedor.fantasia}" />
 							</p:column>
 
 							<p:column style="width:42px;text-align: center">
 								<p:commandButton update=":form:carDetail"
 									oncomplete="PF('carDialog').show()" icon="fa fa-fw fa-pencil"
-									title="View">
+									title="Editar Cadastro">
 									<f:setPropertyActionListener value="#{car}"
 										target="#{equipamentoBean.equipamento}" />
 								</p:commandButton>
@@ -97,12 +97,14 @@
 									<p:outputLabel value="Diária Mensal:" for="cadastroDM" />
 									<p:inputText mask="9.999.999,99" id="cadastroDM"
 										value="#{equipamentoBean.equipamento.precoDiariaMensal}"
-										size="20" > <f:convertNumber pattern="#,##0.00"></f:convertNumber></p:inputText>
+										size="20">
+									</p:inputText>
 
 									<p:outputLabel value="Diária Quinzenal:" for="cadastroQz" />
 									<p:inputText id="cadastroQz"
 										value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
-										size="20"> <f:convertNumber pattern="#,##0.00"></f:convertNumber></p:inputText>
+										size="20">
+									</p:inputText>
 
 									<p:outputLabel value="Validade Cerificação: " for="validade" />
 									<p:calendar id="validade"
@@ -126,28 +128,43 @@
 
 									<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
 									<p:inputText id="cadastroNF"
-										value="#{equipamentoBean.equipamento.valorNota}" size="20" ><f:convertNumber pattern="#,##0.00"></f:convertNumber></p:inputText>
+										value="#{equipamentoBean.equipamento.valorNota}" size="20"></p:inputText>
 
-								  	<p:outputLabel value="Proprietário Equipamento:"
+									<p:outputLabel value="Proprietário Equipamento:"
 										for="cadastroFornecedor" />
 									<p:outputLabel id="cadastroFornecedor"
-										value="#{equipamentoBean.equipamento.fornecedor.nome}" for="cadastroNF" />
-							
-									<p:commandButton value="Alterar" action="#{equipamentoBean.atualizaEquipamento()}"
-										styleClass="ui-priority-primary" update="form" onsuccess="PF('carDialog').hide()"/>
-										<p:commandButton value="Apagar" action="#{equipamentoBean.apagarEquipamento()}"
-										styleClass="ui-priority-primary" update="form" onsuccess="PF('carDialog').hide()"/>
+										value="#{equipamentoBean.equipamento.fornecedor.nome}"
+										for="cadastroNF" />
+
+									<p:commandButton value="Alterar"
+										action="#{equipamentoBean.atualizaEquipamento()}"
+										styleClass="ui-priority-primary" update="form"
+										onsuccess="PF('carDialog').hide()" />
+									<p:commandButton value="excluir equipamento"
+										style="background:#ff0000"
+										actionListener="#{equipamentoBean.apagarEquipamento()}"
+										styleClass="ui-priority-primary" update="form"
+										onsuccess="PF('carDialog').hide()" >
+										<p:confirm header="O item não poderá ser recuperado" message="deseja realmente excluir?" icon="ui-icon-alert" />
+										 </p:commandButton>
 								</p:panelGrid>
 							</p:outputPanel>
 						</p:dialog>
-						
+
+						<p:confirmDialog  global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+
 					</h:form>
 
 				</h:panelGrid>
 				<p:messages id="msg" autoUpdate="true" showDetail="true"
-						closable="true" style="60%">
-						<p:effect type="pulsate" event="load" delay="500" />
-					</p:messages>
+					closable="true" style="60%">
+					<p:effect type="pulsate" event="load" delay="500" />
+				</p:messages>
 			</p:fieldset>
 		</ui:define>
 	</ui:composition>

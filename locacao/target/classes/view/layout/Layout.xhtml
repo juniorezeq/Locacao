@@ -8,7 +8,7 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-
+<title>Locação Equipamentos K.Lund</title>
 </h:head>
 
 <h:body>
@@ -21,14 +21,14 @@
 			</ui:insert>
 		</div>
 
-		<div class="row" style="padding-top: 40px">
+		<div class="row" style="padding-top: 30px">
 			<div id="menu" class="col-md-2">
 				<ui:insert name="menu">
 					<ui:include src="/view/layout/basicmenu.xhtml" />
 				</ui:insert>
 			</div>
 
-			<div id="conteudo" class="col-md-9">
+			<div id="conteudo" style="position:inherit;" class="col-md-9">
 				<ui:insert name="content">
 					<ui:include src="/view/layout/basiccontent.xhtml" />
 				</ui:insert>
@@ -36,8 +36,6 @@
 		</div>
 
 	</div>
-
-
 
 </h:body>
 </html>

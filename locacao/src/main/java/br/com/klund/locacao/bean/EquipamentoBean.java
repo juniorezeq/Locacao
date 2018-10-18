@@ -30,6 +30,7 @@ public class EquipamentoBean implements Serializable {
 	@Inject
 	private Equipamento selecionado = new Equipamento();
 	private String buscar;
+	private boolean proprio;
 	private String buscarFornecedor;
 	@Inject
 	private EquipamentoValidador equipamentoValidador;
@@ -94,6 +95,7 @@ public class EquipamentoBean implements Serializable {
 		} else {
 			equipamentoDao.adiciona(equipamento);
 			equipamento = new Equipamento();
+			fornecedor = new Fornecedor();
 			mensagemSucesso("cadastrado com sucesso.");
 		}
 	}
@@ -203,6 +205,26 @@ public class EquipamentoBean implements Serializable {
 
 	public void setBuscarFornecedor(String buscarFornecedor) {
 		this.buscarFornecedor = buscarFornecedor;
+	}
+	
+	public void equipamentoProprio() {
+		if (proprio) {
+			buscarFornecedor = "07.485.047/0001-31";
+			Fornecedor fornecedorbuscaDao = fornecedorDao.buscaCnpj("07.485.047/0001-31");
+			fornecedor = fornecedorbuscaDao;
+		}if(proprio==false) {
+			buscarFornecedor = "";
+			fornecedor = new Fornecedor();
+		}
+		
+	}
+
+	public boolean isProprio() {
+		return proprio;
+	}
+
+	public void setProprio(boolean proprio) {
+		this.proprio = proprio;
 	}
 	
 	

@@ -6,16 +6,24 @@
 <h:head>
 	<meta charset="UTF-8" />
 	<title>Autenticação Usuário</title>
-	<link type="text/css" rel="stylesheet"
-		href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css" />
+	<link href="/css/login.css" rel="stylesheet" type="text/css" />
+	<!-- <link type="text/css" rel="stylesheet"
+		href="#{facesContext.externalContext.requestContextPath}/resources/css/estilo.css" /> -->
 </h:head>
 
 <h:body>
 	<center>
-
 		<h:form id="frmLogin">
 
+			<table>
+				<tr>
+					<th><h:graphicImage value="/imagens/site.jpg"
+							style="width : 183px; height : 73px;">
+						</h:graphicImage></th>
+				</tr>
+			</table>
 			<p:panel header="Autenticação de Usuário" style="width: 30%;">
+
 				<h:panelGrid columns="2" style="width: 100%;">
 					<p:outputLabel value="Login:" for="login" />
 					<p:inputText id="login" value="#{loginBean.usuario.login}"
@@ -25,6 +33,9 @@
 					<p:password id="senha" value="#{loginBean.usuario.senha}"
 						style="width: 100%;" />
 					<p:spacer />
+
+
+
 					<p:commandButton value="Confirma" action="#{loginBean.loga}"
 						process="@form" update="@form" icon="fa fa-fw fa-sign-in">
 						<p:ajaxStatus onstart="PF('statusDialog').show()"
@@ -38,12 +49,13 @@
 
 				</h:panelGrid>
 			</p:panel>
-				<p:messages id="msg" autoUpdate="true" showDetail="true"
-							closable="true" style="60%">
-							<p:effect type="pulsate" event="load" delay="500" />
-						</p:messages>
+			<p:messages id="msg" autoUpdate="true" showDetail="true"
+				closable="true" style="60%">
+				<p:effect type="pulsate" event="load" delay="500" />
+			</p:messages>
 		</h:form>
 	</center>
+
 </h:body>
 
 </html>

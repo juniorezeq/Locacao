@@ -16,10 +16,16 @@
 				<h:form>
 					<h:panelGrid columns="2" cellpadding="5">
 					
-						<p:outputLabel value="Nome Usuario:" for="cadastroNome" />
-
+					<p:outputLabel value="Nome Usuario:" for="cadastroNome" />
 						<p:inputText required="true" id="cadastroNome"
+							value="#{usuarioBean.usuario.nome}" size="20" >
+							</p:inputText>
+					
+						<p:outputLabel value="Login:" for="cadastroLogin" />
+						<p:inputText required="true" id="cadastroLogin"
 							value="#{usuarioBean.usuario.login}" size="20" >
+							<p:ajax event="change" listener="#{usuarioBean.gerarSenha()}"
+								update="cadastroSenha" />
 							</p:inputText>
 
 						<p:outputLabel value="Senha:" for="cadastroSenha" />

@@ -10,10 +10,10 @@
 
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-		<h:form>
-			<p:fieldset legend="Cadastro Equipamento" toggleable="true"
-				toggleSpeed="500" style="font-size: 12px">
-				
+			<h:form>
+				<p:fieldset legend="Cadastro Equipamento" toggleable="true"
+					toggleSpeed="500" style="font-size: 12px">
+
 					<h:panelGrid columns="2" cellpadding="5">
 						<p:outputLabel value="Tag:" for="cadastroTag" />
 						<p:inputText id="cadastroTag"
@@ -41,22 +41,16 @@
 							title="Em caso de Talhas, favor informar a elevação" size="20" />
 
 						<p:outputLabel value="Diária Mensal:" for="cadastroDM" />
-						<p:inputMask mask="99.999,99" required="true"
-							title=" Exemplo 85.520,00 - centavos após a vírgula"
-							id="cadastroDM"
+						<p:inputText required="true" id="cadastroDM"
 							value="#{equipamentoBean.equipamento.precoDiariaMensal}"
 							size="20">
-							<f:convertNumber pattern="#,##0.00" required="true"></f:convertNumber>
-						</p:inputMask>
+						</p:inputText>
 
 						<p:outputLabel value="Diária Quinzenal:" for="cadastroQz" />
-						<p:inputMask mask="99.999,99" required="true"
-							title=" Exemplo 85.520,00 - centavos após a vírgula"
-							id="cadastroQz"
+						<p:inputText required="true" id="cadastroQz"
 							value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
 							size="20">
-							<f:convertNumber pattern="#,##0.00" required="true"></f:convertNumber>
-						</p:inputMask>
+						</p:inputText>
 
 						<p:outputLabel value="Data Cerificação: " for="dataCert" />
 						<p:calendar id="dataCert"
@@ -72,6 +66,15 @@
 							title="Váliadade da certificação">
 						</p:calendar>
 
+
+						<p:outputLabel value="Pasta Certificados:" for="pastaCertificados" />
+						<p:inputText id="pastaCertificados"
+							value="#{equipamentoBean.equipamento.pastaCertificados}"
+							required="true"
+							title="pasta com os certificados do Equipamento a cadastrar"
+							size="20" />
+
+
 						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
 						<p:selectOneMenu id="cadastroStatus"
 							value="#{equipamentoBean.equipamento.status}" style="width:150px">
@@ -86,12 +89,21 @@
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
-						<p:inputMask mask="9.999.999,99" id="cadastroNF"
+						<p:inputText id="cadastroNF"
 							value="#{equipamentoBean.equipamento.valorNota}" required="true"
-							title=" Exemplo 1.885.520,00 - centavos após a vírgula" size="20">
-							<f:convertNumber pattern="#,##0.00"></f:convertNumber>
-						</p:inputMask>
+							size="20">
+						</p:inputText>
 
+
+
+						<h:outputText value="Equipamento Próprio: " />
+						<p:selectBooleanButton id="Eqproprio"
+							value="#{equipamentoBean.proprio}" onLabel="Sim" offLabel="Não"
+							onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
+							<p:ajax listener="#{equipamentoBean.equipamentoProprio()}"
+								update="cadastroFornecedor,cadastroCNPJ" />
+						</p:selectBooleanButton>
+						
 						<p:outputLabel value="CNPJ do Proprietário:" for="cadastroCNPJ" />
 						<p:inputMask id="cadastroCNPJ" mask="99.999.999/9999-99"
 							title="Digite o CNPJ para buscar no cadastro de fornecedores"
@@ -99,31 +111,31 @@
 							<p:ajax event="change" listener="#{equipamentoBean.checarCnpj()}"
 								update="cadastroFornecedor" />
 						</p:inputMask>
+
+
 						<p:outputLabel value="Proprietário Equipamento:"
 							title="Quando Localizado no campo anterior, o nome do Fornecedor é exibido neste campo"
 							for="cadastroFornecedor" />
 						<p:outputLabel id="cadastroFornecedor"
-							value="#{equipamentoBean.fornecedor.nome}" for="cadastroNF" />
+							value="#{equipamentoBean.fornecedor.nome}" />
 
 						<br></br>
 						<p:outputLabel style="color:#ff0000;"
 							value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" />
-
-
 					</h:panelGrid>
-<p:commandButton id="btnIncluir" value="Incluir Equipamento"
-							action="#{equipamentoBean.incluir}" process="@form"
-							update="@form" icon="fa fa-fw fa-save" />
+					<p:commandButton id="btnIncluir" value="Incluir Equipamento"
+						action="#{equipamentoBean.incluir}" process="@form" update="@form"
+						icon="fa fa-fw fa-save" />
 
 
 					<p:messages id="msg" autoUpdate="true" showDetail="true"
 						closable="true" style="60%">
 						<p:effect type="pulsate" event="load" delay="500" />
 					</p:messages>
-					
-					
-			</p:fieldset>
-			
+
+
+				</p:fieldset>
+
 			</h:form>
 		</ui:define>
 	</ui:composition>

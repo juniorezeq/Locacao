@@ -24,6 +24,8 @@ public class Usuario implements Serializable {
 	private Long id;
 	@Column(name = "login", length = 50, nullable = false, unique = true)
 	private String login;
+	@Column(name = "nome", length = 50)
+	private String nome;
 	@Column(nullable = false, insertable = true, updatable = false)
 	private LocalDateTime dataDoCadastro;
 	@Column(name = "senha", length = 50, nullable = false)
@@ -115,6 +117,14 @@ public class Usuario implements Serializable {
 
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 

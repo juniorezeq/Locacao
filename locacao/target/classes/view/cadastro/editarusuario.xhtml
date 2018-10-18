@@ -15,9 +15,9 @@
 				toggleSpeed="500" style="font-size: 12px">
 				<h:form id="cadastroAlterar">
 					<h:panelGrid columns="2" cellpadding="5">
-						<p:outputLabel value="Buscar por nome:" for="buscaNome">
+						<p:outputLabel value="Buscar por login:" for="buscaLogin">
 						</p:outputLabel>
-						<p:inputText id="buscaNome" value="#{usuarioBean.buscar}"
+						<p:inputText id="buscaLogin" value="#{usuarioBean.buscar}"
 							size="20">
 							<p:ajax event="change" listener="#{usuarioBean.buscaPorNome()}"
 								update=":cadastroAlterar" />
@@ -25,6 +25,10 @@
 
 						<p:outputLabel value="Nome Usuario:" for="cadastroNome" />
 						<p:inputText id="cadastroNome"
+							value="#{usuarioBean.usuario.nome}" size="20" />
+							
+							<p:outputLabel value="Login:" for="cadastroLogin" />
+						<p:inputText id="cadastroLogin"
 							value="#{usuarioBean.usuario.login}" size="20" />
 
 						<p:outputLabel value="Senha:" for="cadastroSenha" />

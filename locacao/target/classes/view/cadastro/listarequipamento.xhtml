@@ -7,41 +7,48 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:body>
-
 	<ui:composition template="/view/layout/Layout.xhtml">
-
 		<ui:define name="content">
 			<p:fieldset legend="Lista de Equipamentos" style="font-size: 10px"
 				toggleable="true">
 				<h:panelGrid columns="2" cellpadding="10">
+
 					<h:form>
-						<b:dataTable id="basicDT" value="#{equipamentoBean.listarTodos()}"  var="car"
-							select="true" selectionMode="single"
+						<b:dataTable id="basicDT" value="#{equipamentoBean.listarTodos()}"
+							var="car" select="true" selectionMode="single"
 							onselect="ajax:equipamentoBean.onSelect(car);"
 							ondeselect="ajax:equipamentoBean.onDeselect(car);">
 							<b:dataTableColumn value="#{car.tag}" label="tag" />
 							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
 							<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
-							<b:dataTableColumn value="#{car.swl}" label="SWL" order="asc"/>
+							<b:dataTableColumn value="#{car.swl}" label="SWL" order="asc" />
 							<b:dataTableColumn value="#{car.elevacao}" label="Elevação" />
 							<b:dataTableColumn value="#{car.valorRealDiariaMensal()}"
 								label="Diária/Mês" />
 							<b:dataTableColumn value="#{car.valorRealDiariaQuinzenal()}"
 								label="Diária/Quinzenal" />
-							<b:dataTableColumn label="Validade Certificado" value="#{car.validadeCertificacaoFormatada()}"  show-time="false" converter="LocalDateConverter"/>
-							<b:dataTableColumn value="#{car.valorRealValorNF()}" label="Valor NF" />
+							<b:dataTableColumn label="Validade Certificado"
+								value="#{car.validadeCertificacaoFormatada()}" show-time="false"
+								converter="LocalDateConverter" />
+							<b:dataTableColumn value="#{car.valorRealValorNF()}"
+								label="Valor NF" />
 							<b:dataTableColumn value="#{car.status}" label="Status" />
-							<b:dataTableColumn value="#{car.fornecedor.fantasia}" label="Proprietário" />
+							<b:dataTableColumn value="#{car.fornecedor.fantasia}"
+								label="Proprietário" />
 						</b:dataTable>
-					
-					<br></br>
-					<p:commandButton value="Imprimir" type="button"
+
+						<br></br>
+						<p:commandButton value="Imprimir" type="button"
 							icon="ui-icon-print" style="display:block;margin-bottom: 20px">
 							<p:printer target="basicDT" />
 						</p:commandButton>
-					
 					</h:form>
+
 				</h:panelGrid>
+				<p:messages id="msg" autoUpdate="true" showDetail="true"
+					closable="true" style="60%">
+					<p:effect type="pulsate" event="load" delay="500" />
+				</p:messages>
 			</p:fieldset>
 		</ui:define>
 	</ui:composition>

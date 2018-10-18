@@ -9,23 +9,22 @@
 <h:body>
 
 	<ui:composition template="/view/layout/Layout.xhtml">
-
 		<ui:define name="content">
 			<p:fieldset legend="Cadastro Locação" toggleable="true"
 				toggleSpeed="500" style="font-size: 12px">
 				<h:form id="cadastro">
-				<p:messages id="msg" autoUpdate="true" showDetail="true"
+					<p:messages id="msg" autoUpdate="true" showDetail="true"
 						closable="true" style="60%">
 						<p:effect type="pulsate" event="load" delay="500" />
 					</p:messages>
-				
-					<h:panelGrid columns="2" cellpadding="5">
 
+					<h:panelGrid columns="2" cellpadding="5">
 						<p:outputLabel value="Código Locação:" for="cadastroCod" />
 						<p:inputText id="cadastroCod"
 							value="#{locacaoBean.locacao.codigo}" size="20" required="true">
 						</p:inputText>
-						<p:outputLabel value="Cliente - CNPJ:" for="cadastroCNPJ" />
+						
+							<p:outputLabel value="Cliente - CNPJ:" for="cadastroCNPJ" />
 						<p:inputMask id="cadastroCNPJ" mask="99.999.999/9999-99"
 							title="Digite o CNPJ para buscar no cadastro de Clientes"
 							value="#{locacaoBean.buscarCliente}" size="20">
@@ -55,6 +54,13 @@
 							<f:selectItem itemLabel="Negociação Diferenciada"
 								itemValue="Diferenciado" />
 						</p:selectOneMenu>
+						
+						<p:outputLabel value="Valor Locação:" for="valor" />
+						<p:inputText required="true"
+							id="valor"
+							value="#{locacaoBean.locacao.valorTotal}"
+							size="20">
+						</p:inputText>
 
 						<p:outputLabel value="Tag: " for="cadastroTag" />
 						<p:inputText id="cadastroTag"
@@ -65,12 +71,13 @@
 						</p:inputText>
 						<br></br>
 						<p:outputLabel id="cadastroEquipamento"
-							value="#{locacaoBean.equipamento.descricao} #{locacaoBean.equipamento.swl} #{locacaoBean.equipamento.status}" for="basicDT" />
-<p:commandLink id="btnAdd"
+							value="#{locacaoBean.equipamento.descricao} #{locacaoBean.equipamento.swl} #{locacaoBean.equipamento.status}"
+							for="basicDT" />
+						<p:commandLink id="btnAdd"
 							actionListener="#{locacaoBean.addEquipamento()}" ajax="false">
 							<h:outputText value="Add Equipamento" />
 						</p:commandLink>
-							<p:dataTable resizable="true"
+						<p:dataTable resizable="true"
 							emptyMessage="Adicione os Itens que serão locados" id="basicDT"
 							var="car" value="#{locacaoBean.listaEquipamentos}">
 							<f:facet name="header"> Equipamentos </f:facet>
@@ -87,9 +94,10 @@
 								<h:outputText value="#{car.swl}" />
 							</p:column>
 						</p:dataTable>
-						
+
 						<p:outputLabel value="Observação:" for="cadastroObs" />
-						<p:inputText id="cadastroObs" value="#{locacaoBean.locacao.observacoes}" size="120" />
+						<p:inputText id="cadastroObs"
+							value="#{locacaoBean.locacao.observacoes}" size="120" />
 
 						<p:commandButton id="incluir" value="Incluir"
 							action="#{locacaoBean.incluir()}" process="@form" update="@all"
@@ -98,7 +106,7 @@
 						<p:outputLabel style="color:#ff0000;"
 							value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" />
 					</h:panelGrid>
-					
+
 				</h:form>
 
 			</p:fieldset>
