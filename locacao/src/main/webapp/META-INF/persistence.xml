@@ -12,7 +12,7 @@
 		<properties>
 		
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/klofsr_base_locacao" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://locacao-klund.com.br/klofsr_base_locacao" />
 			<property name="javax.persistence.jdbc.user" value="klofsr" />
 			<property name="javax.persistence.jdbc.password" value="KLUND88TME22lund22" />
 

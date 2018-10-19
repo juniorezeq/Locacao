@@ -9,9 +9,9 @@
 <h:body>
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Equipamentos" style="font-size: 10px"
-				toggleable="true">
-				<h:panelGrid columns="2" cellpadding="10">
+			<p:fieldset  legend="Lista de Equipamentos" style="font-size: 10px; width:1250px"
+				toggleable="true" rendered="true">
+				<h:panelGrid columns="2" style=" width:1100px" cellpadding="10">
 
 					<h:form>
 						<b:dataTable id="basicDT" value="#{equipamentoBean.listarTodos()}"
@@ -35,6 +35,8 @@
 							<b:dataTableColumn value="#{car.status}" label="Status" />
 							<b:dataTableColumn value="#{car.fornecedor.fantasia}"
 								label="Proprietário" />
+								<b:dataTableColumn value="#{car.ultimaAlteracao}"
+								label="Ultima Alteração:" />
 						</b:dataTable>
 
 						<br></br>

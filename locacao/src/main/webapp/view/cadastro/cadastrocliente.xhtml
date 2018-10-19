@@ -69,20 +69,37 @@
 						</p:dialog>
 
 						<br></br>
+						</h:panelGrid>
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:commandButton value="Incluir"
+								actionListener="#{clienteBean.incluir()}"
+								icon="fa fa-fw fa-save" process="@all" update="@all">
+								<p:confirm header="Salvar no Banco de Dados"
+									message="confirma que deseja Salvar?" icon="ui-icon-alert" />
+							</p:commandButton>
 
-						<p:commandButton value="Incluir" action="#{clienteBean.incluir()}"
-							icon="fa fa-fw fa-save" process="@all" update="@all" />
-						<p:commandButton value="Limpar" action="#{clienteBean.limpar()}"
-							icon="fa fa-fw fa-eraser" update="@all" />
-<br><p:outputLabel style="color:#ff0000;" value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" /></br>
-						
+							<p:commandButton value="Limpar os campos"
+								actionListener="#{clienteBean.limpar()}"
+								icon="fa fa-fw fa-eraser" update="@all">
+								<p:confirm
+									header="Todos os itens do formulários serão redefinidos"
+									message="deseja limpar os campos?" icon="ui-icon-alert" />
+							</p:commandButton>
 
-					</h:panelGrid>
+						</h:panelGrid>
+						<p:outputLabel style="color:#ff0000;"
+							value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" />
+						<p:messages id="msg" autoUpdate="true" showDetail="true"
+							closable="true" style="60%">
+							<p:effect type="pulsate" event="load" delay="500" />
+						</p:messages>
 
-					<p:messages id="msg" autoUpdate="true" showDetail="true"
-						closable="true" style="60%">
-						<p:effect type="pulsate" event="load" delay="500" />
-					</p:messages>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
 				</h:form>
 
 			</p:fieldset>

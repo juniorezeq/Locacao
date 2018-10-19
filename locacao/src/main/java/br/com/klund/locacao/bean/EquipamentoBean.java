@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -18,15 +19,22 @@ import br.com.klund.locacao.validador.EquipamentoValidador;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Named
 @ViewScoped
 public class EquipamentoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@ManagedProperty(value = "#{loginBean}")
+	private LoginBean loginbean;
 
 	@Inject
 	private EquipamentoDao equipamentoDao = new EquipamentoDao();
 	@Inject
 	private Equipamento equipamento = new Equipamento();
+	@Inject
+	private Equipamento copia = new Equipamento();
 	@Inject
 	private Equipamento selecionado = new Equipamento();
 	private String buscar;
@@ -38,7 +46,6 @@ public class EquipamentoBean implements Serializable {
 	private Fornecedor fornecedor;
 	@Inject
 	private FornecedorDao fornecedorDao;
-	
 
 	@PostConstruct
 	public void init() {
@@ -87,16 +94,19 @@ public class EquipamentoBean implements Serializable {
 	}
 
 	@Transacional
-	public void incluir() {
+	public String incluir() {
 		equipamento.setFornecedor(fornecedor);
+		equipamento.setUltimaAlteracao(LoginBean.getLogado().getNome());
 		if (equipamentoValidador.naoPodeIncluir(equipamento)) {
 			mensagemErro(equipamentoValidador.getMensagem());
-			return;
+			return null;
 		} else {
 			equipamentoDao.adiciona(equipamento);
 			equipamento = new Equipamento();
 			fornecedor = new Fornecedor();
+			buscar="";
 			mensagemSucesso("cadastrado com sucesso.");
+			return null;
 		}
 	}
 
@@ -113,7 +123,7 @@ public class EquipamentoBean implements Serializable {
 			equipamento = new Equipamento();
 			equipamento = equipamentoDao.buscaTag(buscar);
 			if (equipamento.getTag().isEmpty()) {
-				mensagemErro("Este usuário não foi localizado");
+				mensagemErro("Este Equipamento não foi localizado");
 			}
 		} catch (Exception e) {
 			mensagemErro("Erro não foi possível localizar");
@@ -121,7 +131,44 @@ public class EquipamentoBean implements Serializable {
 	}
 
 	@Transacional
+	public void limpar() {
+		equipamento = new Equipamento();
+		copia = new Equipamento();
+		buscar = "";
+		buscarFornecedor = "";
+	    proprio = false;
+	    equipamentoProprio();
+		
+	}
+	
+	
+	@Transacional
+	public void copiarPorTag() {
+		try {
+			copia = new Equipamento();
+			copia = equipamentoDao.buscaTag(buscar);
+			if (copia.getTag().isEmpty()) {
+				mensagemErro("Este Equipamento não foi localizado");
+			}else {
+				equipamento.setDescricao(copia.getDescricao());
+				equipamento.setElevacao(copia.getElevacao());
+				equipamento.setFornecedor(copia.getFornecedor());
+				equipamento.setModelo(copia.getModelo());
+				equipamento.setSwl(copia.getSwl());
+				equipamento.setPrecoDiariaMensal(copia.getPrecoDiariaMensal());
+				equipamento.setPrecoDiariaQuinzenal(copia.getPrecoDiariaQuinzenal());
+				equipamento.setPastaCertificados(copia.getPastaCertificados());
+				equipamento.setValorNota(copia.getValorNota());
+				equipamento.setFornecedor(copia.getFornecedor());
+			}
+		} catch (Exception e) {
+			mensagemErro("Erro não foi possível localizar");
+		}
+	}
+		
+	@Transacional
 	public void atualizaEquipamento() {
+		equipamento.setUltimaAlteracao(LoginBean.getLogado().getNome());
 		try {
 			equipamentoDao.atualiza(equipamento);
 			mensagemSucesso("Alterado com sucesso");

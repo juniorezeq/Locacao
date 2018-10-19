@@ -57,6 +57,8 @@ public class Equipamento implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_fornecedor", referencedColumnName = "id_fornecedor")
 	private Fornecedor fornecedor;
+	@Column (name = "ultimaAlteracao")
+	private String ultimaAlteracao;
 
 	
 	public Long getId() {
@@ -121,6 +123,13 @@ public class Equipamento implements Serializable {
 	}
 	
 	
+	public String getUltimaAlteracao() {
+		return ultimaAlteracao;
+	}
+
+	public void setUltimaAlteracao(String ultimaAlteracao) {
+		this.ultimaAlteracao = ultimaAlteracao;
+	}
 
 	public String getPastaCertificados() {
 		return pastaCertificados;

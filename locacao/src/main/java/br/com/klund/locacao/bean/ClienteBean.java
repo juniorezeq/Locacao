@@ -24,7 +24,7 @@ import java.util.List;
 @ViewScoped
 public class ClienteBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String USUARIO_LOGADO = "usuarioLogado";
 
 	@Inject
@@ -37,7 +37,7 @@ public class ClienteBean implements Serializable {
 	private ApiCNPJ apiCnpj;
 	@Inject
 	private Usuario usuario;
-
+	private String localizarPorCnpj;
 
 	@PostConstruct
 	public void init() {
@@ -60,15 +60,15 @@ public class ClienteBean implements Serializable {
 		return "/view/cadastro/listacliente.xhtml?faces-redirect=true";
 	}
 
-	
 	@Transacional
-	public String iniciaalteracaoCliente() {
-		return "/view/alteracao/alteracaocliente.xhtml?faces-redirect=true";
+	public String editarCliente() {
+		return "/view/cadastro/editarcliente.xhtml?faces-redirect=true";
 	}
 
 	@Transacional
 	public String limpar() {
 		cliente = new Cliente();
+		localizarPorCnpj = "";
 		return null;
 	}
 
@@ -76,9 +76,9 @@ public class ClienteBean implements Serializable {
 	public String checarCnpj() {
 		Cliente clientebuscaDao = clienteDao.buscaCnpj(cliente.getCnpj());
 		if (clientebuscaDao == null) {
-			mensagemErro("Cliente não foi encontrado verifique o CNPJ digitado");			
-            return null;
-            }
+			mensagemErro("Cliente não foi encontrado verifique o CNPJ digitado");
+			return null;
+		}
 		System.out.println(clientebuscaDao.getCnpj());
 		cliente = clientebuscaDao;
 		return null;
@@ -110,7 +110,7 @@ public class ClienteBean implements Serializable {
 		if (existe == false) {
 			clienteDao.adiciona(cliente);
 			mensagemSucesso("Cadastrado com sucesso");
-			cliente = new Cliente();
+			limpar();
 			return null;
 		}
 		mensagemErro("O CNPJ informado pertence a outra empresa cadastrada");
@@ -131,14 +131,15 @@ public class ClienteBean implements Serializable {
 		clienteDao.atualiza(cliente);
 		System.out.println("encontrado" + cliente.getNome());
 		mensagemSucesso("Atualizada Corretamente!");
-		cliente = new Cliente();
+		limpar();
 		return null;
 	}
+
 	@Transacional
 	public String excluirCliente() {
 		try {
 			clienteDao.remove(cliente);
-			mensagemSucesso ("Excluido corretamente!");
+			mensagemSucesso("Excluido corretamente!");
 		} catch (Exception e) {
 			mensagemErro("Não foi possivel Excluir");
 		}
@@ -162,6 +163,27 @@ public class ClienteBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", mensagem));
 
+	}
+
+	public String getLocalizarPorCnpj() {
+		return localizarPorCnpj;
+	}
+
+	public void setLocalizarPorCnpj(String localizarPorCnpj) {
+		this.localizarPorCnpj = localizarPorCnpj;
+	}
+
+	@Transacional
+	public void buscaPorCNPJ() {
+		try {
+			cliente = new Cliente();
+			cliente = clienteDao.buscaCnpj(localizarPorCnpj);
+			if (cliente.getCnpj().isEmpty()) {
+				mensagemErro("Este Cliente não foi localizado no banco de dados");
+			}
+		} catch (Exception e) {
+			mensagemErro("Erro não foi possível localizar");
+		}
 	}
 
 }

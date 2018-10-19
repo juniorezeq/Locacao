@@ -10,11 +10,20 @@
 
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-			<h:form>
+			<h:form id="form">
 				<p:fieldset legend="Cadastro Equipamento" toggleable="true"
 					toggleSpeed="500" style="font-size: 12px">
 
 					<h:panelGrid columns="2" cellpadding="5">
+					
+						<p:outputLabel value="Copiar por Tag:" for="buscaTag">
+						</p:outputLabel>
+						<p:inputText id="buscaTag" value="#{equipamentoBean.buscar}"
+							size="20">
+							<p:ajax event="change"
+								listener="#{equipamentoBean.copiarPorTag()}" update="form" />
+						</p:inputText>
+									
 						<p:outputLabel value="Tag:" for="cadastroTag" />
 						<p:inputText id="cadastroTag"
 							value="#{equipamentoBean.equipamento.tag}" required="true"
@@ -76,7 +85,7 @@
 
 
 						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
-						<p:selectOneMenu id="cadastroStatus"
+						<p:selectOneMenu required="true" id="cadastroStatus"
 							value="#{equipamentoBean.equipamento.status}" style="width:150px">
 							<f:selectItem itemLabel="Status Atual" itemValue=""
 								noSelectionOption="true" />
@@ -94,11 +103,9 @@
 							size="20">
 						</p:inputText>
 
-
-
 						<h:outputText value="Equipamento Próprio: " />
 						<p:selectBooleanButton id="Eqproprio"
-							value="#{equipamentoBean.proprio}" onLabel="Sim" offLabel="Não"
+							value="#{equipamentoBean.proprio}"   offLabel="Não" onLabel="Sim"
 							onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:60px">
 							<p:ajax listener="#{equipamentoBean.equipamentoProprio()}"
 								update="cadastroFornecedor,cadastroCNPJ" />
@@ -112,7 +119,6 @@
 								update="cadastroFornecedor" />
 						</p:inputMask>
 
-
 						<p:outputLabel value="Proprietário Equipamento:"
 							title="Quando Localizado no campo anterior, o nome do Fornecedor é exibido neste campo"
 							for="cadastroFornecedor" />
@@ -123,16 +129,31 @@
 						<p:outputLabel style="color:#ff0000;"
 							value="ATENÇÃO: Os Campos marcados com * (Asterisco) são obrigatórios" />
 					</h:panelGrid>
-					<p:commandButton id="btnIncluir" value="Incluir Equipamento"
-						action="#{equipamentoBean.incluir}" process="@form" update="@form"
-						icon="fa fa-fw fa-save" />
-
+					<p:commandButton id="btnIncluir" value="Incluir Equipamento" 
+						actionListener="#{equipamentoBean.incluir}" process="@all" update="form Eqproprio"  
+						icon="fa fa-fw fa-save" >
+						<p:confirm header="Confirmação de inclusão"
+								message="deseja salvar o item?" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+							<p:commandButton id="btnLimpar" style="background:#FFA500" value="Limpar Campos"
+						actionListener="#{equipamentoBean.limpar}" update="form" 
+						icon="fa fa-fw fa-eraser" >
+						<p:confirm header="Confirmação"
+								message="apagar dados digitados e iniciar novamente?" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="Yes" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="No" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
 
 					<p:messages id="msg" autoUpdate="true" showDetail="true"
 						closable="true" style="60%">
 						<p:effect type="pulsate" event="load" delay="500" />
 					</p:messages>
-
 
 				</p:fieldset>
 
