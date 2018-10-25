@@ -11,10 +11,14 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Alterar Senha" toggleable="true"
-				toggleSpeed="500" style="font-size: 12px">
+			
 				<h:form id="cadastroAlterar">
-					<h:panelGrid columns="2" cellpadding="5">
+					<p:fieldset legend="Allterar Senha"
+							style="font-size: 10px; width:1100px" toggleable="true"
+							rendered="true">
+						
+								<h:panelGrid columns="2" style=" width:500px" cellpadding="10">
+
 					
 					 <p:outputLabel value="Nome Usuario:" for="cadastroNome" />
 						<p:outputLabel  id="cadastroNome"
@@ -49,10 +53,10 @@
 						closable="true" style="40%">
 						<p:effect type="pulsate" event="load" delay="500" />
 					</p:messages>
-				</h:form>
+			
 
 			</p:fieldset>
-
+	</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

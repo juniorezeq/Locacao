@@ -11,11 +11,13 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Cadastro Usuário" toggleable="true"
-				toggleSpeed="500"  style="font-size: 12px">
-				<h:form>
-					<h:panelGrid columns="2" cellpadding="5">
-					
+		<h:form>
+			<p:fieldset legend="Cadastrar Usuario"
+							style="font-size: 10px; width:1100px" toggleable="true"
+							rendered="true">
+						
+								<h:panelGrid columns="2" style=" width:500px" cellpadding="10">
+			
 					<p:outputLabel value="Nome Usuario:" for="cadastroNome" />
 						<p:inputText required="true" id="cadastroNome"
 							value="#{usuarioBean.usuario.nome}" size="20" >
@@ -43,18 +45,20 @@
 							<f:selectItem itemLabel="Cliente" itemValue="Cliente" />
 						</p:selectOneMenu>
 
-						<p:commandButton id="incluir" enabled="#{loginBean.admin}" value="Incluir" action="#{usuarioBean.incluir}"
+						<p:commandButton id="incluir"  value="Incluir" action="#{usuarioBean.incluir}"
 							process="@form" update="@form" icon="fa fa-fw fa-save" />
+								
+							
 											</h:panelGrid>
-											
-					<p:messages id="msg" autoUpdate="true" showDetail="true"
+				
+				
+
+			</p:fieldset>
+			<p:messages id="msg" autoUpdate="true" showDetail="true"
 						closable="true" style="60%">
 						<p:effect type="pulsate" event="load" delay="500" />
 					</p:messages>
-				</h:form>
-
-			</p:fieldset>
-
+</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

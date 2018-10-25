@@ -11,10 +11,11 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Editar Cliente Cadastrado" toggleable="true"
-				toggleSpeed="500" style="font-size: 12px">
-				<h:form>
-					<h:panelGrid columns="2" cellpadding="5">
+		<h:form>
+				<p:fieldset legend="Editar Cliente"
+							style="font-size: 10px; width:1100px" toggleable="true"
+							rendered="true">						
+								<h:panelGrid columns="2" style=" width:500px" cellpadding="10">
 						<p:outputLabel value="Localizar por CNPJ: "
 							for="cadastroBuscaCnpj" />
 						<p:inputMask mask="99.999.999/9999-99" id="cadastroBuscaCnpj"
@@ -118,10 +119,10 @@
 						<p:commandButton value="No" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
-				</h:form>
+				
 
 			</p:fieldset>
-
+</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

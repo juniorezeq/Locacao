@@ -16,11 +16,11 @@ import br.com.klund.locacao.modelo.dao.EquipamentoDao;
 import br.com.klund.locacao.modelo.dao.LocacaoDao;
 import br.com.klund.locacao.modelo.negocio.Cliente;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
-import br.com.klund.locacao.modelo.negocio.Fornecedor;
 import br.com.klund.locacao.modelo.negocio.Locacao;
 import br.com.klund.locacao.modelo.negocio.StatusEquipamento;
 import br.com.klund.locacao.modelo.negocio.StatusLocacao;
 import br.com.klund.locacao.modelo.negocio.TipoUsuario;
+import br.com.klund.locacao.modelo.negocio.Usuario;
 import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.validador.LocacaoValidador;
 
@@ -45,6 +45,8 @@ public class LocacaoBean implements Serializable {
 	@Inject
 	private EquipamentoDao equipamentoDao = new EquipamentoDao();
 	@Inject
+	private Usuario usuarioLogado;
+	@Inject
 	private ClienteDao clienteDao = new ClienteDao();
 	private List<Equipamento> listaEquipamentos = new ArrayList<Equipamento>();
 	private LocacaoValidador locacaoValidador = new LocacaoValidador();
@@ -57,7 +59,8 @@ public class LocacaoBean implements Serializable {
 
 	@Transacional
 	public String iniciarCadastro() {
-		if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+		usuarioLogado = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
 			return "/view/naoautorizado.xhtml?faces-redirect=true";
 		}else {
 			return "/view/cadastro/cadastrolocacao.xhtml?faces-redirect=true";
@@ -161,13 +164,6 @@ public class LocacaoBean implements Serializable {
 			return null;
 		}
 		
-		
-		//boolean existe = locacaoDao.existe(locacao.getCodigo());
-		//if (existe == false) {
-			
-	//	}
-	//	mensagemErro("O Codigo informado pertence a outra locação cadastrada");
-		//return null;
 	}
 
 	public void alugarEquipamento() {

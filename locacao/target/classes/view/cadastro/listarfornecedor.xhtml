@@ -11,12 +11,15 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Fornecedores" style="font-size: 10px"
-				toggleable="true">
-				<h:panelGrid columns="2" cellpadding="10">
-					<h:form>
+		<p:fieldset legend="Fornecedores Cadastrados"
+							style="font-size: 10px; width:1100px" toggleable="true"
+							rendered="true">
+						
+								<h:panelGrid columns="2" style=" width:980px" cellpadding="10">
+					<h:form id="form">
 						<b:dataTable id="basicDT"
-							value="#{fornecedorBean.fornecedorsCadastrados()}" var="car">
+							value="#{fornecedorBean.fornecedorsCadastrados()}" var="car" excel="true"
+							csv="true" pdf="true" columnVisibility="true" copy="true" print="true">
 							<b:dataTableColumn value="#{car.cnpj}" order="asc" />
 							<b:dataTableColumn value="#{car.fantasia}" />
 							<b:dataTableColumn value="#{car.logradouro}" />
@@ -26,11 +29,6 @@
 							<b:dataTableColumn value="#{car.uf}" />
 							<b:dataTableColumn value="#{car.telefone}" />
 						</b:dataTable>
-						<p:commandButton value="Imprimir" type="button"
-							icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-							<p:printer target="basicDT" />
-						</p:commandButton>
-
 					</h:form>
 				</h:panelGrid>
 			</p:fieldset>

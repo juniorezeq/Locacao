@@ -11,16 +11,19 @@
 	<ui:composition template="/view/layout/Layout.xhtml" toggleable="true">
 
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Usuarios">
-				<h:panelGrid columns="2" cellpadding="10"  style="font-size: 12px">
+			<p:fieldset legend="Lista de Equipamentos"
+				style="font-size: 10px; width:1100px" toggleable="true"
+				rendered="true">
+				<h:panelGrid columns="2" style=" width:1000px" cellpadding="10">
 					<h:form>
-						<b:dataTable value="#{loginBean.usuarios()}" var="car">
-							<b:dataTableColumn value="#{car.id}" order="asc" />
-							<b:dataTableColumn value="#{car.nome}" />
-							<b:dataTableColumn value="#{car.login}" />
-							<b:dataTableColumn value="#{car.tipoUsuario}" />
-							<b:dataTableColumn value="#{car.dataDoCadastro}" />
-							<b:dataTableColumn value="#{car.dataDoUltimoAcesso}" />
+						<b:dataTable value="#{loginBean.usuarios()}" var="user" excel="true"
+							csv="true" pdf="true" columnVisibility="true" copy="true" print="true">
+							<b:dataTableColumn value="#{user.id}" order="asc" />
+							<b:dataTableColumn value="#{user.nome}" />
+							<b:dataTableColumn value="#{user.login}" />
+							<b:dataTableColumn value="#{user.tipoUsuario}" />
+							<b:dataTableColumn value="#{user.dataDoCadastro}" />
+							<b:dataTableColumn value="#{user.dataDoUltimoAcesso}" />
 						</b:dataTable>
 					</h:form>
 				</h:panelGrid>

@@ -5,13 +5,14 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
 <h:body>
 	<ui:composition>
-		<b:navBar brand="Gestão De Locação - Usuário: #{loginBean.usuario.nome}" 
-		brandHref="#"
-		fixed="top" inverse="true">
-			<ul class="nav navbar-nav navbar-right"></ul>
-		</b:navBar>
+		<h:form>
+		<b:label value="usuário Logado: #{loginBean.usuario.nome}"></b:label> 
+	   <b:label value="ultimo acesso: #{loginBean.usuario.dataDoUltimoAcesso}"></b:label> 
+	   <b:label value="Tipo usuárioo: #{loginBean.usuario.tipoUsuario}"></b:label> 
+		</h:form>
 	</ui:composition>
 </h:body>
 </html>

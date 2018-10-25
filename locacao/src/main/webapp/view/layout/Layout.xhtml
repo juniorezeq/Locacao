@@ -8,11 +8,29 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-<title>Locação Equipamentos K.Lund</title>
+	<meta charset="UTF-8" />
+	<title>Sistema de Gestão de Locação - K.lund do Brasil</title>
+	<link rel="icon" type="image/png" href="imagens/industry.png"></link>
+	<link rel="shortcut icon" href="imagens/industry.png"
+		type="image/x-icon" />
+	<style rel="stylesheet" type="text/css">
+.tudo {
+	display: table;
+	padding-top: 35px
+}
+
+.menu {
+	float: left;
+	width: 10%;
+}
+
+.conteudo {
+	margin-left: 15%;
+}
+</style>
 </h:head>
 
 <h:body>
-
 	<div id="page">
 
 		<div id="header" class="modal-header">
@@ -21,20 +39,29 @@
 			</ui:insert>
 		</div>
 
-		<div class="row" style="padding-top: 30px">
-			<div id="menu" class="col-md-2">
+		<div class="tudo">
+
+			<div id="menu" class="menu">
 				<ui:insert name="menu">
 					<ui:include src="/view/layout/basicmenu.xhtml" />
 				</ui:insert>
 			</div>
 
-			<div id="conteudo" style="position:inherit;" class="col-md-9">
+			<div id="conteudo" class="conteudo">
 				<ui:insert name="content">
 					<ui:include src="/view/layout/basiccontent.xhtml" />
 				</ui:insert>
 			</div>
 		</div>
-
+		<p:commandButton icon="fa fa-arrow-up"
+			oncomplete="PF('sidebar4').show()" />
+		<p:sidebar widgetVar="sidebar4" position="bottom" baseZIndex="10000">
+			<div>
+				<ui:insert name="menu">
+					<ui:include src="/view/layout/rodape.xhtml" />
+				</ui:insert>
+			</div>
+		</p:sidebar>
 	</div>
 
 </h:body>

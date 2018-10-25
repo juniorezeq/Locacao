@@ -9,11 +9,12 @@
 <h:body>
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-			<p:fieldset legend="Lista de Locacões Ativas" style="font-size: 10px"
-				toggleable="true">
-				<h:panelGrid columns="2" cellpadding="10">
+	<p:fieldset legend="Locações"
+				style="font-size: 10px; width:1100px" toggleable="true"
+				rendered="true">
+				<h:panelGrid columns="2" style=" width:1000px" cellpadding="10">
 					<h:form id="form">
-						<p:dataTable sortField="#{car.codigo}" resizable="true"
+						<p:dataTable style="font-size: 10px"  sortField="#{car.codigo}" resizable="true"
 							id="basicDT" var="car" value="#{locacaoBean.listarAtivas()}" emptyMessage="Nenhuma Locação Ativa no momento">
 							<f:facet name="header"> Locações Ativas no Sistema
 							</f:facet>

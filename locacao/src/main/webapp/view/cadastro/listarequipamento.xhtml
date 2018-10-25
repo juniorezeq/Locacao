@@ -9,15 +9,17 @@
 <h:body>
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-			<p:fieldset  legend="Lista de Equipamentos" style="font-size: 10px; width:1250px"
-				toggleable="true" rendered="true">
-				<h:panelGrid columns="2" style=" width:1100px" cellpadding="10">
+			<p:fieldset legend="Lista de Equipamentos"
+				style="font-size: 10px; width:1100px" toggleable="true"
+				rendered="true">
+				<h:panelGrid columns="2" style=" width:980px" cellpadding="10">
 
 					<h:form>
-						<b:dataTable id="basicDT" value="#{equipamentoBean.listarTodos()}"
+						<b:dataTable customLangUrl="//cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json" id="basicDT" value="#{equipamentoBean.listarTodos()}"
 							var="car" select="true" selectionMode="single"
 							onselect="ajax:equipamentoBean.onSelect(car);"
-							ondeselect="ajax:equipamentoBean.onDeselect(car);">
+							ondeselect="ajax:equipamentoBean.onDeselect(car);" excel="true"
+							csv="true" pdf="true" columnVisibility="true" copy="true" print="true">
 							<b:dataTableColumn value="#{car.tag}" label="tag" />
 							<b:dataTableColumn value="#{car.descricao}" label="Descrição" />
 							<b:dataTableColumn value="#{car.modelo}" label="Modelo" />
@@ -28,22 +30,17 @@
 							<b:dataTableColumn value="#{car.valorRealDiariaQuinzenal()}"
 								label="Diária/Quinzenal" />
 							<b:dataTableColumn label="Validade Certificado"
-								value="#{car.validadeCertificacaoFormatada()}" show-time="false"
-								converter="LocalDateConverter" />
+								value="#{car.validadeCertificacao}"  show-time="false" />
 							<b:dataTableColumn value="#{car.valorRealValorNF()}"
 								label="Valor NF" />
 							<b:dataTableColumn value="#{car.status}" label="Status" />
 							<b:dataTableColumn value="#{car.fornecedor.fantasia}"
 								label="Proprietário" />
-								<b:dataTableColumn value="#{car.ultimaAlteracao}"
+							<b:dataTableColumn value="#{car.ultimaAlteracao}"
 								label="Ultima Alteração:" />
 						</b:dataTable>
 
 						<br></br>
-						<p:commandButton value="Imprimir" type="button"
-							icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-							<p:printer target="basicDT" />
-						</p:commandButton>
 					</h:form>
 
 				</h:panelGrid>

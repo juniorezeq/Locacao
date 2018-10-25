@@ -25,10 +25,6 @@ import java.util.List;
 public class ClienteBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final String USUARIO_LOGADO = "usuarioLogado";
-
-	@Inject
-	private HttpSession session;
 	@Inject
 	private ClienteDao clienteDao;
 	@Inject
@@ -37,17 +33,15 @@ public class ClienteBean implements Serializable {
 	private ApiCNPJ apiCnpj;
 	@Inject
 	private Usuario usuario;
+	@Inject
+	private Usuario usuarioLogado;
 	private String localizarPorCnpj;
 
 	@PostConstruct
 	public void init() {
-		System.out.println("ClienteBean.init();");
-		usuario = (Usuario) session.getAttribute(USUARIO_LOGADO);
-		if (usuario == null) {
-			usuario = new Usuario();
-		}
 		cliente = new Cliente();
 		apiCnpj = new ApiCNPJ();
+		usuarioLogado = (Usuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
 
 	@Transacional

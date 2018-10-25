@@ -10,10 +10,11 @@
 
 	<ui:composition template="/view/layout/Layout.xhtml">
 		<ui:define name="content">
-			<p:fieldset legend="Editar Equipamento" toggleable="true"
-				toggleSpeed="500" style="font-size: 12px">
+		<p:fieldset  legend="Editar Equipamento"
+				style="font-size: 10px; width:1100px" toggleable="true"
+				rendered="true">
 				<h:form id="cadastroAlterar">
-					<h:panelGrid columns="2" cellpadding="5">
+					<h:panelGrid columns="2" style=" width:500px" cellpadding="10">
 						<p:outputLabel value="Buscar por Tag:" for="buscaTag">
 						</p:outputLabel>
 						<p:inputText id="buscaTag" value="#{equipamentoBean.buscar}"
@@ -52,11 +53,20 @@
 							value="#{equipamentoBean.equipamento.precoDiariaQuinzenal}"
 							size="20">
 						</p:inputText>
+						
+							<p:outputLabel value="Data Ultimo Teste: " for="teste" />
+						<p:calendar id="teste"
+							value="#{equipamentoBean.equipamento.dataCertificacao}"
+							pattern="dd/MM/yyyy" converter="LocalDateConverter">
+							<p:ajax event="dateSelect"
+								listener="#{equipamentoBean.atualizarVencimento()}" update="validade" />
+						</p:calendar>
 
 						<p:outputLabel value="Validade Cerificação: " for="validade" />
 						<p:calendar id="validade"
 							value="#{equipamentoBean.equipamento.validadeCertificacao}"
 							pattern="dd/MM/yyyy" converter="LocalDateConverter">
+							
 						</p:calendar>
 
 						<p:outputLabel value="Status Equipamento:" for="cadastroStatus" />
@@ -68,13 +78,18 @@
 							<f:selectItem itemLabel="Manutenção" itemValue="Manutenção" />
 							<f:selectItem itemLabel="Alugado" itemValue="Alugado" />
 							<f:selectItem itemLabel="Obsoleto" itemValue="Obsoleto" />
-							<f:selectItem itemLabel="Equipamento de Terceiros"
-								itemValue="EquipamentoTerceiros" />
+							<f:selectItem itemLabel="Inoperante"
+								itemValue="Inoperante" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Preço na Nota Fiscal:" for="cadastroNF" />
 						<p:inputText id="cadastroNF"
 							value="#{equipamentoBean.equipamento.valorNota}" size="20"></p:inputText>
+							
+							<p:outputLabel value="Observações:" for="cadastroOb" />
+						<p:inputTextarea id="cadastroOb"
+							value="#{equipamentoBean.equipamento.observacao}" size="20" />
+							
 
 						<p:outputLabel value="Proprietário Equipamento:"
 							for="cadastroFornecedor" />

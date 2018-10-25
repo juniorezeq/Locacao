@@ -4,30 +4,26 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import br.com.klund.locacao.modelo.dao.EquipamentoDao;
 import br.com.klund.locacao.modelo.dao.FornecedorDao;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
 import br.com.klund.locacao.modelo.negocio.Fornecedor;
+import br.com.klund.locacao.modelo.negocio.Usuario;
 import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.validador.EquipamentoValidador;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 @Named
 @ViewScoped
 public class EquipamentoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@ManagedProperty(value = "#{loginBean}")
-	private LoginBean loginbean;
 
 	@Inject
 	private EquipamentoDao equipamentoDao = new EquipamentoDao();
@@ -37,6 +33,8 @@ public class EquipamentoBean implements Serializable {
 	private Equipamento copia = new Equipamento();
 	@Inject
 	private Equipamento selecionado = new Equipamento();
+	@Inject
+	private Usuario usuarioLogado = new Usuario();
 	private String buscar;
 	private boolean proprio;
 	private String buscarFornecedor;
@@ -47,10 +45,16 @@ public class EquipamentoBean implements Serializable {
 	@Inject
 	private FornecedorDao fornecedorDao;
 
+
+
+
 	@PostConstruct
 	public void init() {
 		equipamento = new Equipamento();
+		usuarioLogado = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
+	
+	 
 
 	@Transacional
 	public String iniciarCadastro() {
@@ -73,6 +77,8 @@ public class EquipamentoBean implements Serializable {
 		lista = equipamentoDao.listarTodos();
 		return lista;
 	}
+	
+   
 
 	@Transacional
 	public List<Equipamento> listarDisponiveis() {
@@ -80,14 +86,14 @@ public class EquipamentoBean implements Serializable {
 		lista = equipamentoDao.equipamentosDisponiveis();
 		return lista;
 	}
-	
+
 	@Transacional
 	public String checarCnpj() {
 		Fornecedor fornecedorbuscaDao = fornecedorDao.buscaCnpj(buscarFornecedor);
 		if (fornecedorbuscaDao == null) {
-			mensagemErro("Fornecedor não foi encontrado verifique o CNPJ digitado");			
-            return null;
-            }
+			mensagemErro("Fornecedor não foi encontrado verifique o CNPJ digitado");
+			return null;
+		}
 		System.out.println(fornecedorbuscaDao.getCnpj());
 		fornecedor = fornecedorbuscaDao;
 		return null;
@@ -96,7 +102,7 @@ public class EquipamentoBean implements Serializable {
 	@Transacional
 	public String incluir() {
 		equipamento.setFornecedor(fornecedor);
-		equipamento.setUltimaAlteracao(LoginBean.getLogado().getNome());
+		equipamento.setUltimaAlteracao(usuarioLogado.getNome());
 		if (equipamentoValidador.naoPodeIncluir(equipamento)) {
 			mensagemErro(equipamentoValidador.getMensagem());
 			return null;
@@ -104,7 +110,7 @@ public class EquipamentoBean implements Serializable {
 			equipamentoDao.adiciona(equipamento);
 			equipamento = new Equipamento();
 			fornecedor = new Fornecedor();
-			buscar="";
+			buscar = "";
 			mensagemSucesso("cadastrado com sucesso.");
 			return null;
 		}
@@ -136,12 +142,11 @@ public class EquipamentoBean implements Serializable {
 		copia = new Equipamento();
 		buscar = "";
 		buscarFornecedor = "";
-	    proprio = false;
-	    equipamentoProprio();
-		
+		proprio = false;
+		equipamentoProprio();
+
 	}
-	
-	
+
 	@Transacional
 	public void copiarPorTag() {
 		try {
@@ -149,7 +154,7 @@ public class EquipamentoBean implements Serializable {
 			copia = equipamentoDao.buscaTag(buscar);
 			if (copia.getTag().isEmpty()) {
 				mensagemErro("Este Equipamento não foi localizado");
-			}else {
+			} else {
 				equipamento.setDescricao(copia.getDescricao());
 				equipamento.setElevacao(copia.getElevacao());
 				equipamento.setFornecedor(copia.getFornecedor());
@@ -165,10 +170,15 @@ public class EquipamentoBean implements Serializable {
 			mensagemErro("Erro não foi possível localizar");
 		}
 	}
-		
+	
+	@Transacional
+	public void atualizarVencimento() {
+		equipamento.setValidadeCertificacao(equipamento.getDataCertificacao().plusYears(1));
+	}
+
 	@Transacional
 	public void atualizaEquipamento() {
-		equipamento.setUltimaAlteracao(LoginBean.getLogado().getNome());
+		equipamento.setUltimaAlteracao(usuarioLogado.getNome());
 		try {
 			equipamentoDao.atualiza(equipamento);
 			mensagemSucesso("Alterado com sucesso");
@@ -253,17 +263,18 @@ public class EquipamentoBean implements Serializable {
 	public void setBuscarFornecedor(String buscarFornecedor) {
 		this.buscarFornecedor = buscarFornecedor;
 	}
-	
+
 	public void equipamentoProprio() {
 		if (proprio) {
 			buscarFornecedor = "07.485.047/0001-31";
 			Fornecedor fornecedorbuscaDao = fornecedorDao.buscaCnpj("07.485.047/0001-31");
 			fornecedor = fornecedorbuscaDao;
-		}if(proprio==false) {
+		}
+		if (proprio == false) {
 			buscarFornecedor = "";
 			fornecedor = new Fornecedor();
 		}
-		
+
 	}
 
 	public boolean isProprio() {
@@ -273,7 +284,7 @@ public class EquipamentoBean implements Serializable {
 	public void setProprio(boolean proprio) {
 		this.proprio = proprio;
 	}
-	
-	
+
+	   
 	
 }

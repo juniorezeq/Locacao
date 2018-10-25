@@ -51,6 +51,8 @@ public class Equipamento implements Serializable {
 	private String pastaCertificados;
 	@Column(name = "elevacao", length = 20)
 	private String elevacao;
+	@Column(name = "observacao", length = 20)
+	private String observacao;
 	@ManyToMany
 	@JoinColumn(name = "id_equipamento", referencedColumnName = "id_equipamento")
 	private List<Locacao> locacoes;
@@ -123,6 +125,14 @@ public class Equipamento implements Serializable {
 	}
 	
 	
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
 	public String getUltimaAlteracao() {
 		return ultimaAlteracao;
 	}
@@ -243,7 +253,7 @@ public class Equipamento implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Tag: " + tag + ", descricao: " + descricao + ", swl: " + swl;
+		return tag + " - " +  descricao  + " " + swl;
 	}
 
 	

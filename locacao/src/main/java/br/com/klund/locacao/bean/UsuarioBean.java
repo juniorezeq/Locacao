@@ -31,11 +31,14 @@ public class UsuarioBean implements Serializable {
 	private UsuarioDao usuarioDao = new UsuarioDao();
 	@Inject
 	private Usuario usuario = new Usuario();
+	private Usuario usuarioLogado = new Usuario();
+
 	private String buscar;
 	
 	@PostConstruct
 	public void init() {
 		usuario = new Usuario();
+		usuarioLogado = (Usuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
 	
 	@Transacional
@@ -45,7 +48,7 @@ public class UsuarioBean implements Serializable {
 
 	@Transacional
 	public String iniciarCadastro() {
-		if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
 			return "/view/naoautorizado.xhtml?faces-redirect=true";
 		}else {
 			return "/view/cadastro/cadastrarusuario.xhtml?faces-redirect=true";
@@ -54,7 +57,7 @@ public class UsuarioBean implements Serializable {
 
 	@Transacional
 	public String alterarCadastro() {
-		if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
 			return "/view/naoautorizado.xhtml?faces-redirect=true";
 		}else {
 			return "/view/cadastro/editarusuario.xhtml?faces-redirect=true";
@@ -80,7 +83,7 @@ public class UsuarioBean implements Serializable {
 		if (usuario.getLogin().isEmpty() || usuario.getSenha().isEmpty()) {
 			mensagemErro("Todos os campos devem ser preenchidos");
 			return null;
-		}if(LoginBean.getLogado().getTipoUsuario()!=TipoUsuario.Administrador) {
+		}if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
 			mensagemErro("Você não tem permissão para usar este recurso");
 			return null;
 		}else {
