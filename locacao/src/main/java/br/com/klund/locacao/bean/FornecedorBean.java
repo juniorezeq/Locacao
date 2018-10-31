@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import br.com.klund.locacao.bean.ws.ApiCNPJ;
 import br.com.klund.locacao.modelo.dao.FornecedorDao;
 import br.com.klund.locacao.modelo.negocio.Fornecedor;
+import br.com.klund.locacao.modelo.negocio.TipoUsuario;
 import br.com.klund.locacao.modelo.negocio.Usuario;
 import br.com.klund.locacao.modelo.webservice.CNPJ_RWS;
 import br.com.klund.locacao.tx.Transacional;
@@ -37,12 +38,14 @@ public class FornecedorBean implements Serializable {
 	private ApiCNPJ apiCnpj;
 	@Inject
 	private Usuario usuario;
+	private Usuario usuarioLogado = new Usuario();
 
 
 	@PostConstruct
 	public void init() {
 		System.out.println("FornecedorBean.init();");
 		usuario = (Usuario) session.getAttribute(USUARIO_LOGADO);
+		usuarioLogado = (Usuario)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 		if (usuario == null) {
 			usuario = new Usuario();
 		}
@@ -52,7 +55,12 @@ public class FornecedorBean implements Serializable {
 
 	@Transacional
 	public String iniciarCadastro() {
-		return "/view/cadastro/cadastrofornecedor.xhtml?faces-redirect=true";
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/cadastrofornecedor.xhtml?faces-redirect=true";
+		}	
+			
 	}
 
 	@Transacional
@@ -63,7 +71,11 @@ public class FornecedorBean implements Serializable {
 	
 	@Transacional
 	public String iniciaalteracaoFornecedor() {
-		return "/view/alteracao/alteracaofornecedor.xhtml?faces-redirect=true";
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/alteracao/alteracaofornecedor.xhtml?faces-redirect=true";
+		}	
 	}
 
 	@Transacional

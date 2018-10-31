@@ -18,46 +18,56 @@
 					cellpadding="10">
 					<p:chart type="pie" model="#{disponibilidadeBean.pieModel}"
 						style="width:400px;height:300px" />
+					<p:chart type="pie" model="#{disponibilidadeBean.pieModel2}"
+						style="width:400px;height:300px" />
 
-
-					<p:carousel autoPlayInterval="6000" style=" width:480px"
-						value="#{locacaoBean.listarAtivas()}" headerText="Locações Ativas"
-						var="car" itemStyle="text-align:center" responsive="true">
-						<p:panelGrid columns="2">
-							<h:outputText value="Locação:" />
-							<h:outputText value="#{car.codigo}" />
-
-							<h:outputText value="Inicio" />
-							<h:outputText value="#{car.dataInicioFormatada()}" />
-
-							<h:outputText value="valor:" />
-							<h:outputText value="#{car.valorTotal}" />
-						</p:panelGrid>
-
-						<f:facet name="footer">
-                No menu Locação, Listar Ativas você pode encontrar mais detalhes sobre as locações ativas. 
-        </f:facet>
-					</p:carousel>
-
-
-
-					<p:outputLabel value="Equipamentos Alugados:">#{disponibilidadeBean.alugados}
-						</p:outputLabel>
-					<br></br>
-					<p:outputLabel value="Equipamentos em Manutenção:">#{disponibilidadeBean.manutenção}
-						</p:outputLabel>
-					<br></br>
-					<p:outputLabel value="Equipamentos Disponíveis:">#{disponibilidadeBean.disponiveis}
-						</p:outputLabel>
-					<br></br>
-					<p:outputLabel value="Equipamentos Inoperantes:">#{disponibilidadeBean.inoperantes}
-						</p:outputLabel>
-					<br></br>
-					<p:outputLabel style="font-size: 14px" value="Total Equipamentos:"> #{disponibilidadeBean.total}
-						</p:outputLabel>
 
 
 				</h:panelGrid>
+
+				<h:panelGrid columns="2" cellpadding="10"
+					style=" width:980px; height:200px">
+					<p:panelGrid columns="1" cellpadding="10"
+						style=" width:450px; height:200px">
+						<p:outputLabel value="Equipamentos Alugados:">#{disponibilidadeBean.alugados}
+						</p:outputLabel>
+						<p:outputLabel value="Equipamentos em Manutenção:">#{disponibilidadeBean.manutencao}
+						</p:outputLabel>
+						<p:outputLabel value="Equipamentos Disponíveis:">#{disponibilidadeBean.disponiveis}
+						</p:outputLabel>
+						<p:outputLabel value="Equipamentos Inoperantes:">#{disponibilidadeBean.inoperantes}
+						</p:outputLabel>
+						<p:outputLabel style="font-size: 14px" value="Total Equipamentos:"> #{disponibilidadeBean.total}
+						</p:outputLabel>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" cellpadding="10"
+						style=" width:450px; height:200px">
+						<p:outputLabel value="Valor Locação Disponivel:">#{disponibilidadeBean.valorPossivelString()} 
+					</p:outputLabel>
+						<p:outputLabel value="Valor Alugado:">#{disponibilidadeBean.valorAlugadoString()} 
+					</p:outputLabel>
+					</p:panelGrid>
+
+				</h:panelGrid>
+				<p:carousel autoPlayInterval="6000" style=" width:480px"
+					value="#{locacaoBean.listarAtivas()}" headerText="Locações Ativas"
+					var="car" itemStyle="text-align:center" responsive="true">
+					<p:panelGrid columns="2">
+						<h:outputText value="Locação:" />
+						<h:outputText value="#{car.codigo}" />
+
+						<h:outputText value="Inicio" />
+						<h:outputText value="#{car.dataInicioFormatada()}" />
+
+						<h:outputText value="valor:" />
+						<h:outputText value="#{car.valorTotal}" />
+					</p:panelGrid>
+
+					<f:facet name="footer">
+                No menu Locação, Listar Ativas você pode encontrar mais detalhes sobre as locações ativas. 
+        </f:facet>
+				</p:carousel>
 
 			</p:fieldset>
 

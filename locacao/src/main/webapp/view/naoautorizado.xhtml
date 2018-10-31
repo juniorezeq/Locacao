@@ -11,11 +11,15 @@
 	<ui:composition template="/view/layout/Layout.xhtml">
 
 		<ui:define name="content">
-			<p:fieldset legend="Usuário não autorizado" toggleable="true"
-				toggleSpeed="500" style="font-size: 12px">
+		
+		<p:fieldset legend="Acesso Não Autorizado"
+				style="font-size: 10px; width:1100px" toggleable="true"
+				rendered="true">
 				<h:form>
-					<h:panelGrid columns="1" cellpadding="1">
-						 <center><h3> Você não possui autorização para acessar este recurso</h3>
+				<h:panelGrid columns="1" style=" width:980px; height:200px"
+					cellpadding="10">
+						 <center><h3> Você não possui autorização para acessar este recurso!</h3>
+						 <h3> Caso necessite acessar esta funcionalidade entre em contato com a equipe de desenvolvimento.</h3>
 						 </center>
 					 </h:panelGrid>
 				</h:form>

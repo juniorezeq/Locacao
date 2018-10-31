@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -37,10 +38,11 @@ public class LoginBean implements Serializable {
 	private String senhaAtualBD;
 	private String senhaAtual;
 
-
-
 	@PostConstruct
 	public void init() {
+		Locale localidade = null;
+		localidade = Locale.getDefault();
+	    System.out.println("A localidade padrão do usuário é: " + localidade);
 		System.out.println("LoginBean.init();");
 		usuario = (Usuario) session.getAttribute(USUARIO_LOGADO);
 		if (usuario == null) {

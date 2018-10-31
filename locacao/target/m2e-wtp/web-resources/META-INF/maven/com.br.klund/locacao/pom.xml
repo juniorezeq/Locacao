@@ -174,7 +174,7 @@
 			<version>1.6.0</version>
 		</dependency>
 
-	</dependencies>
+		</dependencies>
 
 
 	<!-- Especificação dos repositórios diferentes do repositório central do 

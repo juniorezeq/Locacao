@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import br.com.klund.locacao.bean.ws.ApiCNPJ;
 import br.com.klund.locacao.modelo.dao.ClienteDao;
 import br.com.klund.locacao.modelo.negocio.Cliente;
+import br.com.klund.locacao.modelo.negocio.TipoUsuario;
 import br.com.klund.locacao.modelo.negocio.Usuario;
 import br.com.klund.locacao.modelo.webservice.CNPJ_RWS;
 import br.com.klund.locacao.tx.Transacional;
@@ -46,7 +47,12 @@ public class ClienteBean implements Serializable {
 
 	@Transacional
 	public String iniciarCadastro() {
-		return "/view/cadastro/cadastrocliente.xhtml?faces-redirect=true";
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/cadastrocliente.xhtml?faces-redirect=true";
+		}	
+			
 	}
 
 	@Transacional
@@ -56,7 +62,13 @@ public class ClienteBean implements Serializable {
 
 	@Transacional
 	public String editarCliente() {
-		return "/view/cadastro/editarcliente.xhtml?faces-redirect=true";
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/editarcliente.xhtml?faces-redirect=true";
+		}	
+		
+		
 	}
 
 	@Transacional

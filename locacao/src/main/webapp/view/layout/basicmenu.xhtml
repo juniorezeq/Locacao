@@ -12,7 +12,14 @@
 			<h:graphicImage value="/imagens/site.jpg"
 				style="height : 39px; width : 158px;">
 			</h:graphicImage>
+		
 			<p:menu style="font-size: 12px">
+				<p:submenu label="Principal">
+					<p:menuitem value="Página Inicial" action="#{loginBean.loga()}"
+						icon="fa fa-fw fa-home" />
+					<p:menuitem value="Sair" action="#{loginBean.desloga()}"
+						icon="fa fa-fw fa-times-circle" />
+				</p:submenu>
 				<p:submenu label="Equipamento">
 					<p:menuitem value="Novo"
 						action="#{equipamentoBean.iniciarCadastro()}"
@@ -65,12 +72,7 @@
 						action="#{usuarioBean.listarCadastro()}"
 						icon="fa fa-fw fa-align-justify" />
 				</p:submenu>
-				<p:submenu label="Principal">
-					<p:menuitem value="Página Inicial" action="#{loginBean.loga()}"
-						icon="fa fa-fw fa-home" />
-					<p:menuitem value="Sair" action="#{loginBean.desloga()}"
-						icon="fa fa-fw fa-times-circle" />
-				</p:submenu>
+				
 
 
 			</p:menu>

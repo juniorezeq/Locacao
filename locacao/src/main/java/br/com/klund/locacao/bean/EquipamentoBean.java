@@ -1,6 +1,9 @@
 package br.com.klund.locacao.bean;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
@@ -13,12 +16,14 @@ import br.com.klund.locacao.modelo.dao.EquipamentoDao;
 import br.com.klund.locacao.modelo.dao.FornecedorDao;
 import br.com.klund.locacao.modelo.negocio.Equipamento;
 import br.com.klund.locacao.modelo.negocio.Fornecedor;
+import br.com.klund.locacao.modelo.negocio.TipoUsuario;
 import br.com.klund.locacao.modelo.negocio.Usuario;
 import br.com.klund.locacao.tx.Transacional;
 import br.com.klund.locacao.validador.EquipamentoValidador;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Named
 @ViewScoped
@@ -44,12 +49,15 @@ public class EquipamentoBean implements Serializable {
 	private Fornecedor fornecedor;
 	@Inject
 	private FornecedorDao fornecedorDao;
+	private LocalDate dataAtual;
 
 
 
 
 	@PostConstruct
 	public void init() {
+		dataAtual = LocalDate.now();
+		System.out.print(dataAtual.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		equipamento = new Equipamento();
 		usuarioLogado = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
@@ -58,12 +66,21 @@ public class EquipamentoBean implements Serializable {
 
 	@Transacional
 	public String iniciarCadastro() {
-		return "/view/cadastro/cadastrarequipamento.xhtml?faces-redirect=true";
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/cadastrarequipamento.xhtml?faces-redirect=true";
+		}		
 	}
 
 	@Transacional
 	public String alterarCadastro() {
-		return "/view/cadastro/editarequipamento.xhtml?faces-redirect=true";
+		if(usuarioLogado.getTipoUsuario()!=TipoUsuario.Administrador) {
+			return "/view/naoautorizado.xhtml?faces-redirect=true";
+		}else {
+			return "/view/cadastro/editarequipamento.xhtml?faces-redirect=true";
+		}
+		
 	}
 
 	@Transacional
@@ -102,7 +119,7 @@ public class EquipamentoBean implements Serializable {
 	@Transacional
 	public String incluir() {
 		equipamento.setFornecedor(fornecedor);
-		equipamento.setUltimaAlteracao(usuarioLogado.getNome());
+		equipamento.setUltimaAlteracao(usuarioLogado.getNome() +" - " + dataAtual.format((DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 		if (equipamentoValidador.naoPodeIncluir(equipamento)) {
 			mensagemErro(equipamentoValidador.getMensagem());
 			return null;
@@ -178,7 +195,7 @@ public class EquipamentoBean implements Serializable {
 
 	@Transacional
 	public void atualizaEquipamento() {
-		equipamento.setUltimaAlteracao(usuarioLogado.getNome());
+		equipamento.setUltimaAlteracao(usuarioLogado.getNome() + " - " + dataAtual.format((DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 		try {
 			equipamentoDao.atualiza(equipamento);
 			mensagemSucesso("Alterado com sucesso");
@@ -277,6 +294,7 @@ public class EquipamentoBean implements Serializable {
 
 	}
 
+	
 	public boolean isProprio() {
 		return proprio;
 	}
@@ -285,6 +303,10 @@ public class EquipamentoBean implements Serializable {
 		this.proprio = proprio;
 	}
 
+	
+	public void enviarEmail() {
+
+	}
 	   
 	
 }

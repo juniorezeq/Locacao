@@ -9,7 +9,7 @@ import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 
 @Transacional
-@Interceptor
+@Interceptor 
 public class GerenciadorDeTransacao  implements Serializable{
 
 	private static final long serialVersionUID = 1L;

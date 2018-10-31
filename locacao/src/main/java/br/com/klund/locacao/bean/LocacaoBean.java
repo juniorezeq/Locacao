@@ -65,7 +65,6 @@ public class LocacaoBean implements Serializable {
 		}else {
 			return "/view/cadastro/cadastrolocacao.xhtml?faces-redirect=true";
 		}
-		
 	}
 
 	@Transacional
